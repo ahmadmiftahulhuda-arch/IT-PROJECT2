@@ -1,31 +1,51 @@
 package com.example.it_project2;
 
-import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.TextView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    /**
-     * Called when the activity is first created.
-     *
-     * @param savedInstanceState If the activity is being re-initialized after
-     *     previously being shut down then this Bundle contains the data it most
-     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
-     */
+    private TextView tvHalo, tvStatus, tvSuhu, tvKelembapan, tvPM25, tvGas;
+    private BottomNavigationView bottomNav;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
+        // Bind semua view
+        tvHalo       = findViewById(R.id.tvHalo);
+        tvStatus     = findViewById(R.id.tvStatus);
+        tvSuhu       = findViewById(R.id.tvSuhu);
+        tvKelembapan = findViewById(R.id.tvKelembapan);
+        tvPM25       = findViewById(R.id.tvPM25);
+        tvGas        = findViewById(R.id.tvGas);
+        bottomNav    = findViewById(R.id.bottomNav);
+
+        // Set active tab
+        bottomNav.setSelectedItemId(R.id.nav_home);
+
+        // Navigasi bottom nav
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_riwayat) {
+                startActivity(new Intent(this, RiwayatActivity.class));
+            } else if (id == R.id.nav_kontrol) {
+                startActivity(new Intent(this, KontrolActivity.class));
+            } else if (id == R.id.nav_edukasi) {
+                startActivity(new Intent(this, EdukasiActivity.class));
+            } else if (id == R.id.nav_profile) {
+                startActivity(new Intent(this, ProfileActivity.class));
+            }
+            return true;
         });
     }
 }
