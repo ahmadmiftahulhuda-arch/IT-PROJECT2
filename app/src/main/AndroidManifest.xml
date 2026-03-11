@@ -23,26 +23,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <!-- Login -->
-        <activity android:name=".LoginActivity"/>
+        <activity android:name=".LoginActivity" android:exported="false"/>
 
         <!-- Register -->
-        <activity android:name=".RegisterActivity"/>
+        <activity android:name=".RegisterActivity" android:exported="false"/>
+
+        <!-- Forgot Password -->
+        <activity android:name=".ForgotPasswordActivity" android:exported="false"/>
 
         <!-- Home -->
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".MainActivity" android:exported="false"/>
 
         <!-- Riwayat -->
-        <activity android:name=".RiwayatActivity"/>
+        <activity android:name=".RiwayatActivity" android:exported="false"/>
 
         <!-- Kontrol -->
-        <activity android:name=".KontrolActivity"/>
+        <activity android:name=".KontrolActivity" android:exported="false"/>
 
         <!-- Edukasi -->
-        <activity android:name=".EdukasiActivity"/>
+        <activity android:name=".EdukasiActivity" android:exported="false"/>
 
         <!-- Profile -->
-        <activity android:name=".ProfileActivity"/>
+        <activity android:name=".ProfileActivity" android:exported="false"/>
     </application>
 
 </manifest>

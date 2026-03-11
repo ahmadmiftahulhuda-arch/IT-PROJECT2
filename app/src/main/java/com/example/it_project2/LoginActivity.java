@@ -60,7 +60,8 @@ public class LoginActivity extends AppCompatActivity {
 
         // Lupa password diklik
         tvLupaPassword.setOnClickListener(v -> {
-            Toast.makeText(this, "Fitur lupa password coming soon!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+            startActivity(intent);
         });
     }
 }
