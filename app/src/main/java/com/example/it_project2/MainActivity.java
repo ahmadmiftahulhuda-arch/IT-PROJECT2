@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
+
         // Bind semua view
         tvHalo       = findViewById(R.id.tvHalo);
         tvStatus     = findViewById(R.id.tvStatus);
@@ -29,6 +30,13 @@ public class MainActivity extends AppCompatActivity {
         tvPM25       = findViewById(R.id.tvPM25);
         tvGas        = findViewById(R.id.tvGas);
         bottomNav    = findViewById(R.id.bottomNav);
+
+        // Tampilkan nama user yang login
+        SessionManager sessionManager = new SessionManager(this);
+        String userName = sessionManager.getUserName();
+        if (!userName.isEmpty()) {
+            tvHalo.setText("Halo, " + userName + " 👋");
+        }
 
         // Set active tab
         bottomNav.setSelectedItemId(R.id.nav_home);

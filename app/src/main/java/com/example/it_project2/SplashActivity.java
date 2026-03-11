@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.ProgressBar;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class SplashActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
@@ -54,9 +56,20 @@ public class SplashActivity extends AppCompatActivity {
                     handler.postDelayed(this, delay);
 
                 } else {
-                    // Progress 100% → pindah ke LoginActivity
+                    // Progress 100% → cek login Firebase lalu pindah
                     handler.postDelayed(() -> {
-                        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                        Intent intent;
+
+                        // Cek apakah user sudah login di Firebase
+                        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                            // Sudah login → langsung ke MainActivity
+                            intent = new Intent(SplashActivity.this, MainActivity.class);
+                        } else {
+                            // Belum login → ke LoginActivity
+                            intent = new Intent(SplashActivity.this, LoginActivity.class);
+                        }
+
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         finish();
                     }, 300); // jeda 0.3 detik setelah 100%
