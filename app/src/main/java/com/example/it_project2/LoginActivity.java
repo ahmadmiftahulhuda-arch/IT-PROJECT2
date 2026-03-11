@@ -46,7 +46,6 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             // Sementara langsung ke MainActivity
-            // Nanti diganti dengan Firebase Auth
             Toast.makeText(this, "Login berhasil!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
@@ -55,7 +54,8 @@ public class LoginActivity extends AppCompatActivity {
 
         // Link Daftar diklik
         tvDaftar.setOnClickListener(v -> {
-            Toast.makeText(this, "Halaman daftar coming soon!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
         });
 
         // Lupa password diklik

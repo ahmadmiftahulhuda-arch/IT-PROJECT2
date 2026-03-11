@@ -26,6 +26,9 @@
         <!-- Login -->
         <activity android:name=".LoginActivity"/>
 
+        <!-- Register -->
+        <activity android:name=".RegisterActivity"/>
+
         <!-- Home -->
         <activity android:name=".MainActivity"/>
 
