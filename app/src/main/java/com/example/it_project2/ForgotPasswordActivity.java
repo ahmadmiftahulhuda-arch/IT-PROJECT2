@@ -2,6 +2,7 @@ package com.example.it_project2;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,7 +19,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         }
 
         ImageView btnBack = findViewById(R.id.btnBack);
-        TextView btnKirim = findViewById(R.id.btnKirim);
+        View btnKirim = findViewById(R.id.btnKirim);
         TextView tvKembaliLogin = findViewById(R.id.tvKembaliLogin);
 
         btnBack.setOnClickListener(v -> finish());
