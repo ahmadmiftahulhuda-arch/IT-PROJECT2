@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F8FAFC"
@@ -25,12 +26,12 @@
                 android:layout_height="90dp"
                 android:background="@drawable/circle_blue_light"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_gravity="center"
-                android:text="🌿"
-                android:textSize="36sp"/>
+                android:src="@drawable/ic_leaf"
+                app:tint="#10B981"/>
         </FrameLayout>
 
         <!-- Judul -->
@@ -55,7 +56,6 @@
 
         <!-- ===== CARD FORM ===== -->
         <androidx.cardview.widget.CardView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="20dp"
@@ -98,11 +98,11 @@
                     android:paddingHorizontal="14dp"
                     android:layout_marginBottom="16dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="✉️"
-                        android:textSize="16sp"
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_email"
+                        app:tint="#64748B"
                         android:layout_marginEnd="8dp"/>
 
                     <EditText
@@ -158,11 +158,11 @@
                     android:paddingHorizontal="14dp"
                     android:layout_marginBottom="16dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="🔒"
-                        android:textSize="16sp"
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_lock"
+                        app:tint="#64748B"
                         android:layout_marginEnd="8dp"/>
 
                     <EditText
