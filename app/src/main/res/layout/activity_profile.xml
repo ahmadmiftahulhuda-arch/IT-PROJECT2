@@ -5,23 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F8FAFC">
+    android:background="#FFFFFF">
 
     <!-- ===== TOOLBAR / HEADER ===== -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:paddingHorizontal="16dp"
-        android:background="#FFFFFF">
+        android:layout_height="64dp"
+        android:paddingHorizontal="24dp">
 
-        <ImageButton
+        <ImageView
             android:id="@+id/btnBack"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_centerVertical="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@android:drawable/ic_menu_revert"
-            app:tint="#1E293B" />
+            android:src="@drawable/ic_back"
+            app:tint="#1E293B"
+            android:contentDescription="Kembali" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -44,45 +43,50 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp"
+            android:paddingHorizontal="24dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="32dp"
             android:gravity="center_horizontal">
 
             <!-- Avatar + Edit Icon -->
             <FrameLayout
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginTop="10dp">
+                android:layout_width="140dp"
+                android:layout_height="140dp">
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="110dp"
-                    android:layout_height="110dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_gravity="center"
-                    app:cardCornerRadius="55dp"
+                    app:cardCornerRadius="60dp"
                     app:cardElevation="0dp">
                     <ImageView
                         android:id="@+id/ivProfile"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@android:drawable/ic_menu_report_image"
+                        android:src="@drawable/ic_person"
                         android:scaleType="centerCrop"
-                        android:background="#E2E8F0"/>
+                        android:background="#F1F5F9"
+                        app:tint="#CBD5E1"
+                        android:padding="28dp"
+                        android:contentDescription="Foto Profil"/>
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_gravity="bottom|end"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginBottom="12dp"
                     app:cardCornerRadius="16dp"
-                    app:cardElevation="2dp"
+                    app:cardElevation="3dp"
                     app:cardBackgroundColor="#FFFFFF">
                     <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
                         android:layout_gravity="center"
-                        android:src="@android:drawable/ic_menu_edit"
-                        app:tint="#3B82F6"/>
+                        android:src="@drawable/ic_edit"
+                        app:tint="#3B82F6"
+                        android:contentDescription="Edit Profil"/>
                 </androidx.cardview.widget.CardView>
             </FrameLayout>
 
@@ -91,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Revalina"
-                android:textSize="24sp"
+                android:textSize="28sp"
                 android:textStyle="bold"
                 android:textColor="#1E293B"
                 android:layout_marginTop="16dp"/>
@@ -113,47 +117,57 @@
                 android:textSize="12sp"
                 android:textStyle="bold"
                 android:textColor="#94A3B8"
-                android:letterSpacing="0.1"
-                android:layout_marginTop="32dp"
+                android:letterSpacing="0.05"
+                android:layout_marginTop="40dp"
                 android:layout_marginBottom="12dp"/>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="#FFFFFF">
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#F8FAFC">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="4dp">
 
                     <!-- Threshold Settings -->
                     <LinearLayout
                         android:id="@+id/btnThreshold"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
+                        android:layout_height="64dp"
                         android:gravity="center_vertical"
-                        android:background="?attr/selectableItemBackground">
+                        android:paddingHorizontal="16dp">
+
+                        <View
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/bg_icon_circle"/>
+
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@android:drawable/ic_menu_preferences"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginStart="-30dp"
+                            android:src="@drawable/ic_threshold"
                             app:tint="#3B82F6"/>
+
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Threshold Settings"
-                            android:layout_marginStart="16dp"
+                            android:layout_marginStart="26dp"
                             android:textColor="#1E293B"
-                            android:textSize="15sp"/>
+                            android:textSize="16sp"
+                            android:textStyle="bold"/>
+
                         <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@android:drawable/ic_media_next"
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:src="@drawable/ic_chevron_right"
                             app:tint="#CBD5E1"/>
                     </LinearLayout>
 
@@ -163,27 +177,36 @@
                     <LinearLayout
                         android:id="@+id/btnManageFamily"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
+                        android:layout_height="64dp"
                         android:gravity="center_vertical"
-                        android:background="?attr/selectableItemBackground">
+                        android:paddingHorizontal="16dp">
+
+                        <View
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/bg_icon_circle"/>
+
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@android:drawable/ic_menu_myplaces"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginStart="-30dp"
+                            android:src="@drawable/ic_family"
                             app:tint="#3B82F6"/>
+
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Manage Family"
-                            android:layout_marginStart="16dp"
+                            android:layout_marginStart="26dp"
                             android:textColor="#1E293B"
-                            android:textSize="15sp"/>
+                            android:textSize="16sp"
+                            android:textStyle="bold"/>
+
                         <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@android:drawable/ic_media_next"
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:src="@drawable/ic_chevron_right"
                             app:tint="#CBD5E1"/>
                     </LinearLayout>
 
@@ -193,27 +216,36 @@
                     <LinearLayout
                         android:id="@+id/btnPairSensor"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
+                        android:layout_height="64dp"
                         android:gravity="center_vertical"
-                        android:background="?attr/selectableItemBackground">
+                        android:paddingHorizontal="16dp">
+
+                        <View
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/bg_icon_circle"/>
+
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@android:drawable/ic_menu_share"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginStart="-30dp"
+                            android:src="@drawable/ic_sensor_pair"
                             app:tint="#3B82F6"/>
+
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Pair Sensor"
-                            android:layout_marginStart="16dp"
+                            android:layout_marginStart="26dp"
                             android:textColor="#1E293B"
-                            android:textSize="15sp"/>
+                            android:textSize="16sp"
+                            android:textStyle="bold"/>
+
                         <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@android:drawable/ic_media_next"
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:src="@drawable/ic_chevron_right"
                             app:tint="#CBD5E1"/>
                     </LinearLayout>
 
@@ -228,45 +260,58 @@
                 android:textSize="12sp"
                 android:textStyle="bold"
                 android:textColor="#94A3B8"
-                android:letterSpacing="0.1"
-                android:layout_marginTop="24dp"
+                android:letterSpacing="0.05"
+                android:layout_marginTop="32dp"
                 android:layout_marginBottom="12dp"/>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="#FFFFFF">
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#F8FAFC">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="4dp">
 
                     <!-- Push Notifications -->
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:gravity="center_vertical">
+                        android:layout_height="64dp"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="16dp">
+
+                        <View
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/bg_icon_circle"/>
+
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@android:drawable/ic_popup_reminder"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginStart="-30dp"
+                            android:src="@drawable/ic_notifications"
                             app:tint="#3B82F6"/>
+
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Push Notifications"
-                            android:layout_marginStart="16dp"
+                            android:layout_marginStart="26dp"
                             android:textColor="#1E293B"
-                            android:textSize="15sp"/>
-                        <Switch
+                            android:textSize="16sp"
+                            android:textStyle="bold"/>
+
+                        <androidx.appcompat.widget.SwitchCompat
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:checked="true"/>
+                            android:checked="true"
+                            app:thumbTint="#FFFFFF"
+                            app:trackTint="#E2E8F0"/>
                     </LinearLayout>
 
                     <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" android:layout_marginHorizontal="16dp"/>
@@ -274,49 +319,61 @@
                     <!-- Dark Theme -->
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:gravity="center_vertical">
+                        android:layout_height="64dp"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="16dp">
+
+                        <View
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/bg_icon_circle"/>
+
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@android:drawable/ic_menu_view"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginStart="-30dp"
+                            android:src="@drawable/ic_moon"
                             app:tint="#3B82F6"/>
+
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Dark Theme"
-                            android:layout_marginStart="16dp"
+                            android:layout_marginStart="26dp"
                             android:textColor="#1E293B"
-                            android:textSize="15sp"/>
-                        <Switch
+                            android:textSize="16sp"
+                            android:textStyle="bold"/>
+
+                        <androidx.appcompat.widget.SwitchCompat
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            app:thumbTint="#FFFFFF"
+                            app:trackTint="#E2E8F0"/>
                     </LinearLayout>
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- ===== LOGOUT BUTTON ===== -->
+            <!-- ===== LOGOUT SECTION (Added Missing ID) ===== -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/btnLogout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="#FFFFFF">
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#FFF1F2">
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
+                    android:layout_height="64dp"
+                    android:paddingHorizontal="16dp"
                     android:gravity="center_vertical"
                     android:background="?attr/selectableItemBackground">
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@android:drawable/ic_lock_power_off"
+                        android:src="@drawable/ic_logout"
                         app:tint="#EF4444"/>
                     <TextView
                         android:layout_width="wrap_content"
@@ -325,22 +382,22 @@
                         android:layout_marginStart="16dp"
                         android:textColor="#EF4444"
                         android:textStyle="bold"
-                        android:textSize="15sp"/>
+                        android:textSize="16sp"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Version Info -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Version 2.4.0 (Build 182)"
-                android:textSize="12sp"
-                android:textColor="#94A3B8"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="20dp"/>
-
         </LinearLayout>
     </ScrollView>
+
+    <!-- Version Info (Outside Scroll) -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Version 2.4.0 (Build 182)"
+        android:textSize="12sp"
+        android:textColor="#94A3B8"
+        android:gravity="center"
+        android:layout_marginBottom="16dp"/>
 
     <!-- ===== BOTTOM NAVIGATION ===== -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -348,6 +405,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
+        app:elevation="8dp"
         app:menu="@menu/bottom_nav_menu"
         app:labelVisibilityMode="labeled"
         app:itemIconTint="@color/blue_primary"

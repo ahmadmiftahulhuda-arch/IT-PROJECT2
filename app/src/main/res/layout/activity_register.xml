@@ -23,15 +23,16 @@
             android:gravity="center_vertical"
             android:layout_marginTop="24dp"
             android:clickable="true"
-            android:focusable="true">
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="←"
-                android:textSize="20sp"
-                android:textColor="#1E293B"
-                android:layout_marginEnd="8dp"/>
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_back"
+                app:tint="#1E293B"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="Kembali"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -93,12 +94,13 @@
                     android:paddingHorizontal="14dp"
                     android:layout_marginBottom="16dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="👤"
-                        android:textSize="16sp"
-                        android:layout_marginEnd="8dp"/>
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_person"
+                        app:tint="#64748B"
+                        android:layout_marginEnd="8dp"
+                        android:contentDescription="User Icon"/>
 
                     <EditText
                         android:id="@+id/etNama"
@@ -132,12 +134,13 @@
                     android:paddingHorizontal="14dp"
                     android:layout_marginBottom="16dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="✉️"
-                        android:textSize="16sp"
-                        android:layout_marginEnd="8dp"/>
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_email"
+                        app:tint="#64748B"
+                        android:layout_marginEnd="8dp"
+                        android:contentDescription="Email Icon"/>
 
                     <EditText
                         android:id="@+id/etEmail"
@@ -171,12 +174,13 @@
                     android:paddingHorizontal="14dp"
                     android:layout_marginBottom="16dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="🔒"
-                        android:textSize="16sp"
-                        android:layout_marginEnd="8dp"/>
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_lock"
+                        app:tint="#64748B"
+                        android:layout_marginEnd="8dp"
+                        android:contentDescription="Password Icon"/>
 
                     <EditText
                         android:id="@+id/etPassword"
@@ -191,12 +195,13 @@
                         android:background="@null"
                         android:singleLine="true"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="👁️"
-                        android:textSize="16sp"
-                        android:alpha="0.5"/>
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_visibility"
+                        app:tint="#64748B"
+                        android:alpha="0.5"
+                        android:contentDescription="Show Password"/>
                 </LinearLayout>
 
                 <!-- Konfirmasi Kata Sandi -->
@@ -218,12 +223,13 @@
                     android:paddingHorizontal="14dp"
                     android:layout_marginBottom="24dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="🔑"
-                        android:textSize="16sp"
-                        android:layout_marginEnd="8dp"/>
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_lock"
+                        app:tint="#64748B"
+                        android:layout_marginEnd="8dp"
+                        android:contentDescription="Confirm Password Icon"/>
 
                     <EditText
                         android:id="@+id/etKonfirmasiPassword"
@@ -287,16 +293,16 @@
                     android:orientation="horizontal"
                     android:gravity="center"
                     android:background="@drawable/button_outline"
-                    android:layout_marginBottom="24dp">
+                    android:layout_marginBottom="24dp"
+                    android:clickable="true"
+                    android:focusable="true">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="G"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="#EA4335"
-                        android:layout_marginEnd="10dp"/>
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_google"
+                        android:layout_marginEnd="10dp"
+                        android:contentDescription="Google Icon"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -327,7 +333,11 @@
                         android:text="Masuk di sini"
                         android:textSize="13sp"
                         android:textStyle="bold"
-                        android:textColor="#2563EB"/>
+                        android:textColor="#2563EB"
+                        android:padding="4dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -342,34 +352,6 @@
             android:text="© 2024 Smart Living Inc. Semua hak dilindungi."
             android:textSize="11sp"
             android:textColor="#94A3B8"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:layout_marginTop="8dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ketentuan Layanan"
-                android:textSize="11sp"
-                android:textColor="#94A3B8"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="   "
-                android:textSize="11sp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Kebijakan Privasi"
-                android:textSize="11sp"
-                android:textColor="#94A3B8"/>
-        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>
