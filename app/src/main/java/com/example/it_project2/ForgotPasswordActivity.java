@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +32,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         ImageView btnBack = findViewById(R.id.btnBack);
         etEmail = findViewById(R.id.etEmail);
-        TextView btnKirim = findViewById(R.id.btnKirim);
+        LinearLayout btnKirim = findViewById(R.id.btnKirim);
         TextView tvKembaliLogin = findViewById(R.id.tvKembaliLogin);
 
         btnBack.setOnClickListener(v -> finish());

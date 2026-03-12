@@ -123,6 +123,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:gravity="center_vertical"
                     android:layout_marginBottom="6dp">
 
                     <TextView
@@ -140,7 +141,11 @@
                         android:layout_height="wrap_content"
                         android:text="Lupa Password?"
                         android:textSize="12sp"
-                        android:textColor="#2563EB"/>
+                        android:textColor="#2563EB"
+                        android:padding="8dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"/>
                 </LinearLayout>
 
                 <!-- Input Password -->
@@ -287,7 +292,11 @@
                 android:text="Daftar sekarang"
                 android:textSize="13sp"
                 android:textStyle="bold"
-                android:textColor="#2563EB"/>
+                android:textColor="#2563EB"
+                android:padding="4dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"/>
         </LinearLayout>
 
     </LinearLayout>
