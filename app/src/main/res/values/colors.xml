@@ -7,6 +7,8 @@
     <color name="green_light">#F0FDF4</color>
     <color name="red_danger">#DC2626</color>
     <color name="orange_warning">#F59E0B</color>
+    <color name="purple_primary">#9333EA</color>
+    <color name="purple_light">#F5F3FF</color>
     <color name="text_dark">#1E293B</color>
     <color name="text_gray">#94A3B8</color>
     <color name="background">#F8FAFC</color>
