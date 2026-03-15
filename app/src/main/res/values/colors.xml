@@ -14,4 +14,6 @@
     <color name="background">#F8FAFC</color>
     <color name="white">#FFFFFF</color>
     <color name="divider">#E2E8F0</color>
+    <color name="nav_item_selected">#2563EB</color>
+    <color name="nav_item_unselected">#94A3B8</color>
 </resources>

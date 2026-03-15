@@ -34,7 +34,8 @@
                     android:text="←"
                     android:textSize="22sp"
                     android:textColor="#1E293B"
-                    android:layout_marginEnd="12dp"/>
+                    android:padding="8dp"
+                    android:layout_marginEnd="4dp"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -50,7 +51,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="⚙️"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp"
+                    android:padding="8dp"/>
             </LinearLayout>
 
             <!-- ===== TAB OTOMATIS / MANUAL ===== -->
@@ -106,16 +108,16 @@
                 android:textSize="11sp"
                 android:textStyle="bold"
                 android:textColor="#94A3B8"
-                android:letterSpacing="0.1"
                 android:layout_marginBottom="10dp"/>
 
             <!-- ===== CARD PEMANAS RUANGAN ===== -->
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 app:cardCornerRadius="14dp"
                 app:cardElevation="2dp"
+                app:strokeWidth="0dp"
                 app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
@@ -164,7 +166,7 @@
                                 android:textColor="#94A3B8"/>
                         </LinearLayout>
 
-                        <Switch
+                        <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/switchPemanas"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -198,7 +200,10 @@
                             android:text="20°C"
                             android:textSize="13sp"
                             android:textStyle="bold"
-                            android:textColor="#2563EB"/>
+                            android:textColor="#2563EB"
+                            android:background="@drawable/bg_tag_blue_light"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="2dp"/>
                     </LinearLayout>
 
                     <SeekBar
@@ -218,7 +223,7 @@
                             android:layout_height="wrap_content"
                             android:text="15°C" android:textSize="11sp"
                             android:textColor="#94A3B8"/>
-                        <Space android:layout_width="0dp" android:layout_height="wrap_content"
+                        <View android:layout_width="0dp" android:layout_height="wrap_content"
                             android:layout_weight="1"/>
                         <TextView android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -227,15 +232,16 @@
                     </LinearLayout>
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- ===== CARD PEMBERSIH UDARA ===== -->
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 app:cardCornerRadius="14dp"
-                app:cardElevation="3dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp"
                 app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
@@ -282,7 +288,7 @@
                                 android:textColor="#16A34A"/>
                         </LinearLayout>
 
-                        <Switch
+                        <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/switchPembersih"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -355,15 +361,16 @@
 
                     </LinearLayout>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- ===== CARD PELEMBAB UDARA ===== -->
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 app:cardCornerRadius="14dp"
                 app:cardElevation="2dp"
+                app:strokeWidth="0dp"
                 app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
@@ -406,10 +413,13 @@
                         android:layout_height="wrap_content"
                         android:text="Offline"
                         android:textSize="12sp"
-                        android:textColor="#94A3B8"/>
+                        android:textColor="#94A3B8"
+                        android:background="@drawable/bg_tag_gray"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="4dp"/>
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- ===== AKTIVITAS TERKINI ===== -->
             <TextView
@@ -419,7 +429,6 @@
                 android:textSize="11sp"
                 android:textStyle="bold"
                 android:textColor="#94A3B8"
-                android:letterSpacing="0.1"
                 android:layout_marginBottom="10dp"/>
 
             <!-- Log 1 -->
@@ -559,11 +568,14 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="72dp"
         android:background="#FFFFFF"
         app:menu="@menu/bottom_nav_menu"
         app:labelVisibilityMode="labeled"
-        app:itemIconTint="@color/blue_primary"
-        app:itemTextColor="@color/blue_primary"/>
+        app:itemIconTint="@color/nav_item_color"
+        app:itemTextColor="@color/nav_item_color"
+        app:itemIconSize="24dp"
+        app:itemRippleColor="@null"
+        app:elevation="16dp"/>
 
 </LinearLayout>
