@@ -47,6 +47,9 @@
 
         <!-- Profile -->
         <activity android:name=".ProfileActivity" android:exported="false"/>
+
+        <!-- Kelola Keluarga -->
+        <activity android:name=".KelolaKeluargaActivity" android:exported="false"/>
     </application>
 
 </manifest>

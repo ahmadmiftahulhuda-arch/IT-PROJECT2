@@ -27,6 +27,7 @@ public class ProfileActivity extends AppCompatActivity {
         tvProfileSub = findViewById(R.id.tvProfileSub);
         View btnLogout = findViewById(R.id.btnLogout);
         View btnBack = findViewById(R.id.btnBack);
+        View btnManageFamily = findViewById(R.id.btnManageFamily);
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
 
         // Set Data User dari Session
@@ -35,6 +36,12 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Tombol Back
         btnBack.setOnClickListener(v -> finish());
+
+        // Tombol Manage Family
+        btnManageFamily.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, KelolaKeluargaActivity.class);
+            startActivity(intent);
+        });
 
         // Tombol Logout
         btnLogout.setOnClickListener(v -> {
