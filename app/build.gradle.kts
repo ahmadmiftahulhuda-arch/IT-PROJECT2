@@ -45,4 +45,9 @@ dependencies {
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
+
+    // Google Sign-In (Credential Manager)
+    implementation(libs.credentials)
+    implementation(libs.credentials.play)
+    implementation(libs.googleid)
 }

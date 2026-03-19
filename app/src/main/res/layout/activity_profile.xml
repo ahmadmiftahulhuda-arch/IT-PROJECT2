@@ -408,7 +408,7 @@
         app:elevation="8dp"
         app:menu="@menu/bottom_nav_menu"
         app:labelVisibilityMode="labeled"
-        app:itemIconTint="@color/blue_primary"
-        app:itemTextColor="@color/blue_primary"/>
+        app:itemIconTint="@color/nav_item_color"
+        app:itemTextColor="@color/nav_item_color"/>
 
 </LinearLayout>

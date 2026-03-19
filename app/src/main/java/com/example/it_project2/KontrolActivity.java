@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.SeekBar;
-import android.widget.Switch;
+import androidx.appcompat.widget.SwitchCompat;
 import android.widget.TextView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -12,7 +12,7 @@ public class KontrolActivity extends AppCompatActivity {
 
     private TextView tabOtomatis, tabManual, tvTabDesc, tvSuhuValue, btnBack;
     private SeekBar seekBarSuhu;
-    private Switch switchPemanas, switchPembersih;
+    private SwitchCompat switchPemanas, switchPembersih;
     private BottomNavigationView bottomNav;
 
     @Override

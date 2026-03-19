@@ -26,8 +26,8 @@ public class EdukasiActivity extends AppCompatActivity {
                 overridePendingTransition(0, 0);
                 return true;
             } else if (id == R.id.nav_kontrol) {
-                // startActivity(new Intent(getApplicationContext(), KontrolActivity.class));
-                // overridePendingTransition(0, 0);
+                startActivity(new Intent(getApplicationContext(), KontrolActivity.class));
+                overridePendingTransition(0, 0);
                 return true;
             } else if (id == R.id.nav_edukasi) {
                 return true;
