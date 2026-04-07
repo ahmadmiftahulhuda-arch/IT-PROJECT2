@@ -19,7 +19,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView tvHalo, tvStatus, tvStatusDesc, tvSuhu, tvKelembapan, tvPM25, tvGas;
+    private TextView tvHalo, tvStatus, tvStatusDesc, tvSuhu, tvKelembapan;
     private Switch switchHeater;
     private BottomNavigationView bottomNav;
 
@@ -42,8 +42,6 @@ public class MainActivity extends AppCompatActivity {
         tvStatusDesc = findViewById(R.id.tvStatusDesc);
         tvSuhu       = findViewById(R.id.tvSuhu);
         tvKelembapan = findViewById(R.id.tvKelembapan);
-        tvPM25       = findViewById(R.id.tvPM25);
-        tvGas        = findViewById(R.id.tvGas);
         switchHeater = findViewById(R.id.switchHeater);
         bottomNav    = findViewById(R.id.bottomNav);
 
