@@ -3,11 +3,15 @@ package com.example.it_project2;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.content.ContextCompat;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -17,7 +21,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class KontrolActivity extends AppCompatActivity {
 
-    private TextView tabOtomatis, tabManual, tvTabDesc, tvSuhuValue, btnBack;
+    private TextView tabOtomatis, tabManual, tvTabDesc, tvSuhuValue;
+    private ImageView btnBack;
     private TextView tvPemanahStatus;
     private SeekBar seekBarSuhu;
     private SwitchCompat switchPemanas, switchPembersih;
@@ -25,7 +30,6 @@ public class KontrolActivity extends AppCompatActivity {
 
     // Firebase
     private DatabaseReference heaterRef;
-    private DatabaseReference sensorRef;
     private boolean isOtomatisMode = false;
 
     @Override
@@ -48,7 +52,6 @@ public class KontrolActivity extends AppCompatActivity {
         // ===== FIREBASE =====
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://smartliving-425c0-default-rtdb.asia-southeast1.firebasedatabase.app");
         heaterRef = database.getReference("heater");
-        sensorRef = database.getReference("sensor");
 
         // Listener status heater dari Firebase
         heaterRef.addValueEventListener(new ValueEventListener() {
@@ -63,7 +66,9 @@ public class KontrolActivity extends AppCompatActivity {
                     switchPemanas.setOnCheckedChangeListener(null);
                     switchPemanas.setChecked(isOn);
                     tvPemanahStatus.setText(isOn ? "● Aktif" : "● Nonaktif");
-                    tvPemanahStatus.setTextColor(isOn ? 0xFF16A34A : 0xFF94A3B8);
+                    tvPemanahStatus.setTextColor(ContextCompat.getColor(KontrolActivity.this, 
+                        isOn ? R.color.green_safe : R.color.text_gray));
+                    
                     switchPemanas.setOnCheckedChangeListener((buttonView, isChecked) -> {
                         heaterRef.child("status").setValue(isChecked);
                     });
@@ -71,7 +76,7 @@ public class KontrolActivity extends AppCompatActivity {
 
                 if (threshold != null) {
                     int progress = (int) (threshold - 15);
-                    seekBarSuhu.setProgress(Math.max(0, Math.min(20, progress)));
+                    seekBarSuhu.setProgress(Math.max(0, Math.min(15, progress)));
                     tvSuhuValue.setText(threshold + "°C");
                 }
 
@@ -123,8 +128,6 @@ public class KontrolActivity extends AppCompatActivity {
                 // Simpan threshold ke Firebase saat user selesai geser
                 int threshold = 15 + seekBar.getProgress();
                 heaterRef.child("threshold").setValue(threshold);
-                Toast.makeText(KontrolActivity.this,
-                        "Ambang batas diset ke " + threshold + "°C", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -154,9 +157,9 @@ public class KontrolActivity extends AppCompatActivity {
     private void selectTab(boolean isOtomatis) {
         if (isOtomatis) {
             tabOtomatis.setBackgroundResource(R.drawable.bg_tab_selected);
-            tabOtomatis.setTextColor(getResources().getColor(R.color.blue_primary));
+            tabOtomatis.setTextColor(ContextCompat.getColor(this, R.color.blue_primary));
             tabManual.setBackground(null);
-            tabManual.setTextColor(getResources().getColor(R.color.text_gray));
+            tabManual.setTextColor(ContextCompat.getColor(this, R.color.text_gray));
             tvTabDesc.setText("Mode Otomatis aktif. Sistem mengatur segalanya.");
 
             // Disable kontrol manual
@@ -164,9 +167,9 @@ public class KontrolActivity extends AppCompatActivity {
             seekBarSuhu.setEnabled(true);
         } else {
             tabManual.setBackgroundResource(R.drawable.bg_tab_selected);
-            tabManual.setTextColor(getResources().getColor(R.color.blue_primary));
+            tabManual.setTextColor(ContextCompat.getColor(this, R.color.blue_primary));
             tabOtomatis.setBackground(null);
-            tabOtomatis.setTextColor(getResources().getColor(R.color.text_gray));
+            tabOtomatis.setTextColor(ContextCompat.getColor(this, R.color.text_gray));
             tvTabDesc.setText("Mode Manual aktif. Kendali penuh.");
 
             // Enable kontrol manual

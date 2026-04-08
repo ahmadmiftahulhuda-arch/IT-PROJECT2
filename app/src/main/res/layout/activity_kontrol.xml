@@ -5,7 +5,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F8FAFC">
+    android:background="#FAFAFA">
+
+    <!-- ===== TOP BAR ===== -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:paddingHorizontal="16dp">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:padding="8dp"
+            android:src="@drawable/ic_back"
+            android:contentDescription="Kembali"
+            app:tint="#94A3B8" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Kontrol Perangkat"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="#1E293B" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:padding="8dp"
+            android:src="@drawable/ic_settings"
+            android:contentDescription="Pengaturan"
+            app:tint="#94A3B8" />
+    </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -17,52 +53,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="20dp">
 
-            <!-- ===== HEADER ===== -->
+            <!-- ===== TAB SWITCHER ===== -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="20dp">
-
-                <TextView
-                    android:id="@+id/btnBack"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="←"
-                    android:textSize="22sp"
-                    android:textColor="#1E293B"
-                    android:padding="8dp"
-                    android:layout_marginEnd="4dp"/>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Kontrol Perangkat"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="#1E293B"
-                    android:gravity="center"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="⚙️"
-                    android:textSize="20sp"
-                    android:padding="8dp"/>
-            </LinearLayout>
-
-            <!-- ===== TAB OTOMATIS / MANUAL ===== -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="48dp"
                 android:orientation="horizontal"
                 android:background="@drawable/bg_tab_container"
-                android:padding="4dp"
-                android:layout_marginBottom="8dp">
+                android:padding="4dp">
 
                 <TextView
                     android:id="@+id/tabOtomatis"
@@ -72,7 +71,7 @@
                     android:gravity="center"
                     android:text="Otomatis"
                     android:textSize="14sp"
-                    android:textColor="#94A3B8"/>
+                    android:textColor="#94A3B8" />
 
                 <TextView
                     android:id="@+id/tabManual"
@@ -84,40 +83,39 @@
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:textColor="#2563EB"
-                    android:background="@drawable/bg_tab_selected"/>
-
+                    android:background="@drawable/bg_tab_selected" />
             </LinearLayout>
 
-            <!-- Subtitle tab -->
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/tvTabDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:text="Mode Manual aktif. Kendali penuh."
-                android:textSize="12sp"
+                android:textSize="13sp"
                 android:textColor="#94A3B8"
                 android:gravity="center"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="20dp"/>
+                android:layout_marginBottom="24dp" />
 
-            <!-- ===== LABEL PERANGKAT ===== -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="PERANGKAT TERHUBUNG"
-                android:textSize="11sp"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 android:textColor="#94A3B8"
-                android:layout_marginBottom="10dp"/>
+                android:letterSpacing="0.05"
+                android:layout_marginBottom="12dp" />
 
-            <!-- ===== CARD PEMANAS RUANGAN ===== -->
+            <!-- ===== PEMANAS RUANGAN ===== -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                app:cardCornerRadius="14dp"
-                app:cardElevation="2dp"
-                app:strokeWidth="0dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#F1F5F9"
                 app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
@@ -126,72 +124,73 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <!-- Row: icon + nama + toggle -->
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
+                        android:layout_height="wrap_content">
 
-                        <FrameLayout
-                            android:layout_width="44dp"
-                            android:layout_height="44dp">
-                            <View android:layout_width="44dp" android:layout_height="44dp"
-                                android:background="@drawable/circle_orange_light"/>
-                            <TextView android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="🔥" android:textSize="20sp"/>
-                        </FrameLayout>
+                        <ImageView
+                            android:id="@+id/iconHeater"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@drawable/circle_orange_light"
+                            android:padding="10dp"
+                            android:contentDescription="Icon Pemanas" />
 
                         <LinearLayout
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:layout_marginStart="12dp">
+                            android:layout_toEndOf="@id/iconHeater"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="12dp"
+                            android:orientation="vertical">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Pemanas Ruangan"
                                 android:textStyle="bold"
                                 android:textSize="15sp"
-                                android:textColor="#1E293B"/>
+                                android:textColor="#1E293B" />
+
                             <TextView
                                 android:id="@+id/tvPemanahStatus"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="● Nonaktif"
                                 android:textSize="12sp"
-                                android:textColor="#94A3B8"/>
+                                android:textColor="#94A3B8" />
                         </LinearLayout>
 
                         <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/switchPemanas"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:checked="false"/>
-                    </LinearLayout>
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true" />
+                    </RelativeLayout>
 
-                    <!-- Divider -->
-                    <View android:layout_width="match_parent" android:layout_height="1dp"
-                        android:background="#F1F5F9" android:layout_marginVertical="12dp"/>
-
-                    <!-- Slider Ambang Batas Suhu -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
                         android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:layout_marginBottom="8dp">
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_threshold"
+                            android:contentDescription="Icon Ambang Batas"
+                            app:tint="#94A3B8" />
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="🌡️  Ambang Batas"
+                            android:layout_marginStart="8dp"
+                            android:text="Ambang Batas"
                             android:textSize="13sp"
-                            android:textColor="#64748B"/>
+                            android:textColor="#64748B" />
 
                         <TextView
                             android:id="@+id/tvSuhuValue"
@@ -202,46 +201,57 @@
                             android:textStyle="bold"
                             android:textColor="#2563EB"
                             android:background="@drawable/bg_tag_blue_light"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="2dp"/>
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="4dp" />
                     </LinearLayout>
 
                     <SeekBar
                         android:id="@+id/seekBarSuhu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:max="20"
+                        android:layout_marginTop="16dp"
+                        android:max="15"
                         android:progress="5"
-                        android:progressTint="@color/blue_primary"
-                        android:thumbTint="@color/blue_primary"/>
+                        android:splitTrack="false"
+                        android:progressDrawable="@null"
+                        android:thumbTint="#2563EB" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="15°C" android:textSize="11sp"
-                            android:textColor="#94A3B8"/>
-                        <View android:layout_width="0dp" android:layout_height="wrap_content"
-                            android:layout_weight="1"/>
-                        <TextView android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="35°C" android:textSize="11sp"
-                            android:textColor="#94A3B8"/>
-                    </LinearLayout>
+                        android:layout_marginTop="4dp">
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="15°C"
+                            android:textSize="11sp"
+                            android:textColor="#CBD5E1" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="30°C"
+                            android:textSize="11sp"
+                            android:textColor="#CBD5E1" />
+                    </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- ===== CARD PEMBERSIH UDARA ===== -->
+            <!-- ===== PEMBERSIH UDARA ===== -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                app:cardCornerRadius="14dp"
-                app:cardElevation="2dp"
-                app:strokeWidth="0dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#2563EB33"
                 app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
@@ -250,175 +260,178 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <!-- Row: icon + nama + toggle -->
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:layout_marginBottom="14dp">
+                        android:layout_marginBottom="16dp">
 
-                        <FrameLayout android:layout_width="44dp" android:layout_height="44dp">
-                            <View android:layout_width="44dp" android:layout_height="44dp"
-                                android:background="@drawable/circle_blue_light"/>
-                            <TextView android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="💨" android:textSize="20sp"/>
-                        </FrameLayout>
+                        <ImageView
+                            android:id="@+id/iconPurifier"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@drawable/circle_blue_light"
+                            android:padding="10dp"
+                            android:contentDescription="Icon Pembersih" />
 
                         <LinearLayout
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:layout_marginStart="12dp">
-                            <TextView android:layout_width="wrap_content"
+                            android:layout_toEndOf="@id/iconPurifier"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="12dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Pembersih Udara"
                                 android:textStyle="bold"
                                 android:textSize="15sp"
-                                android:textColor="#1E293B"/>
+                                android:textColor="#1E293B" />
+
                             <TextView
                                 android:id="@+id/tvPembersihStatus"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="● Aktif"
                                 android:textSize="12sp"
-                                android:textColor="#16A34A"/>
+                                android:textColor="#2563EB" />
                         </LinearLayout>
 
                         <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/switchPembersih"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:checked="true"/>
-                    </LinearLayout>
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:checked="true" />
+                    </RelativeLayout>
 
-                    <!-- Stats AQI, MODE, FAN -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:background="@drawable/bg_tab_container"
-                        android:padding="12dp">
+                        android:orientation="horizontal">
 
                         <!-- AQI -->
-                        <LinearLayout android:layout_width="0dp"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:gravity="center">
-                            <TextView android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="AQI" android:textSize="11sp"
-                                android:textColor="#94A3B8"/>
-                            <TextView android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="32" android:textSize="20sp"
-                                android:textStyle="bold" android:textColor="#2563EB"/>
+                            android:background="@drawable/bg_stat_card"
+                            android:padding="12dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="AQI" android:textSize="11sp" android:textColor="#94A3B8" />
+                            <TextView
+                                android:id="@+id/tvAQI"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="32" android:textSize="17sp" android:textStyle="bold" android:textColor="#2563EB" />
                         </LinearLayout>
 
-                        <!-- Divider -->
-                        <View android:layout_width="1dp" android:layout_height="40dp"
-                            android:background="#E2E8F0"/>
+                        <View android:layout_width="12dp" android:layout_height="1dp" />
 
                         <!-- MODE -->
-                        <LinearLayout android:layout_width="0dp"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:gravity="center">
-                            <TextView android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="MODE" android:textSize="11sp"
-                                android:textColor="#94A3B8"/>
-                            <TextView android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Auto" android:textSize="16sp"
-                                android:textStyle="bold" android:textColor="#1E293B"/>
+                            android:background="@drawable/bg_stat_card"
+                            android:padding="12dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="MODE" android:textSize="11sp" android:textColor="#94A3B8" />
+                            <TextView
+                                android:id="@+id/tvModePurifier"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Auto" android:textSize="15sp" android:textStyle="bold" android:textColor="#1E293B" />
                         </LinearLayout>
 
-                        <!-- Divider -->
-                        <View android:layout_width="1dp" android:layout_height="40dp"
-                            android:background="#E2E8F0"/>
+                        <View android:layout_width="12dp" android:layout_height="1dp" />
 
                         <!-- FAN -->
-                        <LinearLayout android:layout_width="0dp"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:gravity="center">
-                            <TextView android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="FAN" android:textSize="11sp"
-                                android:textColor="#94A3B8"/>
-                            <TextView android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Med" android:textSize="16sp"
-                                android:textStyle="bold" android:textColor="#1E293B"/>
+                            android:background="@drawable/bg_stat_card"
+                            android:padding="12dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="FAN" android:textSize="11sp" android:textColor="#94A3B8" />
+                            <TextView
+                                android:id="@+id/tvFanPurifier"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:text="Med" android:textSize="15sp" android:textStyle="bold" android:textColor="#1E293B" />
                         </LinearLayout>
-
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- ===== CARD PELEMBAB UDARA ===== -->
+            <!-- ===== PELEMBAB UDARA ===== -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                app:cardCornerRadius="14dp"
-                app:cardElevation="2dp"
-                app:strokeWidth="0dp"
+                android:layout_marginBottom="32dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#F1F5F9"
                 app:cardBackgroundColor="#FFFFFF">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
                     android:padding="16dp">
 
-                    <FrameLayout android:layout_width="44dp" android:layout_height="44dp">
-                        <View android:layout_width="44dp" android:layout_height="44dp"
-                            android:background="@drawable/circle_blue_light"/>
-                        <TextView android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="💧" android:textSize="20sp"/>
-                    </FrameLayout>
+                    <ImageView
+                        android:id="@+id/iconHumidifier"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/circle_blue_light"
+                        android:padding="10dp"
+                        android:alpha="0.5"
+                        android:contentDescription="Icon Pelembab" />
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_marginStart="12dp">
-                        <TextView android:layout_width="wrap_content"
+                        android:layout_toEndOf="@id/iconHumidifier"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="12dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Pelembab Udara"
                             android:textStyle="bold"
                             android:textSize="15sp"
-                            android:textColor="#1E293B"/>
-                        <TextView android:layout_width="wrap_content"
+                            android:textColor="#1E293B" />
+
+                        <TextView
+                            android:id="@+id/tvHumidifierStatus"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="● Offline"
                             android:textSize="12sp"
-                            android:textColor="#94A3B8"/>
+                            android:textColor="#94A3B8" />
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/bg_stat_card"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="4dp"
                         android:text="Offline"
-                        android:textSize="12sp"
-                        android:textColor="#94A3B8"
-                        android:background="@drawable/bg_tag_gray"
-                        android:paddingHorizontal="8dp"
-                        android:paddingVertical="4dp"/>
-
-                </LinearLayout>
+                        android:textSize="11sp"
+                        android:textColor="#94A3B8" />
+                </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- ===== AKTIVITAS TERKINI ===== -->
@@ -426,156 +439,103 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="AKTIVITAS TERKINI"
-                android:textSize="11sp"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 android:textColor="#94A3B8"
-                android:layout_marginBottom="10dp"/>
+                android:letterSpacing="0.05"
+                android:layout_marginBottom="16dp" />
 
-            <!-- Log 1 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="14dp">
+                android:orientation="vertical">
 
-                <View
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:background="@drawable/circle_dot_active"
-                    android:layout_marginEnd="12dp"/>
-
-                <LinearLayout
-                    android:layout_width="0dp"
+                <!-- Log 1 -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    <TextView android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Pembersih Udara Menyala"
-                        android:textStyle="bold"
-                        android:textSize="13sp"
-                        android:textColor="#1E293B"/>
-                    <TextView android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="AQI terdeteksi di atas 50 (Sedang)"
-                        android:textSize="12sp"
-                        android:textColor="#94A3B8"/>
-                </LinearLayout>
+                    android:layout_marginBottom="16dp">
+                    <View android:id="@+id/dot1" android:layout_width="8dp" android:layout_height="8dp"
+                        android:background="@drawable/circle_dot_active" android:layout_marginTop="6dp" />
+                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/dot1" android:layout_marginStart="12dp" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="Pembersih Udara Menyala" android:textStyle="bold" android:textSize="14sp" android:textColor="#1E293B" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="AQI terdeteksi di atas 50 (Sedang)" android:textSize="12sp" android:textColor="#94A3B8" />
+                    </LinearLayout>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true" android:text="10:42" android:textSize="11sp" android:textColor="#CBD5E1" />
+                </RelativeLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <!-- Log 2 -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="19:42"
-                    android:textSize="11sp"
-                    android:textColor="#94A3B8"/>
+                    android:layout_marginBottom="16dp">
+                    <View android:id="@+id/dot2" android:layout_width="8dp" android:layout_height="8dp"
+                        android:background="@drawable/circle_dot_inactive" android:layout_marginTop="6dp" />
+                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/dot2" android:layout_marginStart="12dp" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="Pemanas Ruangan Mati" android:textStyle="bold" android:textSize="14sp" android:textColor="#1E293B" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="Suhu mencapai target 24°C" android:textSize="12sp" android:textColor="#94A3B8" />
+                    </LinearLayout>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true" android:text="08:15" android:textSize="11sp" android:textColor="#CBD5E1" />
+                </RelativeLayout>
+
+                <!-- Log 3 -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp">
+                    <View android:id="@+id/dot3" android:layout_width="8dp" android:layout_height="8dp"
+                        android:background="@drawable/circle_dot_inactive" android:layout_marginTop="6dp" />
+                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/dot3" android:layout_marginStart="12dp" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="Mode Otomatis Diaktifkan" android:textStyle="bold" android:textSize="14sp" android:textColor="#1E293B" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:text="Pengaturan pengguna" android:textSize="12sp" android:textColor="#94A3B8" />
+                    </LinearLayout>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true" android:text="Kemarin" android:textSize="11sp" android:textColor="#CBD5E1" />
+                </RelativeLayout>
             </LinearLayout>
 
-            <!-- Log 2 -->
-            <LinearLayout
+            <!-- LIHAT SEMUA -->
+            <com.google.android.material.button.MaterialButton
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="14dp">
-
-                <View
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:background="@drawable/circle_dot_inactive"
-                    android:layout_marginEnd="12dp"/>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    <TextView android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Pemanas Ruangan Mati"
-                        android:textStyle="bold"
-                        android:textSize="13sp"
-                        android:textColor="#1E293B"/>
-                    <TextView android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Suhu mencapai target 24°C"
-                        android:textSize="12sp"
-                        android:textColor="#94A3B8"/>
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="08:15"
-                    android:textSize="11sp"
-                    android:textColor="#94A3B8"/>
-            </LinearLayout>
-
-            <!-- Log 3 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="20dp">
-
-                <View
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:background="@drawable/circle_dot_inactive"
-                    android:layout_marginEnd="12dp"/>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    <TextView android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Mode Otomatis Diaktifkan"
-                        android:textStyle="bold"
-                        android:textSize="13sp"
-                        android:textColor="#1E293B"/>
-                    <TextView android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Pengaturan pengguna"
-                        android:textSize="12sp"
-                        android:textColor="#94A3B8"/>
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Kemarin"
-                    android:textSize="11sp"
-                    android:textColor="#94A3B8"/>
-            </LinearLayout>
-
-            <!-- Lihat Semua -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="52dp"
                 android:text="Lihat Semua Aktivitas →"
-                android:textSize="13sp"
-                android:textColor="#2563EB"
-                android:gravity="center"
-                android:layout_marginBottom="8dp"/>
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                android:textColor="#94A3B8"
+                app:backgroundTint="#FFFFFF"
+                app:strokeColor="#F1F5F9"
+                app:strokeWidth="1dp"
+                app:cornerRadius="12dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:elevation="0dp" />
 
         </LinearLayout>
     </ScrollView>
 
-    <!-- ===== BOTTOM NAVIGATION ===== -->
+    <!-- ===== BOTTOM NAV ===== -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
         android:layout_height="72dp"
         android:background="#FFFFFF"
-        app:menu="@menu/bottom_nav_menu"
-        app:labelVisibilityMode="labeled"
-        app:itemIconTint="@color/nav_item_color"
-        app:itemTextColor="@color/nav_item_color"
+        app:elevation="16dp"
         app:itemIconSize="24dp"
+        app:itemIconTint="@color/nav_item_color"
         app:itemRippleColor="@null"
-        app:elevation="16dp"/>
+        app:itemTextColor="@color/nav_item_color"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_nav_menu" />
 
 </LinearLayout>
