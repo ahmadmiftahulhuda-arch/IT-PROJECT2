@@ -53,6 +53,7 @@ public class InformasiActivity extends AppCompatActivity {
     private TextView tvUserName;
     private TextView tvCity, tvDate, tvTime;
     private TextView tvTemperature, tvCondition, tvHumidity, tvWind;
+    private TextView tvSunrise, tvSunset;
     private ImageView ivWeatherIcon;
     private TextView tvAQI, tvAQIBadge, tvAQIDescription;
     private TextView tvHealthAdvice;
@@ -85,9 +86,22 @@ public class InformasiActivity extends AppCompatActivity {
         tvAQIBadge      = findViewById(R.id.tvAQIBadge);
         tvAQIDescription = findViewById(R.id.tvAQIDescription);
         tvHealthAdvice  = findViewById(R.id.tvHealthAdvice);
+        tvSunrise       = findViewById(R.id.tvSunrise);
+        tvSunset        = findViewById(R.id.tvSunset);
         aqiIndicator    = findViewById(R.id.aqiIndicator);
         aqiRingContainer = findViewById(R.id.aqiRingContainer);
         llHourlyForecast = findViewById(R.id.llHourlyForecast);
+
+        findViewById(R.id.cardHospital).setOnClickListener(v -> {
+            android.net.Uri gmmIntentUri = android.net.Uri.parse("geo:0,0?q=rumah+sakit+terdekat");
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+            try {
+                startActivity(mapIntent);
+            } catch (Exception e) {
+                startActivity(new Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://www.google.com/maps/search/rumah+sakit+terdekat")));
+            }
+        });
 
         // Tampilkan username
         SessionManager sessionManager = new SessionManager(this);
@@ -238,12 +252,21 @@ public class InformasiActivity extends AppCompatActivity {
                 String windStr = String.format(Locale.getDefault(), "%.0f km/h", windSpeed * 3.6);
                 int iconRes = getWeatherIconRes(weatherCode);
 
+                JSONObject sysObj = json.getJSONObject("sys");
+                long sunrise = sysObj.getLong("sunrise");
+                long sunset = sysObj.getLong("sunset");
+                java.text.SimpleDateFormat sdfTime = new java.text.SimpleDateFormat("hh:mm a", Locale.getDefault());
+                String sunriseStr = sdfTime.format(new java.util.Date(sunrise * 1000));
+                String sunsetStr = sdfTime.format(new java.util.Date(sunset * 1000));
+
                 mainHandler.post(() -> {
                     tvTemperature.setText(tempStr);
                     tvCondition.setText(condition);
                     tvHumidity.setText(humStr);
                     tvWind.setText(windStr);
                     ivWeatherIcon.setImageResource(iconRes);
+                    if (tvSunrise != null) tvSunrise.setText(sunriseStr);
+                    if (tvSunset != null) tvSunset.setText(sunsetStr);
                 });
 
             } catch (Exception e) {
