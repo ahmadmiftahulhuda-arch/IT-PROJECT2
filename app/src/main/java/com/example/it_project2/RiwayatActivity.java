@@ -52,9 +52,6 @@ public class RiwayatActivity extends AppCompatActivity {
         tab7Hari   = findViewById(R.id.tab7Hari);
         tab30Hari  = findViewById(R.id.tab30Hari);
 
-        // Tombol back
-        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
-
         // ===== FIREBASE =====
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://smartliving-425c0-default-rtdb.asia-southeast1.firebasedatabase.app");
         riwayatRef = database.getReference("riwayat_suhu");
