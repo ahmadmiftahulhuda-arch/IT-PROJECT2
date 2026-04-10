@@ -74,8 +74,8 @@ public class ProfileActivity extends AppCompatActivity {
                 overridePendingTransition(0, 0);
                 finish();
                 return true;
-            } else if (id == R.id.nav_edukasi) {
-                startActivity(new Intent(ProfileActivity.this, EdukasiActivity.class));
+            } else if (id == R.id.nav_informasi) {
+                startActivity(new Intent(ProfileActivity.this, InformasiActivity.class));
                 overridePendingTransition(0, 0);
                 finish();
                 return true;

@@ -120,8 +120,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, RiwayatActivity.class));
             } else if (id == R.id.nav_kontrol) {
                 startActivity(new Intent(this, KontrolActivity.class));
-            } else if (id == R.id.nav_edukasi) {
-                startActivity(new Intent(this, EdukasiActivity.class));
+            } else if (id == R.id.nav_informasi) {
+                startActivity(new Intent(this, InformasiActivity.class));
             } else if (id == R.id.nav_profile) {
                 startActivity(new Intent(this, ProfileActivity.class));
             }

@@ -34,8 +34,8 @@ public class KelolaKeluargaActivity extends AppCompatActivity {
             } else if (id == R.id.nav_kontrol) {
                 startActivity(new Intent(this, KontrolActivity.class));
                 return true;
-            } else if (id == R.id.nav_edukasi) {
-                startActivity(new Intent(this, EdukasiActivity.class));
+            } else if (id == R.id.nav_informasi) {
+                startActivity(new Intent(this, InformasiActivity.class));
                 return true;
             } else if (id == R.id.nav_profile) {
                 finish(); // Kembali ke profile jika sedang di sub-halaman

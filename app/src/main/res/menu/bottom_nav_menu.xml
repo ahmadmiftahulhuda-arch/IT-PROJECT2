@@ -17,8 +17,8 @@
         android:icon="@drawable/ic_kontrol"/>
 
     <item
-        android:id="@+id/nav_edukasi"
-        android:title="Edukasi"
+        android:id="@+id/nav_informasi"
+        android:title="Informasi"
         android:icon="@drawable/ic_edukasi"/>
 
     <item
