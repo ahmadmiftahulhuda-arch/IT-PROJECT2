@@ -7,6 +7,42 @@
     android:orientation="vertical"
     android:background="#F8FAFC">
 
+    <!-- ===== HEADER (di luar scroll) ===== -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingHorizontal="8dp"
+        android:background="#F8FAFC">
+
+        <TextView
+            android:id="@+id/btnBack"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="←"
+            android:textSize="20sp"
+            android:textColor="#1E293B" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Riwayat Kualitas Udara"
+            android:textSize="17sp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="#1E293B" />
+
+        <TextView
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="📅"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
     <!-- ===== SCROLL CONTENT ===== -->
     <ScrollView
         android:layout_width="match_parent"
@@ -18,49 +54,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
-
-            <!-- ===== HEADER ===== -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="20dp">
-
-                <!-- Tombol back -->
-                <TextView
-                    android:id="@+id/btnBack"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="←"
-                    android:textSize="22sp"
-                    android:textColor="#1E293B"
-                    android:layout_marginEnd="12dp"/>
-
-                <!-- Judul -->
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Riwayat Kualitas Udara"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="#1E293B"
-                    android:gravity="center"/>
-
-                <!-- Icon kalender -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="📅"
-                    android:textSize="20sp"/>
-            </LinearLayout>
+            android:paddingHorizontal="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="16dp">
 
             <!-- ===== TAB FILTER ===== -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="46dp"
                 android:orientation="horizontal"
                 android:background="@drawable/bg_tab_container"
                 android:padding="4dp"
@@ -74,9 +75,9 @@
                     android:gravity="center"
                     android:text="Hari ini"
                     android:textSize="13sp"
-                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-medium"
                     android:textColor="#2563EB"
-                    android:background="@drawable/bg_tab_active"/>
+                    android:background="@drawable/bg_tab_active" />
 
                 <TextView
                     android:id="@+id/tab7Hari"
@@ -86,7 +87,7 @@
                     android:gravity="center"
                     android:text="7 Hari"
                     android:textSize="13sp"
-                    android:textColor="#94A3B8"/>
+                    android:textColor="#94A3B8" />
 
                 <TextView
                     android:id="@+id/tab30Hari"
@@ -96,17 +97,18 @@
                     android:gravity="center"
                     android:text="30 Hari"
                     android:textSize="13sp"
-                    android:textColor="#94A3B8"/>
-
+                    android:textColor="#94A3B8" />
             </LinearLayout>
 
-            <!-- ===== CARD GRAFIK ===== -->
-            <androidx.cardview.widget.CardView
+            <!-- ===== CARD GRAFIK (flat, no shadow) ===== -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="12dp"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="3dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#EDEFF2"
                 app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
@@ -115,7 +117,7 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <!-- Header grafik: angka + badge -->
+                    <!-- Header grafik: label + angka + badge -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -134,7 +136,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Rata-rata PM2.5"
                                 android:textSize="12sp"
-                                android:textColor="#94A3B8"/>
+                                android:textColor="#94A3B8" />
 
                             <TextView
                                 android:id="@+id/tvAvgPM25"
@@ -142,8 +144,8 @@
                                 android:layout_height="wrap_content"
                                 android:text="35"
                                 android:textSize="36sp"
-                                android:textStyle="bold"
-                                android:textColor="#1E293B"/>
+                                android:fontFamily="sans-serif-medium"
+                                android:textColor="#1E293B" />
                         </LinearLayout>
 
                         <!-- Badge +12% -->
@@ -155,7 +157,7 @@
                             android:textColor="#DC2626"
                             android:background="@drawable/bg_badge_red"
                             android:paddingHorizontal="10dp"
-                            android:paddingVertical="5dp"/>
+                            android:paddingVertical="5dp" />
                     </LinearLayout>
 
                     <!-- Label BAHAYA -->
@@ -166,209 +168,260 @@
                         android:textSize="10sp"
                         android:textColor="#DC2626"
                         android:gravity="end"
-                        android:layout_marginBottom="4dp"/>
+                        android:layout_marginBottom="4dp" />
 
-                    <!-- GRAFIK LINE CHART -->
+                    <!-- GRAFIK LINE CHART — TIDAK DIUBAH -->
                     <com.github.mikephil.charting.charts.LineChart
                         android:id="@+id/lineChart"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"/>
+                        android:layout_height="200dp" />
 
-                    <!-- Label jam di bawah -->
+                    <!-- Label jam -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
                             android:layout_weight="1" android:text="00:00"
-                            android:textSize="10sp" android:textColor="#94A3B8"/>
+                            android:textSize="10sp" android:textColor="#94A3B8" />
                         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
                             android:layout_weight="1" android:text="04:00" android:gravity="center"
-                            android:textSize="10sp" android:textColor="#94A3B8"/>
+                            android:textSize="10sp" android:textColor="#94A3B8" />
                         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
                             android:layout_weight="1" android:text="08:00" android:gravity="center"
-                            android:textSize="10sp" android:textColor="#94A3B8"/>
+                            android:textSize="10sp" android:textColor="#94A3B8" />
                         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
                             android:layout_weight="1" android:text="12:00" android:gravity="center"
-                            android:textSize="10sp" android:textColor="#94A3B8"/>
+                            android:textSize="10sp" android:textColor="#94A3B8" />
                         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
                             android:layout_weight="1" android:text="16:00" android:gravity="center"
-                            android:textSize="10sp" android:textColor="#94A3B8"/>
+                            android:textSize="10sp" android:textColor="#94A3B8" />
                         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
                             android:layout_weight="1" android:text="20:00" android:gravity="end"
-                            android:textSize="10sp" android:textColor="#94A3B8"/>
+                            android:textSize="10sp" android:textColor="#94A3B8" />
                     </LinearLayout>
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <!-- ===== CARD ANALISIS ===== -->
-            <androidx.cardview.widget.CardView
+            <!-- ===== CARD ANALISIS HARIAN (flat, warna biru muda) ===== -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="20dp"
                 app:cardCornerRadius="14dp"
-                app:cardElevation="2dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp"
                 app:cardBackgroundColor="#EFF6FF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:orientation="horizontal"
+                    android:padding="16dp"
+                    android:gravity="top">
 
+                    <!-- Icon kiri -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="📊  ANALISIS HARIAN"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="#2563EB"
-                        android:layout_marginBottom="8dp"/>
+                        android:text="📊"
+                        android:textSize="16sp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginTop="2dp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <!-- Teks -->
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Kualitas udara terburuk terjadi pada jam 02:00 - 04:00. Disarankan menyalakan air purifier pada jam tersebut."
-                        android:textSize="13sp"
-                        android:textColor="#1E293B"
-                        android:lineSpacingExtra="4dp"/>
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ANALISIS HARIAN"
+                            android:textSize="11sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:letterSpacing="0.05"
+                            android:textColor="#2563EB"
+                            android:layout_marginBottom="6dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Kualitas udara terburuk terjadi pada jam 02:00 - 04:00. Disarankan menyalakan air purifier pada jam tersebut."
+                            android:textSize="13sp"
+                            android:textColor="#1E293B"
+                            android:lineSpacingExtra="4dp" />
+                    </LinearLayout>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <!-- ===== STATISTIK LAINNYA ===== -->
+            <!-- ===== SECTION: STATISTIK LAINNYA ===== -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Statistik Lainnya"
                 android:textSize="16sp"
-                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"
                 android:textColor="#1E293B"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="12dp" />
 
+            <!-- Dua kartu statistik berdampingan -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <!-- Card Kelembapan -->
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginEnd="6dp"
-                    app:cardCornerRadius="14dp"
-                    app:cardElevation="2dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="#EDEFF2"
                     app:cardBackgroundColor="#FFFFFF">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="14dp">
+                        android:padding="16dp">
 
+                        <!-- Icon + Badge -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:gravity="center_vertical">
-                            <TextView android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="💧" android:textSize="16sp"/>
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="10dp">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="  Good"
+                                android:text="💧"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Good"
                                 android:textSize="11sp"
+                                android:fontFamily="sans-serif-medium"
                                 android:textColor="#16A34A"
                                 android:background="@drawable/bg_tag_green"
-                                android:paddingHorizontal="6dp"
-                                android:paddingVertical="2dp"
-                                android:layout_marginStart="6dp"/>
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="3dp"
+                                android:layout_marginStart="8dp" />
                         </LinearLayout>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="45%"
-                            android:textSize="28sp"
-                            android:textStyle="bold"
-                            android:textColor="#1E293B"
-                            android:layout_marginTop="6dp"/>
+                            android:textSize="30sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textColor="#1E293B" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Kelembaban"
                             android:textSize="12sp"
-                            android:textColor="#94A3B8"/>
+                            android:textColor="#94A3B8"
+                            android:layout_marginTop="2dp" />
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
                 <!-- Card Suhu -->
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="6dp"
-                    app:cardCornerRadius="14dp"
-                    app:cardElevation="2dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="#EDEFF2"
                     app:cardBackgroundColor="#FFFFFF">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="14dp">
+                        android:padding="16dp">
 
+                        <!-- Icon + Badge -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:gravity="center_vertical">
-                            <TextView android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="🌡️" android:textSize="16sp"/>
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="10dp">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="  Avg"
+                                android:text="🌡️"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Avg"
                                 android:textSize="11sp"
+                                android:fontFamily="sans-serif-medium"
                                 android:textColor="#64748B"
                                 android:background="@drawable/bg_tag_gray"
-                                android:paddingHorizontal="6dp"
-                                android:paddingVertical="2dp"
-                                android:layout_marginStart="6dp"/>
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="3dp"
+                                android:layout_marginStart="8dp" />
                         </LinearLayout>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="28°C"
-                            android:textSize="28sp"
-                            android:textStyle="bold"
-                            android:textColor="#1E293B"
-                            android:layout_marginTop="6dp"/>
+                            android:textSize="30sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textColor="#1E293B" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Suhu Ruangan"
                             android:textSize="12sp"
-                            android:textColor="#94A3B8"/>
+                            android:textColor="#94A3B8"
+                            android:layout_marginTop="2dp" />
                     </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
 
-    <!-- ===== BOTTOM NAVIGATION ===== -->
+    <!-- ===== BOTTOM NAV ===== -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#F1F5F9" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="72dp"
         android:background="#FFFFFF"
-        app:menu="@menu/bottom_nav_menu"
+        app:elevation="0dp"
+        app:itemIconSize="24dp"
+        app:itemIconTint="@color/nav_item_color"
+        app:itemRippleColor="@null"
+        app:itemTextColor="@color/nav_item_color"
         app:labelVisibilityMode="labeled"
-        app:itemIconTint="@color/blue_primary"
-        app:itemTextColor="@color/blue_primary"/>
+        app:menu="@menu/bottom_nav_menu" />
 
 </LinearLayout>
