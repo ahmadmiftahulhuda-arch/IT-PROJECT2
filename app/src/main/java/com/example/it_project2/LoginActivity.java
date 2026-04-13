@@ -19,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ImageView;
 
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption;
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential;
@@ -36,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
     private TextView btnMasuk, tvDaftar, tvLupaPassword;
     private View btnGoogle;
     private CheckBox cbIngatSaya;
+    private ImageView ivTogglePassword;
+    private boolean isPasswordVisible = false;
     private FirebaseAuth mAuth;
     private CredentialManager credentialManager;
 
@@ -66,6 +69,24 @@ public class LoginActivity extends AppCompatActivity {
         tvLupaPassword = findViewById(R.id.tvLupaPassword);
         cbIngatSaya = findViewById(R.id.cbIngatSaya);
         btnGoogle = findViewById(R.id.btnGoogle);
+        ivTogglePassword = findViewById(R.id.ivTogglePassword);
+
+        // ===== TOGGLE PASSWORD VISIBILITY =====
+        ivTogglePassword.setOnClickListener(v -> {
+            if (isPasswordVisible) {
+                // Sembunyikan password
+                etPassword.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                ivTogglePassword.setImageResource(R.drawable.ic_visibility_off);
+                isPasswordVisible = false;
+            } else {
+                // Tampilkan password
+                etPassword.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                ivTogglePassword.setImageResource(R.drawable.ic_visibility);
+                isPasswordVisible = true;
+            }
+            // Kembalikan kursor ke posisi akhir teks agar tidak melompat ke depan
+            etPassword.setSelection(etPassword.getText().length());
+        });
 
         // ===== TOMBOL MASUK (Email + Password) =====
         btnMasuk.setOnClickListener(v -> {
