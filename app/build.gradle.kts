@@ -57,4 +57,7 @@ dependencies {
     implementation(libs.credentials)
     implementation(libs.credentials.play)
     implementation(libs.googleid)
+
+    // Location
+    implementation("com.google.android.gms:play-services-location:21.3.0")
 }

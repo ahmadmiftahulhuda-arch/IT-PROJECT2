@@ -5,6 +5,10 @@
     <!-- Izin internet untuk Firebase -->
     <uses-permission android:name="android.permission.INTERNET"/>
 
+    <!-- Izin lokasi untuk cuaca real-time -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -42,8 +46,8 @@
         <!-- Kontrol -->
         <activity android:name=".KontrolActivity" android:exported="false"/>
 
-        <!-- Edukasi -->
-        <activity android:name=".EdukasiActivity" android:exported="false"/>
+        <!-- Informasi (Cuaca Real-time) -->
+        <activity android:name=".InformasiActivity" android:exported="false"/>
 
         <!-- Profile -->
         <activity android:name=".ProfileActivity" android:exported="false"/>

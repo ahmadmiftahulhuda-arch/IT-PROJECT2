@@ -59,9 +59,6 @@ public class RiwayatActivity extends AppCompatActivity {
         tvAvgPM25   = findViewById(R.id.tvAvgPM25);
         btnFilterDate = findViewById(R.id.btnFilterDate);
 
-        // Tombol back
-        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
-
         // ===== FIREBASE =====
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://smartliving-425c0-default-rtdb.asia-southeast1.firebasedatabase.app");
         riwayatRef = database.getReference("riwayat_suhu");
@@ -272,8 +269,8 @@ public class RiwayatActivity extends AppCompatActivity {
             } else if (id == R.id.nav_kontrol) {
                 startActivity(new Intent(this, KontrolActivity.class));
                 finish();
-            } else if (id == R.id.nav_edukasi) {
-                startActivity(new Intent(this, EdukasiActivity.class));
+            } else if (id == R.id.nav_informasi) {
+                startActivity(new Intent(this, InformasiActivity.class));
                 finish();
             } else if (id == R.id.nav_profile) {
                 startActivity(new Intent(this, ProfileActivity.class));

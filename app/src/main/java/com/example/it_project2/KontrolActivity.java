@@ -38,7 +38,6 @@ public class KontrolActivity extends AppCompatActivity {
         setContentView(R.layout.activity_kontrol);
 
         // Inisialisasi Views
-        btnBack = findViewById(R.id.btnBack);
         tabOtomatis = findViewById(R.id.tabOtomatis);
         tabManual = findViewById(R.id.tabManual);
         tvTabDesc = findViewById(R.id.tvTabDesc);
@@ -97,9 +96,6 @@ public class KontrolActivity extends AppCompatActivity {
                 Toast.makeText(KontrolActivity.this, "Gagal membaca data heater", Toast.LENGTH_SHORT).show();
             }
         });
-
-        // Tombol Kembali
-        btnBack.setOnClickListener(v -> finish());
 
         // Logika Perpindahan Tab
         tabOtomatis.setOnClickListener(v -> {
