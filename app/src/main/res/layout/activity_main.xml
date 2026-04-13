@@ -1,139 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#F8FAFC">
+    android:background="@color/background">
 
-    <!-- ===== KONTEN SCROLL ===== -->
+    <!-- ===== IMMERSIVE HEADER BACKGROUND ===== -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="@drawable/bg_header_home"/>
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/navDivider"
         android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingBottom="24dp">
 
-            <!-- ===== HEADER ===== -->
-            <LinearLayout
+            <!-- ===== TOP BAR ===== -->
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
+                android:paddingHorizontal="24dp"
+                android:paddingTop="20dp"
                 android:layout_marginBottom="16dp">
 
-                <!-- Avatar -->
-                <FrameLayout
-                    android:layout_width="44dp"
-                    android:layout_height="44dp">
-                    <View
-                        android:layout_width="44dp"
-                        android:layout_height="44dp"
-                        android:background="@drawable/circle_blue_light"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="👤"
-                        android:textSize="20sp"/>
-                </FrameLayout>
-
-                <!-- Nama + Lokasi -->
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:orientation="vertical"
-                    android:layout_marginStart="10dp">
-
+                    android:layout_alignParentStart="true">
+                    
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Smart Living"
-                        android:textStyle="bold"
+                        android:textColor="#CCFFFFFF"
                         android:textSize="14sp"
-                        android:textColor="#1E293B"/>
+                        android:textStyle="bold"
+                        android:letterSpacing="0.05"/>
 
                     <TextView
+                        android:id="@+id/tvHalo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="📍 Rumah Utama"
-                        android:textSize="12sp"
-                        android:textColor="#94A3B8"/>
+                        android:text="Halo, User 👋"
+                        android:textColor="@color/white"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="4dp"/>
                 </LinearLayout>
 
-                <!-- Icon Notifikasi -->
-                <FrameLayout
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/btnNotifikasi"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/circle_blue_light"
-                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    app:cardCornerRadius="22dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#33FFFFFF"
                     android:clickable="true"
-                    android:focusable="true">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground">
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
                         android:layout_gravity="center"
-                        android:text="🔔"
-                        android:textSize="18sp"/>
-                </FrameLayout>
+                        android:src="@drawable/ic_bell"
+                        app:tint="@color/white"/>
+                </com.google.android.material.card.MaterialCardView>
+            </RelativeLayout>
 
-            </LinearLayout>
-
-            <!-- ===== SALAM ===== -->
-            <TextView
-                android:id="@+id/tvHalo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Halo, User 👋"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:textColor="#1E293B"
-                android:layout_marginBottom="14dp"/>
-
-            <!-- ===== CARD STATUS UTAMA ===== -->
+            <!-- ===== STATUS CARD (OVERLAPPING) ===== -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="12dp"
+                app:cardBackgroundColor="@color/white"
                 app:strokeWidth="1dp"
-                app:strokeColor="#EDEFF2"
-                app:cardBackgroundColor="#FFFFFF">
+                app:strokeColor="#0D000000">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:paddingTop="24dp"
-                    android:paddingBottom="20dp">
+                    android:paddingVertical="28dp">
 
-                    <!-- Icon shield -->
                     <FrameLayout
-                        android:layout_width="80dp"
-                        android:layout_height="80dp">
+                        android:layout_width="92dp"
+                        android:layout_height="92dp"
+                        android:layout_marginBottom="16dp">
                         <View
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:background="@drawable/circle_green_light"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="92dp"
+                            android:layout_height="92dp"
+                            android:background="@drawable/circle_green_light"
+                            android:alpha="0.6"/>
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
                             android:layout_gravity="center"
-                            android:text="🛡️"
-                            android:textSize="32sp"/>
+                            android:src="@drawable/ic_shield_check"
+                            app:tint="@color/green_safe"/>
                     </FrameLayout>
 
-                    <!-- Status AMAN -->
                     <TextView
                         android:id="@+id/tvStatus"
                         android:layout_width="wrap_content"
@@ -141,118 +123,93 @@
                         android:text="AMAN"
                         android:textSize="32sp"
                         android:textStyle="bold"
-                        android:textColor="#16A34A"
-                        android:layout_marginTop="8dp"/>
+                        android:textColor="@color/green_safe"
+                        android:letterSpacing="0.02"/>
 
-                    <!-- Deskripsi -->
                     <TextView
                         android:id="@+id/tvStatusDesc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Kualitas udara baik"
-                        android:textSize="13sp"
-                        android:textColor="#94A3B8"
+                        android:text="Suhu ruangan nyaman"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_gray"
                         android:layout_marginTop="4dp"/>
 
-                    <!-- Last update -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="🕐  Terakhir diperbarui: Baru saja"
-                        android:textSize="11sp"
-                        android:textColor="#94A3B8"
-                        android:background="@drawable/bg_tag_gray"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="6dp"
-                        android:layout_marginTop="10dp"/>
-
+                    <View
+                        android:layout_width="80dp"
+                        android:layout_height="4dp"
+                        android:background="#F1F5F9"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="4dp"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- ===== LABEL INDIKATOR ===== -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="INDIKATOR LINGKUNGAN"
-                android:textSize="11sp"
-                android:textStyle="bold"
-                android:textColor="#94A3B8"
-                android:letterSpacing="0.1"
-                android:layout_marginBottom="10dp"/>
-
-            <!-- ===== GRID BARIS 1: Suhu + Kelembapan ===== -->
+            <!-- ===== METRICS GRID ===== -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="10dp">
+                android:paddingHorizontal="24dp"
+                android:layout_marginBottom="24dp">
 
-                <!-- Card Suhu -->
+                <!-- Suhu Card -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginEnd="6dp"
-                    app:cardCornerRadius="14dp"
-                    app:cardElevation="0dp"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="#EDEFF2"
-                    app:cardBackgroundColor="#FFFFFF">
+                    android:layout_marginEnd="10dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="2dp"
+                    app:cardBackgroundColor="@color/white">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="14dp">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="🌡️  Suhu"
-                            android:textSize="11sp"
-                            android:textColor="#94A3B8"/>
+                        android:padding="20dp">
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/ic_threshold"
+                            app:tint="@color/orange_warning"
+                            android:layout_marginBottom="12dp"/>
                         <TextView
                             android:id="@+id/tvSuhu"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="26°C"
+                            android:text="26.5°C"
                             android:textSize="26sp"
                             android:textStyle="bold"
-                            android:textColor="#1E293B"
-                            android:layout_marginTop="4dp"
-                            android:layout_marginBottom="6dp"/>
+                            android:textColor="@color/text_dark"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="↓ Normal"
-                            android:textSize="11sp"
-                            android:textColor="#16A34A"
-                            android:background="@drawable/bg_tag_green"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="3dp"/>
+                            android:text="Suhu Ruangan"
+                            android:textSize="12sp"
+                            android:textColor="@color/text_gray"
+                            android:layout_marginTop="2dp"/>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Card Kelembapan -->
+                <!-- Kelembapan Card -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginStart="6dp"
-                    app:cardCornerRadius="14dp"
-                    app:cardElevation="0dp"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="#EDEFF2"
-                    app:cardBackgroundColor="#FFFFFF">
+                    android:layout_marginStart="10dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="2dp"
+                    app:cardBackgroundColor="@color/white">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="14dp">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="💧  Kelembapan"
-                            android:textSize="11sp"
-                            android:textColor="#94A3B8"/>
+                        android:padding="20dp">
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/ic_humidity"
+                            app:tint="@color/blue_primary"
+                            android:layout_marginBottom="12dp"/>
                         <TextView
                             android:id="@+id/tvKelembapan"
                             android:layout_width="wrap_content"
@@ -260,135 +217,84 @@
                             android:text="55%"
                             android:textSize="26sp"
                             android:textStyle="bold"
-                            android:textColor="#1E293B"
-                            android:layout_marginTop="4dp"
-                            android:layout_marginBottom="6dp"/>
+                            android:textColor="@color/text_dark"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Ideal"
-                            android:textSize="11sp"
-                            android:textColor="#64748B"
-                            android:background="@drawable/bg_tag_gray"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="3dp"/>
+                            android:text="Kelembapan"
+                            android:textSize="12sp"
+                            android:textColor="@color/text_gray"
+                            android:layout_marginTop="2dp"/>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
-
             </LinearLayout>
 
-            <!-- ===== LABEL STATUS PERANGKAT ===== -->
+            <!-- ===== DEVICES SECTION ===== -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="STATUS PERANGKAT"
-                android:textSize="11sp"
+                android:text="KONTROL PERANGKAT"
+                android:textSize="12sp"
                 android:textStyle="bold"
-                android:textColor="#94A3B8"
+                android:textColor="@color/text_gray"
                 android:letterSpacing="0.1"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginBottom="12dp"/>
 
-            <!-- ===== CARD PERANGKAT ===== -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                app:cardCornerRadius="14dp"
-                app:cardElevation="0dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#EDEFF2"
-                app:cardBackgroundColor="#FFFFFF">
+                android:layout_marginHorizontal="24dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/white">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="8dp">
 
-                    <!-- Smart Sensor -->
-                    <LinearLayout
+                    <!-- Heater Device Item -->
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:padding="16dp">
-
-                        <FrameLayout
-                            android:layout_width="42dp"
-                            android:layout_height="42dp">
-                            <View android:layout_width="42dp" android:layout_height="42dp"
-                                android:background="@drawable/circle_blue_light"/>
-                            <TextView android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                        android:padding="12dp">
+                        
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/iconHeater"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            app:cardCornerRadius="16dp"
+                            app:cardElevation="0dp"
+                            app:cardBackgroundColor="@color/orange_light">
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
                                 android:layout_gravity="center"
-                                android:text="📡" android:textSize="18sp"/>
-                        </FrameLayout>
+                                android:src="@drawable/ic_weather_sunny"
+                                app:tint="@color/orange_warning"/>
+                        </com.google.android.material.card.MaterialCardView>
 
                         <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:layout_marginStart="12dp">
-                            <TextView android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Smart Sensor"
-                                android:textStyle="bold"
-                                android:textColor="#1E293B"/>
-                            <TextView android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="● Connected"
-                                android:textColor="#16A34A"
-                                android:textSize="12sp"/>
-                        </LinearLayout>
-
-                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="🔵"
-                            android:textSize="18sp"/>
-                    </LinearLayout>
-
-                    <!-- Garis pemisah -->
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#F1F5F9"
-                        android:layout_marginHorizontal="16dp"/>
-
-                    <!-- Air Heater -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:padding="16dp">
-
-                        <FrameLayout
-                            android:layout_width="42dp"
-                            android:layout_height="42dp">
-                            <View android:layout_width="42dp" android:layout_height="42dp"
-                                android:background="@drawable/circle_orange_light"/>
-                            <TextView android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="🔥" android:textSize="18sp"/>
-                        </FrameLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:orientation="vertical"
-                            android:layout_marginStart="12dp">
-                            <TextView android:layout_width="wrap_content"
+                            android:layout_toEndOf="@id/iconHeater"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp">
+                            <TextView
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Air Heater"
+                                android:text="Pemanas Ruangan"
                                 android:textStyle="bold"
-                                android:textColor="#1E293B"/>
-                            <TextView android:layout_width="wrap_content"
+                                android:textColor="@color/text_dark"
+                                android:textSize="15sp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Device is OFF"
-                                android:textColor="#94A3B8"
+                                android:text="NodeMCU Control"
+                                android:textColor="@color/text_gray"
                                 android:textSize="12sp"/>
                         </LinearLayout>
 
@@ -396,8 +302,9 @@
                             android:id="@+id/switchHeater"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:thumb="@null"/>
-                    </LinearLayout>
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"/>
+                    </RelativeLayout>
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -405,23 +312,26 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- ===== BOTTOM NAVIGATION ===== -->
+    <!-- ===== NAVIGATION SECTION ===== -->
     <View
+        android:id="@+id/navDivider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#F1F5F9" />
+        android:background="@color/divider"
+        android:layout_above="@id/bottomNav"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:background="#FFFFFF"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
         app:elevation="0dp"
         app:itemIconSize="24dp"
-        app:itemIconTint="@color/nav_item_color"
+        app:itemIconTint="@color/nav_item_unselected"
         app:itemRippleColor="@null"
-        app:itemTextColor="@color/nav_item_color"
+        app:itemTextColor="@color/nav_item_unselected"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_nav_menu" />
 
-</LinearLayout>
+</RelativeLayout>

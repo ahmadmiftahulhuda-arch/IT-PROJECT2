@@ -52,11 +52,22 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, NotifikasiSuhuActivity.class));
         });
 
-        // Tampilkan nama user yang login
+        // Tampilkan nama user + Sapaan Dinamis
         SessionManager sessionManager = new SessionManager(this);
         String userName = sessionManager.getUserName();
+        
+        // Logika Sapaan
+        String greeting;
+        int hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY);
+        if (hour >= 5 && hour < 11) greeting = "Selamat Pagi";
+        else if (hour >= 11 && hour < 15) greeting = "Selamat Siang";
+        else if (hour >= 15 && hour < 18) greeting = "Selamat Sore";
+        else greeting = "Selamat Malam";
+
         if (!userName.isEmpty()) {
-            tvHalo.setText("Halo, " + userName + " 👋");
+            tvHalo.setText(greeting + ",\n" + userName + " 👋");
+        } else {
+            tvHalo.setText(greeting + " 👋");
         }
 
         // ===== FIREBASE REALTIME DATABASE =====
