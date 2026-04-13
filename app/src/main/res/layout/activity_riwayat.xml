@@ -50,11 +50,16 @@
                     android:gravity="center"/>
 
                 <!-- Icon kalender -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="📅"
-                    android:textSize="20sp"/>
+                <ImageView
+                    android:id="@+id/btnFilterDate"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_history"
+                    android:padding="4dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:tint="#1E293B" />
             </LinearLayout>
 
             <!-- ===== TAB FILTER ===== -->
@@ -341,7 +346,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="28°C"
+                            android:text="26°C"
                             android:textSize="28sp"
                             android:textStyle="bold"
                             android:textColor="#1E293B"
@@ -349,7 +354,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Suhu Ruangan"
+                            android:text="Suhu"
                             android:textSize="12sp"
                             android:textColor="#94A3B8"/>
                     </LinearLayout>
@@ -360,15 +365,16 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- ===== BOTTOM NAVIGATION ===== -->
+    <!-- ===== BOTTOM NAV ===== -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
         app:menu="@menu/bottom_nav_menu"
+        app:itemIconTint="@color/nav_item_color"
+        app:itemTextColor="@color/nav_item_color"
         app:labelVisibilityMode="labeled"
-        app:itemIconTint="@color/blue_primary"
-        app:itemTextColor="@color/blue_primary"/>
+        app:elevation="8dp"/>
 
 </LinearLayout>

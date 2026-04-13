@@ -18,6 +18,11 @@ public class EdukasiActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
+        // Tombol Pencarian
+        findViewById(R.id.btnSearch).setOnClickListener(v -> {
+            Toast.makeText(this, "Fitur pencarian akan segera hadir", Toast.LENGTH_SHORT).show();
+        });
+
         // Bottom Navigation
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
         bottomNav.setSelectedItemId(R.id.nav_edukasi);

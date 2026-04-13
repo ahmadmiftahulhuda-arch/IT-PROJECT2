@@ -50,6 +50,9 @@
 
         <!-- Kelola Keluarga -->
         <activity android:name=".KelolaKeluargaActivity" android:exported="false"/>
+
+        <!-- Notifikasi Suhu -->
+        <activity android:name=".NotifikasiSuhuActivity" android:exported="false"/>
     </application>
 
 </manifest>

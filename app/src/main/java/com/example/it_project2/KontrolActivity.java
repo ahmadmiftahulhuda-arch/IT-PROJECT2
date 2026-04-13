@@ -22,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 public class KontrolActivity extends AppCompatActivity {
 
     private TextView tabOtomatis, tabManual, tvTabDesc, tvSuhuValue;
-    private ImageView btnBack;
+    private ImageView btnBack, btnSettings;
     private TextView tvPemanahStatus;
     private SeekBar seekBarSuhu;
     private SwitchCompat switchPemanas, switchPembersih;
@@ -48,6 +48,12 @@ public class KontrolActivity extends AppCompatActivity {
         switchPemanas = findViewById(R.id.switchPemanas);
         switchPembersih = findViewById(R.id.switchPembersih);
         bottomNav = findViewById(R.id.bottomNav);
+        btnSettings = findViewById(R.id.btnSettings);
+        
+        // Tombol Pengaturan
+        btnSettings.setOnClickListener(v -> {
+            startActivity(new Intent(this, ProfileActivity.class));
+        });
 
         // ===== FIREBASE =====
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://smartliving-425c0-default-rtdb.asia-southeast1.firebasedatabase.app");
@@ -131,6 +137,7 @@ public class KontrolActivity extends AppCompatActivity {
             }
         });
 
+
         // Bottom Navigation
         bottomNav.setSelectedItemId(R.id.nav_kontrol);
         bottomNav.setOnItemSelectedListener(item -> {
@@ -152,6 +159,23 @@ public class KontrolActivity extends AppCompatActivity {
             }
             return false;
         });
+
+        // ===== ENFORCEMENT AKSES =====
+        SessionManager sessionManager = new SessionManager(this);
+        if (sessionManager.getUserAccess().equals(SessionManager.ACCESS_MONITOR)) {
+            // Disable tabs
+            tabOtomatis.setEnabled(false);
+            tabManual.setEnabled(false);
+            
+            // Disable switches
+            switchPemanas.setEnabled(false);
+            switchPembersih.setEnabled(false);
+            
+            // Disable seekbar
+            seekBarSuhu.setEnabled(false);
+            
+            tvTabDesc.setText(tvTabDesc.getText() + "\n(Batas Akses: Monitoring Saja)");
+        }
     }
 
     private void selectTab(boolean isOtomatis) {

@@ -70,9 +70,13 @@
 
                 <!-- Icon Notifikasi -->
                 <FrameLayout
+                    android:id="@+id/btnNotifikasi"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="@drawable/circle_blue_light">
+                    android:background="@drawable/circle_blue_light"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

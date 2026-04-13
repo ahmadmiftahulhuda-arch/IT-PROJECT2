@@ -111,6 +111,14 @@
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="2dp"
                             android:layout_marginTop="4dp"/>
+                        
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Hak Akses: Kontrol Penuh"
+                            android:textSize="11sp"
+                            android:textColor="#94A3B8"
+                            android:layout_marginTop="6dp"/>
                     </LinearLayout>
 
                     <ImageView
@@ -133,51 +141,96 @@
                 app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
+                    android:orientation="vertical"
                     android:padding="16dp">
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:src="@drawable/ic_person"
-                        android:background="#F1F5F9"
-                        android:padding="8dp"
-                        app:shapeAppearanceOverlay="@style/CircleImage"/>
-
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_marginStart="16dp">
-                        <TextView
-                            android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="12dp">
+                        
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:src="@drawable/ic_person"
+                            android:background="#F1F5F9"
+                            android:padding="8dp"
+                            app:shapeAppearanceOverlay="@style/CircleImage"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Siti Aminah"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="#1E293B"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="KELUARGA"
-                            android:textSize="10sp"
-                            android:textStyle="bold"
-                            android:textColor="#64748B"
-                            android:background="@drawable/bg_tag_gray"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="2dp"
-                            android:layout_marginTop="4dp"/>
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginStart="16dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Siti Aminah"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:textColor="#1E293B"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="KELUARGA"
+                                android:textSize="10sp"
+                                android:textStyle="bold"
+                                android:textColor="#64748B"
+                                android:background="@drawable/bg_tag_gray"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="2dp"
+                                android:layout_marginTop="4dp"/>
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_edit"
+                            app:tint="#94A3B8"/>
                     </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_edit"
-                        app:tint="#94A3B8"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#F1F5F9"
+                        android:layout_marginBottom="12dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Setting Akses:"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="#1E293B"
+                        android:layout_marginBottom="8dp"/>
+
+                    <RadioGroup
+                        android:id="@+id/rgAksesSiti"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <RadioButton
+                            android:id="@+id/rbAksesSitiFull"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Kontrol Penuh"
+                            android:textSize="12sp"
+                            android:checked="true"
+                            android:buttonTint="#2563EB"/>
+                        <RadioButton
+                            android:id="@+id/rbAksesSitiMonitor"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Monitoring Saja"
+                            android:textSize="12sp"
+                            android:buttonTint="#2563EB"/>
+                    </RadioGroup>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -195,49 +248,95 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
+                    android:orientation="vertical"
                     android:padding="16dp">
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:src="@drawable/ic_person"
-                        android:background="#F1F5F9"
-                        android:padding="8dp"
-                        app:shapeAppearanceOverlay="@style/CircleImage"/>
-
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_marginStart="16dp">
-                        <TextView
-                            android:layout_width="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="12dp">
+                        
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:src="@drawable/ic_person"
+                            android:background="#F1F5F9"
+                            android:padding="8dp"
+                            app:shapeAppearanceOverlay="@style/CircleImage"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Rizky Santoso"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="#1E293B"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="ANAK"
-                            android:textSize="10sp"
-                            android:textStyle="bold"
-                            android:textColor="#16A34A"
-                            android:background="@drawable/bg_tag_green"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="2dp"
-                            android:layout_marginTop="4dp"/>
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginStart="16dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Rizky Santoso"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:textColor="#1E293B"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="ANAK"
+                                android:textSize="10sp"
+                                android:textStyle="bold"
+                                android:textColor="#16A34A"
+                                android:background="@drawable/bg_tag_green"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="2dp"
+                                android:layout_marginTop="4dp"/>
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_edit"
+                            app:tint="#94A3B8"/>
                     </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_edit"
-                        app:tint="#94A3B8"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#F1F5F9"
+                        android:layout_marginBottom="12dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Setting Akses:"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="#1E293B"
+                        android:layout_marginBottom="8dp"/>
+
+                    <RadioGroup
+                        android:id="@+id/rgAksesRizky"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <RadioButton
+                            android:id="@+id/rbAksesRizkyFull"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Kontrol Penuh"
+                            android:textSize="12sp"
+                            android:checked="true"
+                            android:buttonTint="#2563EB"/>
+                        <RadioButton
+                            android:id="@+id/rbAksesRizkyMonitor"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Monitoring Saja"
+                            android:textSize="12sp"
+                            android:buttonTint="#2563EB"/>
+                    </RadioGroup>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -302,11 +401,11 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Tombol Tambah Anggota -->
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnTambahAnggota"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="12dp"
                 android:backgroundTint="#0F172A"
                 android:text="Tambah Anggota Keluarga"
                 android:textAllCaps="false"
@@ -315,6 +414,20 @@
                 app:cornerRadius="16dp"
                 app:icon="@drawable/ic_person"
                 app:iconPadding="12dp" />
+
+            <!-- Tombol Simulasi (Hanya untuk pengujian) -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSimulasiMonitoring"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="20dp"
+                android:text="Simulasi: Mode Monitoring Saja"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                android:textColor="#EF4444"
+                app:strokeColor="#FEE2E2"
+                app:cornerRadius="16dp" />
 
         </LinearLayout>
     </ScrollView>

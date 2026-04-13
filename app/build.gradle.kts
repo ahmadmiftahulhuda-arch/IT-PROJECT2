@@ -3,6 +3,12 @@ plugins {
     alias(libs.plugins.google.services)
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
 android {
     namespace = "com.example.it_project2"
     compileSdk = 34

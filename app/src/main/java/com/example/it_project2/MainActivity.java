@@ -20,6 +20,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private TextView tvHalo, tvStatus, tvStatusDesc, tvSuhu, tvKelembapan;
+    private android.view.View btnNotifikasi; // Menambahkan FrameLayout notifikasi
     private Switch switchHeater;
     private BottomNavigationView bottomNav;
 
@@ -44,6 +45,12 @@ public class MainActivity extends AppCompatActivity {
         tvKelembapan = findViewById(R.id.tvKelembapan);
         switchHeater = findViewById(R.id.switchHeater);
         bottomNav    = findViewById(R.id.bottomNav);
+        btnNotifikasi = findViewById(R.id.btnNotifikasi);
+
+        // Listener Notifikasi
+        btnNotifikasi.setOnClickListener(v -> {
+            startActivity(new Intent(this, NotifikasiSuhuActivity.class));
+        });
 
         // Tampilkan nama user yang login
         SessionManager sessionManager = new SessionManager(this);
@@ -127,6 +134,12 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         });
+
+        // ===== ENFORCEMENT AKSES =====
+        if (sessionManager.getUserAccess().equals(SessionManager.ACCESS_MONITOR)) {
+            switchHeater.setEnabled(false);
+            tvStatusDesc.setText(tvStatusDesc.getText() + " (Mode Monitoring)");
+        }
     }
 
     /**

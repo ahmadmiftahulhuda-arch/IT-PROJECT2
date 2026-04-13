@@ -15,6 +15,10 @@ public class SessionManager {
 
     private static final String PREF_NAME = "SmartLivingSession";
     private static final String KEY_USER_NAME = "userName";
+    private static final String KEY_USER_ACCESS = "userAccess"; // "full" atau "monitor"
+    
+    public static final String ACCESS_FULL = "full";
+    public static final String ACCESS_MONITOR = "monitor";
 
     private final FirebaseAuth firebaseAuth;
     private final SharedPreferences sessionPref;
@@ -84,6 +88,23 @@ public class SessionManager {
     public String getUserEmail() {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         return user != null ? user.getEmail() : "";
+    }
+
+    // ==================== IZIN AKSES ====================
+
+    /**
+     * Simpan level akses user (simulasi atau nyata).
+     */
+    public void saveUserAccess(String access) {
+        editor.putString(KEY_USER_ACCESS, access);
+        editor.apply();
+    }
+
+    /**
+     * Ambil level akses user. Default: Full Control.
+     */
+    public String getUserAccess() {
+        return sessionPref.getString(KEY_USER_ACCESS, ACCESS_FULL);
     }
 
     // ==================== LOGOUT ====================
