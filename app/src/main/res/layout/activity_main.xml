@@ -1,311 +1,298 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:orientation="vertical"
+    android:background="#F8FAFC">
 
-    <!-- ===== IMMERSIVE HEADER BACKGROUND ===== -->
+    <!-- ===== APP BAR (Informasi Style) ===== -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="16dp"
+        android:background="#FFFFFF">
+
+        <FrameLayout
+            android:layout_width="36dp"
+            android:layout_height="36dp">
+            <View
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/circle_blue_light" />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_avatar" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tvHalo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:text="Selamat Datang..."
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#1E293B" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnNotifikasi"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="#F1F5F9">
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_bell"
+                app:tint="@color/blue_primary" />
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:background="@drawable/bg_header_home"/>
+        android:layout_height="1dp"
+        android:background="#EDEFF2" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/navDivider"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="20dp"
             android:paddingBottom="24dp">
 
-            <!-- ===== TOP BAR ===== -->
-            <RelativeLayout
-                android:layout_width="match_parent"
+            <!-- Title Section -->
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="24dp"
-                android:paddingTop="20dp"
-                android:layout_marginBottom="16dp">
+                android:text="Status Ruangan"
+                android:textSize="13sp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/blue_primary"
+                android:letterSpacing="0.05"
+                android:layout_marginBottom="8dp" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_alignParentStart="true">
-                    
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Smart Living"
-                        android:textColor="#CCFFFFFF"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:letterSpacing="0.05"/>
-
-                    <TextView
-                        android:id="@+id/tvHalo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Halo, User 👋"
-                        android:textColor="@color/white"
-                        android:textSize="22sp"
-                        android:textStyle="bold"
-                        android:layout_marginTop="4dp"/>
-                </LinearLayout>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/btnNotifikasi"
-                    android:layout_width="44dp"
-                    android:layout_height="44dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    app:cardCornerRadius="22dp"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="#33FFFFFF"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground">
-                    <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_bell"
-                        app:tint="@color/white"/>
-                </com.google.android.material.card.MaterialCardView>
-            </RelativeLayout>
-
-            <!-- ===== STATUS CARD (OVERLAPPING) ===== -->
+            <!-- ===== CARD SENSOR UTAMA (Style Cuaca) ===== -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginBottom="24dp"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="12dp"
-                app:cardBackgroundColor="@color/white"
-                app:strokeWidth="1dp"
-                app:strokeColor="#0D000000">
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="#E8F1FB">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:paddingVertical="28dp">
+                    android:padding="24dp">
 
-                    <FrameLayout
-                        android:layout_width="92dp"
-                        android:layout_height="92dp"
-                        android:layout_marginBottom="16dp">
-                        <View
-                            android:layout_width="92dp"
-                            android:layout_height="92dp"
-                            android:background="@drawable/circle_green_light"
-                            android:alpha="0.6"/>
-                        <ImageView
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_shield_check"
-                            app:tint="@color/green_safe"/>
-                    </FrameLayout>
-
-                    <TextView
-                        android:id="@+id/tvStatus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="AMAN"
-                        android:textSize="32sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/green_safe"
-                        android:letterSpacing="0.02"/>
-
-                    <TextView
-                        android:id="@+id/tvStatusDesc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Suhu ruangan nyaman"
-                        android:textSize="14sp"
-                        android:textColor="@color/text_gray"
-                        android:layout_marginTop="4dp"/>
-
-                    <View
-                        android:layout_width="80dp"
-                        android:layout_height="4dp"
-                        android:background="#F1F5F9"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="4dp"/>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- ===== METRICS GRID ===== -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="24dp"
-                android:layout_marginBottom="24dp">
-
-                <!-- Suhu Card -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="10dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="2dp"
-                    app:cardBackgroundColor="@color/white">
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="20dp">
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:src="@drawable/ic_threshold"
-                            app:tint="@color/orange_warning"
-                            android:layout_marginBottom="12dp"/>
+                        android:orientation="vertical">
+
                         <TextView
                             android:id="@+id/tvSuhu"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="26.5°C"
-                            android:textSize="26sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/text_dark"/>
+                            android:textSize="56sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textColor="@color/blue_primary"
+                            android:includeFontPadding="false"/>
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Suhu Ruangan"
-                            android:textSize="12sp"
-                            android:textColor="@color/text_gray"
-                            android:layout_marginTop="2dp"/>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
+                            android:text="Suhu Terkini"
+                            android:textSize="14sp"
+                            android:textColor="#64748B"
+                            android:layout_marginTop="-4dp"/>
 
-                <!-- Kelembapan Card -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="10dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="2dp"
-                    app:cardBackgroundColor="@color/white">
+                    </LinearLayout>
+
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
                         android:orientation="vertical"
-                        android:padding="20dp">
+                        android:gravity="center_horizontal">
+
                         <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
                             android:src="@drawable/ic_humidity"
-                            app:tint="@color/blue_primary"
-                            android:layout_marginBottom="12dp"/>
+                            app:tint="@color/blue_primary"/>
+
                         <TextView
                             android:id="@+id/tvKelembapan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="55%"
-                            android:textSize="26sp"
+                            android:textSize="20sp"
                             android:textStyle="bold"
-                            android:textColor="@color/text_dark"/>
+                            android:textColor="@color/blue_primary"
+                            android:layout_marginTop="4dp"/>
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Kelembapan"
-                            android:textSize="12sp"
-                            android:textColor="@color/text_gray"
-                            android:layout_marginTop="2dp"/>
+                            android:text="Lembap"
+                            android:textSize="11sp"
+                            android:textColor="#64748B"/>
                     </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-            </LinearLayout>
 
-            <!-- ===== DEVICES SECTION ===== -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="KONTROL PERANGKAT"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_gray"
-                android:letterSpacing="0.1"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginBottom="12dp"/>
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
 
+            <!-- ===== CARD KONDISI KRITIS (Style AQI) ===== -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
+                android:layout_marginBottom="16dp"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="@color/white">
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#EDEFF2"
+                app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="8dp">
+                    android:padding="20dp">
 
-                    <!-- Heater Device Item -->
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="12dp">
-                        
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/iconHeater"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="12dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Analisis Kondisi"
+                            android:textSize="15sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textColor="#1E293B" />
+
+                        <TextView
+                            android:id="@+id/tvStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="AMAN"
+                            android:textSize="11sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textColor="@color/white"
+                            android:background="@drawable/bg_badge_green"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="5dp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvStatusDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Suhu ruangan dalam kondisi optimal untuk kesehatan."
+                        android:textSize="13sp"
+                        android:textColor="#475569"
+                        android:lineSpacingExtra="4dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Title Control -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kontrol Perangkat"
+                android:textSize="13sp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/blue_primary"
+                android:letterSpacing="0.05"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- ===== CARD KONTROL (Style Health Advice) ===== -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#EDEFF2"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="20dp"
+                    android:gravity="center_vertical">
+
+                    <FrameLayout
+                        android:layout_width="48dp"
+                        android:layout_height="48dp">
+                        <View
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            app:cardCornerRadius="16dp"
-                            app:cardElevation="0dp"
-                            app:cardBackgroundColor="@color/orange_light">
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_weather_sunny"
-                                app:tint="@color/orange_warning"/>
-                        </com.google.android.material.card.MaterialCardView>
+                            android:background="@drawable/circle_blue_light" />
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_threshold"
+                            app:tint="@color/blue_primary" />
+                    </FrameLayout>
 
-                        <LinearLayout
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="16dp"
+                        android:orientation="vertical">
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_toEndOf="@id/iconHeater"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="16dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Pemanas Ruangan"
-                                android:textStyle="bold"
-                                android:textColor="@color/text_dark"
-                                android:textSize="15sp"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="NodeMCU Control"
-                                android:textColor="@color/text_gray"
-                                android:textSize="12sp"/>
-                        </LinearLayout>
-
-                        <Switch
-                            android:id="@+id/switchHeater"
+                            android:text="Heater / Blower"
+                            android:textSize="15sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textColor="#1E293B" />
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"/>
-                    </RelativeLayout>
+                            android:text="Kontrol manual daya"
+                            android:textSize="12sp"
+                            android:textColor="#64748B" />
+                    </LinearLayout>
 
+                    <Switch
+                        android:id="@+id/switchHeater"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:thumbTint="@color/blue_primary"
+                        android:trackTint="#CBD5E1"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -314,24 +301,21 @@
 
     <!-- ===== NAVIGATION SECTION ===== -->
     <View
-        android:id="@+id/navDivider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/divider"
-        android:layout_above="@id/bottomNav"/>
+        android:background="#F1F5F9"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/white"
+        android:layout_height="72dp"
+        android:background="#FFFFFF"
         app:elevation="0dp"
         app:itemIconSize="24dp"
-        app:itemIconTint="@color/nav_item_unselected"
+        app:itemIconTint="@color/nav_item_color"
         app:itemRippleColor="@null"
-        app:itemTextColor="@color/nav_item_unselected"
+        app:itemTextColor="@color/nav_item_color"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_nav_menu" />
 
-</RelativeLayout>
+</LinearLayout>

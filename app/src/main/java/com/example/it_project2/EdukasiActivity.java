@@ -25,7 +25,7 @@ public class EdukasiActivity extends AppCompatActivity {
 
         // Bottom Navigation
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
-        bottomNav.setSelectedItemId(R.id.nav_edukasi);
+        bottomNav.setSelectedItemId(R.id.nav_informasi);
 
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
@@ -44,7 +44,7 @@ public class EdukasiActivity extends AppCompatActivity {
                 overridePendingTransition(0, 0);
                 finish();
                 return true;
-            } else if (id == R.id.nav_edukasi) {
+            } else if (id == R.id.nav_informasi) {
                 return true;
             } else if (id == R.id.nav_profile) {
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));

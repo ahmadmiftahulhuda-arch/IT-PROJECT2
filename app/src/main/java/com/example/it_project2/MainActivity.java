@@ -1,6 +1,7 @@
 package com.example.it_project2;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.graphics.Color;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Switch;
@@ -65,9 +66,9 @@ public class MainActivity extends AppCompatActivity {
         else greeting = "Selamat Malam";
 
         if (!userName.isEmpty()) {
-            tvHalo.setText(greeting + ",\n" + userName + " 👋");
+            tvHalo.setText(userName);
         } else {
-            tvHalo.setText(greeting + " 👋");
+            tvHalo.setText("User");
         }
 
         // ===== FIREBASE REALTIME DATABASE =====
@@ -162,16 +163,19 @@ public class MainActivity extends AppCompatActivity {
     private void updateStatusCard(double suhu) {
         if (suhu >= 24) {
             tvStatus.setText("AMAN");
-            tvStatus.setTextColor(0xFF16A34A); // Hijau
-            tvStatusDesc.setText("Suhu ruangan nyaman");
+            tvStatus.setBackgroundResource(R.drawable.bg_badge_green);
+            tvStatus.setTextColor(Color.WHITE);
+            tvStatusDesc.setText("Suhu ruangan optimal untuk kesehatan");
         } else if (suhu >= 20) {
             tvStatus.setText("WASPADA");
-            tvStatus.setTextColor(0xFFF59E0B); // Kuning
-            tvStatusDesc.setText("Suhu mulai menurun, perhatikan kondisi");
+            tvStatus.setBackgroundResource(R.drawable.bg_badge_orange);
+            tvStatus.setTextColor(Color.WHITE);
+            tvStatusDesc.setText("Suhu mulai menurun, sistem pemanas aktif");
         } else {
             tvStatus.setText("BAHAYA");
-            tvStatus.setTextColor(0xFFDC2626); // Merah
-            tvStatusDesc.setText("Suhu terlalu dingin! Risiko serangan asma");
+            tvStatus.setBackgroundResource(R.drawable.bg_badge_red);
+            tvStatus.setTextColor(Color.WHITE);
+            tvStatusDesc.setText("Suhu kritis! Risiko kesehatan meningkat");
         }
     }
 }

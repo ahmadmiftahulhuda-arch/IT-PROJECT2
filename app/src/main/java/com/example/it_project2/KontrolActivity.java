@@ -146,7 +146,7 @@ public class KontrolActivity extends AppCompatActivity {
                 return true;
             } else if (id == R.id.nav_kontrol) {
                 return true;
-            } else if (id == R.id.nav_edukasi) {
+            } else if (id == R.id.nav_informasi) {
                 startActivity(new Intent(this, EdukasiActivity.class));
                 return true;
             } else if (id == R.id.nav_profile) {

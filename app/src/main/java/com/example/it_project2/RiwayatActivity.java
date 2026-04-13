@@ -4,14 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -35,12 +36,14 @@ public class RiwayatActivity extends AppCompatActivity {
 
     private LineChart lineChart;
     private TextView tabHariIni, tab7Hari, tab30Hari;
-    private TextView tvAvgPM25;
-    private ImageView btnFilterDate;
+    private TextView tvAvgSuhu, tvMinSuhu, tvMaxSuhu;
+    private TextView tvSelectedDate, tvAnalysisContent;
+    private View btnFilterDate;
 
     // Firebase
     private DatabaseReference riwayatRef;
     private Calendar calendar = Calendar.getInstance();
+    private SimpleDateFormat titleFormatter = new SimpleDateFormat("EEEE, d MMMM yyyy", new Locale("id", "ID"));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +55,19 @@ public class RiwayatActivity extends AppCompatActivity {
         }
 
         // Bind view
-        lineChart   = findViewById(R.id.lineChart);
-        tabHariIni  = findViewById(R.id.tabHariIni);
-        tab7Hari    = findViewById(R.id.tab7Hari);
-        tab30Hari   = findViewById(R.id.tab30Hari);
-        tvAvgPM25   = findViewById(R.id.tvAvgPM25);
-        btnFilterDate = findViewById(R.id.btnFilterDate);
+        lineChart       = findViewById(R.id.lineChart);
+        tabHariIni      = findViewById(R.id.tabHariIni);
+        tab7Hari        = findViewById(R.id.tab7Hari);
+        tab30Hari       = findViewById(R.id.tab30Hari);
+        tvAvgSuhu       = findViewById(R.id.tvAvgSuhu);
+        tvMinSuhu       = findViewById(R.id.tvMinSuhu);
+        tvMaxSuhu       = findViewById(R.id.tvMaxSuhu);
+        tvSelectedDate  = findViewById(R.id.tvSelectedDate);
+        tvAnalysisContent = findViewById(R.id.tvAnalysisContent);
+        btnFilterDate   = findViewById(R.id.btnFilterDate);
+        View btnBack    = findViewById(R.id.btnBack);
+
+        btnBack.setOnClickListener(v -> finish());
 
         // ===== FIREBASE =====
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://smartliving-425c0-default-rtdb.asia-southeast1.firebasedatabase.app");
@@ -107,7 +117,10 @@ public class RiwayatActivity extends AppCompatActivity {
                     calendar.set(Calendar.SECOND, 59);
                     long end = calendar.getTimeInMillis();
 
-                    loadRiwayatByRange(start, end, "Filter: " + dayOfMonth + "/" + (month + 1));
+                    String label = titleFormatter.format(calendar.getTime());
+                    tvSelectedDate.setText(label);
+                    
+                    loadRiwayatByRange(start, end);
                     resetTabs();
                 },
                 calendar.get(Calendar.YEAR),
@@ -122,20 +135,26 @@ public class RiwayatActivity extends AppCompatActivity {
         long end = cal.getTimeInMillis();
         
         if (days == 0) {
-            // Hari ini (mulai jam 00:00)
             cal.set(Calendar.HOUR_OF_DAY, 0);
             cal.set(Calendar.MINUTE, 0);
             cal.set(Calendar.SECOND, 0);
+            tvSelectedDate.setText("Hari Ini (" + new SimpleDateFormat("d MMM", new Locale("id", "ID")).format(new Date()) + ")");
         } else {
             cal.add(Calendar.DAY_OF_YEAR, -days);
+            tvSelectedDate.setText(days + " Hari Terakhir");
         }
         long start = cal.getTimeInMillis();
         
-        loadRiwayatByRange(start, end, null);
+        loadRiwayatByRange(start, end);
     }
 
-    private void loadRiwayatByRange(long start, long end, String label) {
+    private void loadRiwayatByRange(long start, long end) {
         Query query = riwayatRef.orderByChild("timestamp").startAt(start).endAt(end);
+        
+        // Update sub-label tanggal jika belum diset
+        if (tvSelectedDate.getText().toString().equals("Memuat...")) {
+            tvSelectedDate.setText("Mencari data...");
+        }
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -143,6 +162,8 @@ public class RiwayatActivity extends AppCompatActivity {
                 List<Entry> suhuEntries = new ArrayList<>();
                 List<String> timeLabels = new ArrayList<>();
                 double totalSuhu = 0;
+                double minSuhu = Double.MAX_VALUE;
+                double maxSuhu = Double.MIN_VALUE;
                 int count = 0;
 
                 for (DataSnapshot data : snapshot.getChildren()) {
@@ -152,6 +173,9 @@ public class RiwayatActivity extends AppCompatActivity {
                     if (suhu != null) {
                         suhuEntries.add(new Entry(count, suhu.floatValue()));
                         totalSuhu += suhu;
+                        
+                        if (suhu < minSuhu) minSuhu = suhu;
+                        if (suhu > maxSuhu) maxSuhu = suhu;
 
                         if (timestamp != null) {
                             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
@@ -164,12 +188,19 @@ public class RiwayatActivity extends AppCompatActivity {
                 }
 
                 if (count > 0) {
-                    tvAvgPM25.setText(String.format(Locale.getDefault(), "%.1f", (totalSuhu / count)));
+                    double avg = totalSuhu / count;
+                    tvAvgSuhu.setText(String.format(Locale.getDefault(), "%.1f°", avg));
+                    tvMinSuhu.setText(String.format(Locale.getDefault(), "%.1f°", minSuhu));
+                    tvMaxSuhu.setText(String.format(Locale.getDefault(), "%.1f°", maxSuhu));
+                    
+                    updateAnalysis(avg, maxSuhu);
                     setupChart(suhuEntries, timeLabels);
                 } else {
-                    tvAvgPM25.setText("0");
+                    tvAvgSuhu.setText("0°");
+                    tvMinSuhu.setText("0°");
+                    tvMaxSuhu.setText("0°");
+                    tvAnalysisContent.setText("Tidak ada data untuk rentang waktu ini.");
                     setupChartDummy();
-                    Toast.makeText(RiwayatActivity.this, "Tidak ada data untuk rentang ini", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -180,65 +211,91 @@ public class RiwayatActivity extends AppCompatActivity {
         });
     }
 
+    private void updateAnalysis(double avg, double max) {
+        String analysis;
+        if (max > 40) {
+            analysis = "Terdeteksi suhu sangat tinggi (" + String.format("%.1f", max) + "°C). Pastikan blower pendingin bekerja maksimal untuk mencegah overheat.";
+        } else if (avg < 25) {
+            analysis = "Rata-rata suhu cukup rendah. Pemanas mungkin perlu diaktifkan untuk menjaga stabilitas lingkungan.";
+        } else {
+            analysis = "Suhu lingkungan stabil di angka " + String.format("%.1f", avg) + "°C. Kondisi ini ideal untuk operasional normal.";
+        }
+        tvAnalysisContent.setText(analysis);
+    }
+
     private void setupChart(List<Entry> entries, List<String> labels) {
         LineDataSet dataSet = new LineDataSet(entries, "Suhu (°C)");
+        
+        // Style: Line
         dataSet.setColor(Color.parseColor("#2563EB"));
-        dataSet.setLineWidth(2.5f);
+        dataSet.setLineWidth(3f);
+        dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        dataSet.setDrawValues(false);
+        
+        // Style: Circles
+        dataSet.setDrawCircles(true);
         dataSet.setCircleColor(Color.parseColor("#2563EB"));
         dataSet.setCircleRadius(4f);
+        dataSet.setDrawCircleHole(true);
+        dataSet.setCircleHoleColor(Color.WHITE);
+        dataSet.setCircleHoleRadius(2f);
+        
+        // Style: Gradient Fill
         dataSet.setDrawFilled(true);
-        dataSet.setFillColor(Color.parseColor("#DBEAFE"));
-        dataSet.setValueTextSize(0f);
-        dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        GradientDrawable gradient = new GradientDrawable(
+                GradientDrawable.Orientation.TOP_BOTTOM,
+                new int[]{Color.parseColor("#402563EB"), Color.TRANSPARENT}
+        );
+        dataSet.setFillDrawable(gradient);
 
-        // Garis batas BAHAYA suhu > 50 (seperti di XML)
-        List<Entry> dangerLine = new ArrayList<>();
-        for (int i = 0; i < entries.size(); i++) {
-            dangerLine.add(new Entry(i, 50f));
-        }
-        LineDataSet dangerSet = new LineDataSet(dangerLine, "Batas Bahaya (50)");
-        dangerSet.setColor(Color.parseColor("#DC2626"));
-        dangerSet.setLineWidth(1f);
-        dangerSet.enableDashedLine(10f, 5f, 0f);
-        dangerSet.setDrawCircles(false);
-        dangerSet.setValueTextSize(0f);
-
-        lineChart.setData(new LineData(dataSet, dangerSet));
+        // Limit Line (Danger)
+        YAxis leftAxis = lineChart.getAxisLeft();
+        leftAxis.removeAllLimitLines();
+        
+        LineData lineData = new LineData(dataSet);
+        lineChart.setData(lineData);
+        
+        // General Chart Styling
         lineChart.getDescription().setEnabled(false);
-        lineChart.getLegend().setEnabled(true);
+        lineChart.getLegend().setEnabled(false);
         lineChart.setTouchEnabled(true);
         lineChart.setPinchZoom(false);
+        lineChart.setDrawGridBackground(false);
+        lineChart.setExtraOffsets(10, 10, 10, 10);
 
+        // X-Axis Styling
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
+        xAxis.setDrawAxisLine(true);
+        xAxis.setAxisLineColor(Color.parseColor("#E2E8F0"));
+        xAxis.setTextColor(Color.parseColor("#94A3B8"));
         xAxis.setGranularity(1f);
         if (!labels.isEmpty()) {
             xAxis.setValueFormatter(new ValueFormatter() {
                 @Override
                 public String getFormattedValue(float value) {
                     int idx = (int) value;
-                    if (idx >= 0 && idx < labels.size()) {
-                        return labels.get(idx);
-                    }
-                    return "";
+                    return (idx >= 0 && idx < labels.size()) ? labels.get(idx) : "";
                 }
             });
         }
 
-        lineChart.getAxisLeft().setDrawGridLines(true);
-        lineChart.getAxisLeft().setGridColor(Color.parseColor("#F1F5F9"));
+        // Y-Axis Styling
+        leftAxis.setDrawGridLines(true);
+        leftAxis.setGridColor(Color.parseColor("#F1F5F9"));
+        leftAxis.setDrawAxisLine(false);
+        leftAxis.setTextColor(Color.parseColor("#94A3B8"));
+        
         lineChart.getAxisRight().setEnabled(false);
 
-        lineChart.animateX(1000);
+        lineChart.animateY(1500);
         lineChart.invalidate();
     }
 
     private void setupChartDummy() {
         List<Entry> entries = new ArrayList<>();
-        for (int i = 0; i < 12; i++) entries.add(new Entry(i, 0f));
         List<String> labels = new ArrayList<>();
-        for (int i = 0; i < 12; i++) labels.add("--:--");
         setupChart(entries, labels);
     }
 
@@ -246,16 +303,16 @@ public class RiwayatActivity extends AppCompatActivity {
         resetTabs();
         TextView[] tabs = {tabHariIni, tab7Hari, tab30Hari};
         tabs[index].setBackgroundResource(R.drawable.bg_tab_active);
-        tabs[index].setTextColor(Color.parseColor("#2563EB"));
+        tabs[index].setTextColor(Color.WHITE);
     }
 
     private void resetTabs() {
         tabHariIni.setBackground(null);
         tab7Hari.setBackground(null);
         tab30Hari.setBackground(null);
-        tabHariIni.setTextColor(Color.parseColor("#94A3B8"));
-        tab7Hari.setTextColor(Color.parseColor("#94A3B8"));
-        tab30Hari.setTextColor(Color.parseColor("#94A3B8"));
+        tabHariIni.setTextColor(Color.parseColor("#64748B"));
+        tab7Hari.setTextColor(Color.parseColor("#64748B"));
+        tab30Hari.setTextColor(Color.parseColor("#64748B"));
     }
 
     private void setupBottomNav() {
@@ -265,16 +322,24 @@ public class RiwayatActivity extends AppCompatActivity {
             int id = item.getItemId();
             if (id == R.id.nav_home) {
                 startActivity(new Intent(this, MainActivity.class));
+                overridePendingTransition(0, 0);
                 finish();
+                return true;
             } else if (id == R.id.nav_kontrol) {
                 startActivity(new Intent(this, KontrolActivity.class));
+                overridePendingTransition(0, 0);
                 finish();
+                return true;
             } else if (id == R.id.nav_informasi) {
                 startActivity(new Intent(this, InformasiActivity.class));
+                overridePendingTransition(0, 0);
                 finish();
+                return true;
             } else if (id == R.id.nav_profile) {
                 startActivity(new Intent(this, ProfileActivity.class));
+                overridePendingTransition(0, 0);
                 finish();
+                return true;
             }
             return true;
         });
