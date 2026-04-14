@@ -65,7 +65,13 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        mAuth.sendPasswordResetEmail(email)
+        com.google.firebase.auth.ActionCodeSettings settings = com.google.firebase.auth.ActionCodeSettings.newBuilder()
+                .setUrl("https://smartliving-425c0.firebaseapp.com/reset") // Link fallback
+                .setHandleCodeInApp(true) // Memaksa dibuka di dalam aplikasi
+                .setAndroidPackageName(getPackageName(), true, null)
+                .build();
+
+        mAuth.sendPasswordResetEmail(email, settings)
                 .addOnCompleteListener(task -> {
                     progressDialog.dismiss();
 

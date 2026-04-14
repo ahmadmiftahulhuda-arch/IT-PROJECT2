@@ -2,9 +2,12 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollViewRegister"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F8FAFC"
+    android:fitsSystemWindows="true"
+    android:isScrollContainer="true"
     android:fillViewport="true">
 
     <LinearLayout
@@ -43,13 +46,14 @@
                 android:textColor="#1E293B"/>
         </LinearLayout>
 
-        <!-- Judul & Subtitle -->
+        <!-- Card Form -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             app:cardCornerRadius="20dp"
-            app:cardElevation="4dp"
+            app:cardElevation="0dp"
+            app:cardMaxElevation="0dp"
             app:cardBackgroundColor="#FFFFFF">
 
             <LinearLayout
@@ -58,6 +62,7 @@
                 android:orientation="vertical"
                 android:padding="24dp">
 
+                <!-- Judul -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -66,16 +71,17 @@
                     android:textStyle="bold"
                     android:textColor="#1E293B"/>
 
+                <!-- Subtitle -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="6dp"
                     android:layout_marginBottom="24dp"
                     android:text="Mulai hidup cerdas dengan ekosistem Smart Living hari ini."
-                    android:textSize="14sp"
+                    android:textSize="13sp"
                     android:textColor="#94A3B8"/>
 
-                <!-- Nama Lengkap -->
+                <!-- ===== NAMA LENGKAP ===== -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -115,7 +121,7 @@
                         android:singleLine="true"/>
                 </LinearLayout>
 
-                <!-- Email -->
+                <!-- ===== EMAIL ===== -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -155,7 +161,7 @@
                         android:singleLine="true"/>
                 </LinearLayout>
 
-                <!-- Kata Sandi -->
+                <!-- ===== KATA SANDI ===== -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -172,7 +178,7 @@
                     android:gravity="center_vertical"
                     android:background="@drawable/input_background"
                     android:paddingHorizontal="14dp"
-                    android:layout_marginBottom="16dp">
+                    android:layout_marginBottom="12dp">
 
                     <ImageView
                         android:layout_width="20dp"
@@ -196,15 +202,19 @@
                         android:singleLine="true"/>
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_visibility"
-                        app:tint="#64748B"
-                        android:alpha="0.5"
-                        android:contentDescription="Show Password"/>
+                        android:id="@+id/ivTogglePassword"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_visibility_off"
+                        app:tint="#94A3B8"
+                        android:padding="2dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:contentDescription="Toggle Password"/>
                 </LinearLayout>
 
-                <!-- Password Strength Indicator -->
+                <!-- Password Strength (tersembunyi dari tampilan tapi tetap berfungsi) -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -215,41 +225,35 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:layout_marginBottom="6dp">
+                        android:layout_marginBottom="4dp">
 
-                        <!-- 4 bar kekuatan -->
                         <View
                             android:id="@+id/strengthBar1"
                             android:layout_width="0dp"
-                            android:layout_height="4dp"
+                            android:layout_height="3dp"
                             android:layout_weight="1"
-                            android:layout_marginEnd="4dp"
-                            android:background="#E2E8F0"
-                            android:radius="2dp"/>
+                            android:layout_marginEnd="3dp"
+                            android:background="#E2E8F0"/>
                         <View
                             android:id="@+id/strengthBar2"
                             android:layout_width="0dp"
-                            android:layout_height="4dp"
+                            android:layout_height="3dp"
                             android:layout_weight="1"
-                            android:layout_marginEnd="4dp"
-                            android:background="#E2E8F0"
-                            android:radius="2dp"/>
+                            android:layout_marginEnd="3dp"
+                            android:background="#E2E8F0"/>
                         <View
                             android:id="@+id/strengthBar3"
                             android:layout_width="0dp"
-                            android:layout_height="4dp"
+                            android:layout_height="3dp"
                             android:layout_weight="1"
-                            android:layout_marginEnd="4dp"
-                            android:background="#E2E8F0"
-                            android:radius="2dp"/>
+                            android:layout_marginEnd="3dp"
+                            android:background="#E2E8F0"/>
                         <View
                             android:id="@+id/strengthBar4"
                             android:layout_width="0dp"
-                            android:layout_height="4dp"
+                            android:layout_height="3dp"
                             android:layout_weight="1"
-                            android:background="#E2E8F0"
-                            android:radius="2dp"/>
+                            android:background="#E2E8F0"/>
                     </LinearLayout>
 
                     <TextView
@@ -261,7 +265,7 @@
                         android:textColor="#94A3B8"/>
                 </LinearLayout>
 
-                <!-- Konfirmasi Kata Sandi -->
+                <!-- ===== KONFIRMASI KATA SANDI ===== -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -290,8 +294,9 @@
 
                     <EditText
                         android:id="@+id/etKonfirmasiPassword"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:hint="Ulangi kata sandi"
                         android:textColorHint="#CBD5E1"
                         android:textColor="#1E293B"
@@ -299,9 +304,21 @@
                         android:inputType="textPassword"
                         android:background="@null"
                         android:singleLine="true"/>
+
+                    <ImageView
+                        android:id="@+id/ivToggleKonfirmasi"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_visibility_off"
+                        app:tint="#94A3B8"
+                        android:padding="2dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:contentDescription="Toggle Confirm Password"/>
                 </LinearLayout>
 
-                <!-- Tombol DAFTAR -->
+                <!-- ===== TOMBOL DAFTAR ===== -->
                 <TextView
                     android:id="@+id/btnDaftar"
                     android:layout_width="match_parent"
@@ -312,15 +329,15 @@
                     android:textStyle="bold"
                     android:textColor="#FFFFFF"
                     android:background="@drawable/button_primary"
-                    android:layout_marginBottom="24dp"/>
+                    android:layout_marginBottom="20dp"/>
 
-                <!-- Divider -->
+                <!-- ===== DIVIDER ===== -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
-                    android:layout_marginBottom="24dp">
+                    android:layout_marginBottom="16dp">
 
                     <View
                         android:layout_width="0dp"
@@ -332,7 +349,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="  Atau daftar dengan  "
-                        android:textSize="12sp"
+                        android:textSize="11sp"
                         android:textColor="#94A3B8"/>
 
                     <View
@@ -342,7 +359,7 @@
                         android:background="#E2E8F0"/>
                 </LinearLayout>
 
-                <!-- Tombol Google -->
+                <!-- ===== TOMBOL GOOGLE ===== -->
                 <LinearLayout
                     android:id="@+id/btnGoogle"
                     android:layout_width="match_parent"
@@ -350,7 +367,6 @@
                     android:orientation="horizontal"
                     android:gravity="center"
                     android:background="@drawable/button_outline"
-                    android:layout_marginBottom="24dp"
                     android:clickable="true"
                     android:focusable="true">
 
@@ -369,46 +385,84 @@
                         android:textColor="#1E293B"/>
                 </LinearLayout>
 
-                <!-- Link Masuk -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Sudah punya akun? "
-                        android:textSize="13sp"
-                        android:textColor="#64748B"/>
-
-                    <TextView
-                        android:id="@+id/tvMasuk"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Masuk di sini"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:textColor="#2563EB"
-                        android:padding="4dp"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"/>
-                </LinearLayout>
-
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Footer -->
+        <!-- ===== LINK MASUK ===== -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sudah punya akun? "
+                android:textSize="13sp"
+                android:textColor="#94A3B8"/>
+
+            <TextView
+                android:id="@+id/tvMasuk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Masuk di sini"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="#2563EB"
+                android:padding="4dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"/>
+        </LinearLayout>
+
+        <!-- ===== FOOTER ===== -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:gravity="center"
-            android:text="© 2024 Smart Living Inc. Semua hak dilindungi."
+            android:text="© 2026 Asthmacare Inc. Semua hak dilindungi."
             android:textSize="11sp"
             android:textColor="#94A3B8"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginTop="6dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ketentuan Layanan"
+                android:textSize="11sp"
+                android:textColor="#2563EB"
+                android:padding="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  "
+                android:textSize="11sp"
+                android:textColor="#94A3B8"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kebijakan Privasi"
+                android:textSize="11sp"
+                android:textColor="#2563EB"
+                android:padding="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground"/>
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

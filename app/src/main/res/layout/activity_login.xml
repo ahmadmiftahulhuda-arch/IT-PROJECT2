@@ -2,9 +2,12 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollViewLogin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F8FAFC"
+    android:fitsSystemWindows="true"
+    android:isScrollContainer="true"
     android:fillViewport="true">
 
     <LinearLayout
@@ -49,7 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="20dp"
-            app:cardElevation="6dp"
+            app:cardElevation="0dp"
+            app:cardMaxElevation="0dp"
             app:cardBackgroundColor="#FFFFFF">
 
             <LinearLayout

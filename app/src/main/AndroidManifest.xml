@@ -29,10 +29,24 @@
         </activity>
 
         <!-- Login -->
-        <activity android:name=".LoginActivity" android:exported="false"/>
+        <activity android:name=".LoginActivity" android:exported="false" android:windowSoftInputMode="adjustResize"/>
 
         <!-- Register -->
-        <activity android:name=".RegisterActivity" android:exported="false"/>
+        <activity android:name=".RegisterActivity" android:exported="false" android:windowSoftInputMode="adjustResize"/>
+
+        <!-- Reset Password In-App (Deep Link) -->
+        <activity android:name=".ResetPasswordActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Tangkap domain bawaan Firebase Hosting milik project Anda -->
+                <data android:scheme="https"
+                      android:host="smartliving-425c0.firebaseapp.com" />
+            </intent-filter>
+        </activity>
 
         <!-- Forgot Password -->
         <activity android:name=".ForgotPasswordActivity" android:exported="false"/>
