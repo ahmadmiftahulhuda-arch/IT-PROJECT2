@@ -1,11 +1,15 @@
 package com.example.it_project2;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -13,43 +17,49 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.UserProfileChangeRequest;
 
-public class RegisterActivity extends AppCompatActivity {
+public class ResetPasswordActivity extends AppCompatActivity {
 
-    private EditText etNama, etEmail, etPassword, etKonfirmasiPassword;
-    private TextView btnDaftar, tvMasuk, tvPasswordStrength;
-    private View btnBack, strengthBar1, strengthBar2, strengthBar3, strengthBar4;
+    private EditText etNewPassword, etKonfirmasiPassword;
+    private TextView btnPerbarui, tvPasswordStrength;
+    private View strengthBar1, strengthBar2, strengthBar3, strengthBar4;
     private ImageView ivTogglePassword, ivToggleKonfirmasi;
     private boolean isPasswordVisible = false;
     private boolean isKonfirmasiVisible = false;
+
     private FirebaseAuth mAuth;
-    private SessionManager sessionManager;
+    private String oobCode = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_reset_password);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
 
-        // Inisialisasi Firebase Auth & SessionManager
         mAuth = FirebaseAuth.getInstance();
-        sessionManager = new SessionManager(this);
 
-        etNama = findViewById(R.id.etNama);
-        etEmail = findViewById(R.id.etEmail);
-        etPassword = findViewById(R.id.etPassword);
+        // Ambil data intent dari Deep Link email
+        Intent intent = getIntent();
+        if (intent != null && Intent.ACTION_VIEW.equals(intent.getAction())) {
+            Uri data = intent.getData();
+            if (data != null) {
+                oobCode = data.getQueryParameter("oobCode");
+            }
+        }
+
+        if (oobCode == null) {
+            Toast.makeText(this, "Link tidak valid atau sudah kadaluarsa", Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
+
+        etNewPassword = findViewById(R.id.etNewPassword);
         etKonfirmasiPassword = findViewById(R.id.etKonfirmasiPassword);
-        btnDaftar = findViewById(R.id.btnDaftar);
-        tvMasuk = findViewById(R.id.tvMasuk);
-        btnBack = findViewById(R.id.btnBack);
+        btnPerbarui = findViewById(R.id.btnPerbarui);
         tvPasswordStrength = findViewById(R.id.tvPasswordStrength);
         strengthBar1 = findViewById(R.id.strengthBar1);
         strengthBar2 = findViewById(R.id.strengthBar2);
@@ -57,10 +67,13 @@ public class RegisterActivity extends AppCompatActivity {
         strengthBar4 = findViewById(R.id.strengthBar4);
         ivTogglePassword = findViewById(R.id.ivTogglePassword);
         ivToggleKonfirmasi = findViewById(R.id.ivToggleKonfirmasi);
+        ImageView btnBack = findViewById(R.id.btnBack);
 
-        // ===== KEYBOARD RESPONSIF =====
-        ScrollView scrollViewRegister = findViewById(R.id.scrollViewRegister);
-        ViewCompat.setOnApplyWindowInsetsListener(scrollViewRegister, (v, insets) -> {
+        btnBack.setOnClickListener(v -> finish());
+
+        // Keyboard responsif layout
+        ScrollView scrollViewReset = findViewById(R.id.scrollViewReset);
+        ViewCompat.setOnApplyWindowInsetsListener(scrollViewReset, (v, insets) -> {
             int imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom;
             int navHeight = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom;
             v.setPadding(v.getPaddingLeft(), v.getPaddingTop(), v.getPaddingRight(),
@@ -68,21 +81,20 @@ public class RegisterActivity extends AppCompatActivity {
             return insets;
         });
 
-        // ===== TOGGLE MATA — KATA SANDI =====
+        // Toggle Mata Sandi
         ivTogglePassword.setOnClickListener(v -> {
             if (isPasswordVisible) {
-                etPassword.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                etNewPassword.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 ivTogglePassword.setImageResource(R.drawable.ic_visibility_off);
                 isPasswordVisible = false;
             } else {
-                etPassword.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                etNewPassword.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                 ivTogglePassword.setImageResource(R.drawable.ic_visibility);
                 isPasswordVisible = true;
             }
-            etPassword.setSelection(etPassword.getText().length());
+            etNewPassword.setSelection(etNewPassword.getText().length());
         });
 
-        // ===== TOGGLE MATA — KONFIRMASI KATA SANDI =====
         ivToggleKonfirmasi.setOnClickListener(v -> {
             if (isKonfirmasiVisible) {
                 etKonfirmasiPassword.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -96,71 +108,43 @@ public class RegisterActivity extends AppCompatActivity {
             etKonfirmasiPassword.setSelection(etKonfirmasiPassword.getText().length());
         });
 
-        // ===== PASSWORD STRENGTH INDICATOR =====
-        etPassword.addTextChangedListener(new TextWatcher() {
+        etNewPassword.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
-            @Override
-            public void afterTextChanged(Editable s) {
+            @Override public void afterTextChanged(Editable s) {
                 updatePasswordStrength(s.toString());
             }
         });
 
-        btnBack.setOnClickListener(v -> finish());
-
-        btnDaftar.setOnClickListener(v -> {
-            String nama = etNama.getText().toString().trim();
-            String email = etEmail.getText().toString().trim();
-            String password = etPassword.getText().toString().trim();
+        btnPerbarui.setOnClickListener(v -> {
+            String password = etNewPassword.getText().toString().trim();
             String konfirmasi = etKonfirmasiPassword.getText().toString().trim();
 
-            // ===== VALIDASI NAMA =====
-            if (nama.isEmpty()) {
-                etNama.setError("Nama tidak boleh kosong");
-                etNama.requestFocus();
-                return;
-            }
-
-            // ===== VALIDASI EMAIL =====
-            if (email.isEmpty()) {
-                etEmail.setError("Email tidak boleh kosong");
-                etEmail.requestFocus();
-                return;
-            }
-            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                etEmail.setError("Format email tidak valid");
-                etEmail.requestFocus();
-                return;
-            }
-
-            // ===== VALIDASI PASSWORD =====
             if (password.isEmpty()) {
-                etPassword.setError("Password tidak boleh kosong");
-                etPassword.requestFocus();
+                etNewPassword.setError("Password tidak boleh kosong");
+                etNewPassword.requestFocus();
                 return;
             }
             if (password.length() < 8) {
-                etPassword.setError("Password minimal 8 karakter");
-                etPassword.requestFocus();
+                etNewPassword.setError("Password minimal 8 karakter");
+                etNewPassword.requestFocus();
                 return;
             }
             if (!password.matches(".*[A-Z].*")) {
-                etPassword.setError("Password harus mengandung minimal 1 huruf kapital (A-Z)");
-                etPassword.requestFocus();
+                etNewPassword.setError("Minimal 1 huruf kapital (A-Z)");
+                etNewPassword.requestFocus();
                 return;
             }
             if (!password.matches(".*[0-9].*")) {
-                etPassword.setError("Password harus mengandung minimal 1 angka (0-9)");
-                etPassword.requestFocus();
+                etNewPassword.setError("Minimal 1 angka (0-9)");
+                etNewPassword.requestFocus();
                 return;
             }
             if (!password.matches(".*[@#$%^&+=!*()_\\-].*")) {
-                etPassword.setError("Password harus mengandung minimal 1 simbol (@#$%^&+=!*()_-)");
-                etPassword.requestFocus();
+                etNewPassword.setError("Minimal 1 simbol (@#$%^&+=!*()_-)");
+                etNewPassword.requestFocus();
                 return;
             }
-
-            // ===== VALIDASI KONFIRMASI PASSWORD =====
             if (konfirmasi.isEmpty()) {
                 etKonfirmasiPassword.setError("Konfirmasi password tidak boleh kosong");
                 etKonfirmasiPassword.requestFocus();
@@ -172,68 +156,40 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
 
-            // ===== REGISTRASI DENGAN FIREBASE =====
-            registerWithFirebase(nama, email, password);
+            perbaruiPasswordFirebase(password);
         });
-
-        tvMasuk.setOnClickListener(v -> finish());
     }
 
-    private void registerWithFirebase(String nama, String email, String password) {
-        // Tampilkan loading dialog
+    private void perbaruiPasswordFirebase(String newPassword) {
         ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Mendaftarkan akun...");
+        progressDialog.setMessage("Menyimpan password baru...");
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        // Set display name di Firebase
-                        if (mAuth.getCurrentUser() != null) {
-                            UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
-                                    .setDisplayName(nama)
-                                    .build();
-
-                            mAuth.getCurrentUser().updateProfile(profileUpdate)
-                                    .addOnCompleteListener(profileTask -> {
-                                        progressDialog.dismiss();
-
-                                        // Simpan nama juga ke lokal
-                                        sessionManager.saveUserName(nama);
-
-                                        // Logout setelah register agar user login manual
-                                        mAuth.signOut();
-
-                                        Toast.makeText(this, "Pendaftaran berhasil! Silakan login 🎉", Toast.LENGTH_SHORT).show();
-                                        finish();
-                                    });
-                        }
+        // Mengecek / memverifikasi kode terlebih dahulu (opsional, tapi disarankan)
+        mAuth.verifyPasswordResetCode(oobCode).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                // Email valid, sekarang proses reset password
+                mAuth.confirmPasswordReset(oobCode, newPassword).addOnCompleteListener(resetTask -> {
+                    progressDialog.dismiss();
+                    if (resetTask.isSuccessful()) {
+                        Toast.makeText(ResetPasswordActivity.this, "Password berhasil diperbarui!", Toast.LENGTH_LONG).show();
+                        // Alihkan ke halaman utama Login dan tutup tumpukan reset sandi
+                        Intent intent = new Intent(ResetPasswordActivity.this, LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
                     } else {
-                        progressDialog.dismiss();
-
-                        // Handle error
-                        String errorMsg = "Pendaftaran gagal";
-                        if (task.getException() != null) {
-                            String exMsg = task.getException().getMessage();
-                            if (exMsg != null) {
-                                if (exMsg.contains("email address is already in use")) {
-                                    errorMsg = "Email sudah terdaftar, gunakan email lain";
-                                } else if (exMsg.contains("email address is badly formatted")) {
-                                    errorMsg = "Format email tidak valid";
-                                } else if (exMsg.contains("weak password") || exMsg.contains("at least 6 characters")) {
-                                    errorMsg = "Password terlalu lemah, minimal 6 karakter";
-                                } else {
-                                    errorMsg = "Pendaftaran gagal: " + exMsg;
-                                }
-                            }
-                        }
-                        Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
+                        Toast.makeText(ResetPasswordActivity.this, "Gagal memperbarui password", Toast.LENGTH_LONG).show();
                     }
                 });
+            } else {
+                progressDialog.dismiss();
+                Toast.makeText(this, "Sesi link sudah kadaluarsa. Silakan minta link baru.", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
-    // ===== PASSWORD STRENGTH INDICATOR =====
     private void updatePasswordStrength(String password) {
         int score = 0;
 
@@ -247,7 +203,6 @@ public class RegisterActivity extends AppCompatActivity {
         if (hasNumber)  score++;
         if (hasSymbol)  score++;
 
-        // Reset semua bar ke abu-abu
         int grey = 0xFFE2E8F0;
         strengthBar1.setBackgroundColor(grey);
         strengthBar2.setBackgroundColor(grey);

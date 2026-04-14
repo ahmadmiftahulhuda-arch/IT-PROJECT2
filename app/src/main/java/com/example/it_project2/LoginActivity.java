@@ -16,6 +16,10 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ScrollView;
+
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +55,23 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // ===== KEYBOARD RESPONSIF (push form above keyboard) =====
+        // Material3 edge-to-edge membuat adjustResize tidak bekerja di API 30+,
+        // sehingga kita handle secara manual menggunakan WindowInsetsCompat.
+        ScrollView scrollViewLogin = findViewById(R.id.scrollViewLogin);
+        ViewCompat.setOnApplyWindowInsetsListener(scrollViewLogin, (v, insets) -> {
+            int imeHeight = insets.getInsets(WindowInsetsCompat.Type.ime()).bottom;
+            int navHeight = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom;
+            // Saat keyboard muncul, tambah padding bawah agar konten bisa discroll ke atas keyboard
+            v.setPadding(
+                v.getPaddingLeft(),
+                v.getPaddingTop(),
+                v.getPaddingRight(),
+                Math.max(imeHeight, navHeight)
+            );
+            return insets;
+        });
 
         // Sembunyikan action bar
         if (getSupportActionBar() != null) {
