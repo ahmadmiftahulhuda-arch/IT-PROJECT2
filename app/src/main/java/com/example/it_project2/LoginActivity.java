@@ -264,9 +264,64 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    // ==================== NAVIGASI ====================
+    // ==================== NAVIGASI & SINKRONISASI HAK AKSES ====================
 
     private void navigateToMain() {
+        if (mAuth.getCurrentUser() != null && mAuth.getCurrentUser().getEmail() != null) {
+            String email = mAuth.getCurrentUser().getEmail();
+            String key = email.replace(".", ",");
+
+            ProgressDialog pd = new ProgressDialog(this);
+            pd.setMessage("Memeriksa Hak Akses...");
+            pd.setCancelable(false);
+            pd.show();
+
+            com.google.firebase.database.DatabaseReference familyRef = 
+                com.google.firebase.database.FirebaseDatabase.getInstance("https://smartliving-425c0-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("family_members").child(key);
+            
+            // Tambahkan sistem Timeout 8 Detik agar tidak stuck
+            boolean[] isProcessed = {false};
+            android.os.Handler timeoutHandler = new android.os.Handler(android.os.Looper.getMainLooper());
+            Runnable timeoutRunnable = () -> {
+                if (!isProcessed[0]) {
+                    isProcessed[0] = true;
+                    pd.dismiss();
+                    // Jika timeout, default jadikan full access agar pengguna bisa masuk
+                    SessionManager sessionManager = new SessionManager(LoginActivity.this);
+                    sessionManager.saveUserAccess(SessionManager.ACCESS_FULL);
+                    Toast.makeText(LoginActivity.this, "Gagal sinkron akses keluarga (Jaringan Lambat / Firebase Offline)", Toast.LENGTH_LONG).show();
+                    proceedToHome();
+                }
+            };
+            timeoutHandler.postDelayed(timeoutRunnable, 8000); // Batas 8 detik tunggu
+
+            familyRef.get().addOnCompleteListener(task -> {
+                if (isProcessed[0]) return; // Jika sudah timeout, batalkan listener
+                isProcessed[0] = true;
+                timeoutHandler.removeCallbacks(timeoutRunnable);
+                pd.dismiss();
+
+                SessionManager sessionManager = new SessionManager(LoginActivity.this);
+                if (task.isSuccessful() && task.getResult() != null && task.getResult().exists()) {
+                    String access = task.getResult().child("access").getValue(String.class);
+                    if ("MONITOR".equals(access)) {
+                        sessionManager.saveUserAccess(SessionManager.ACCESS_MONITOR);
+                        Toast.makeText(LoginActivity.this, "Masuk sebagai Anggota Keluarga (Monitoring)", Toast.LENGTH_SHORT).show();
+                    } else {
+                        sessionManager.saveUserAccess(SessionManager.ACCESS_FULL);
+                    }
+                } else {
+                    // Default jika data tidak ada di whitelist
+                    sessionManager.saveUserAccess(SessionManager.ACCESS_FULL);
+                }
+                proceedToHome();
+            });
+        } else {
+            proceedToHome();
+        }
+    }
+
+    private void proceedToHome() {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

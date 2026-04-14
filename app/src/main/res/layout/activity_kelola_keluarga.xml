@@ -61,284 +61,14 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="24dp"/>
 
-            <!-- Item 1: Budi Santoso -->
-            <com.google.android.material.card.MaterialCardView
+            <!-- Container List Keluarga Dinamis -->
+            <LinearLayout
+                android:id="@+id/llFamilyMembers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#F1F5F9"
-                app:cardBackgroundColor="#FFFFFF">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:padding="16dp">
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:src="@drawable/ic_person"
-                        android:background="#F1F5F9"
-                        android:padding="8dp"
-                        app:shapeAppearanceOverlay="@style/CircleImage"/>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_marginStart="16dp">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Budi Santoso"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="#1E293B"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="UTAMA"
-                            android:textSize="10sp"
-                            android:textStyle="bold"
-                            android:textColor="#2563EB"
-                            android:background="@drawable/bg_tag_blue_light"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="2dp"
-                            android:layout_marginTop="4dp"/>
-                        
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Hak Akses: Kontrol Penuh"
-                            android:textSize="11sp"
-                            android:textColor="#94A3B8"
-                            android:layout_marginTop="6dp"/>
-                    </LinearLayout>
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_edit"
-                        app:tint="#94A3B8"/>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Item 2: Siti Aminah -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#F1F5F9"
-                app:cardBackgroundColor="#FFFFFF">
-
-                <LinearLayout
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:layout_marginBottom="12dp">
-                        
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
-                            android:src="@drawable/ic_person"
-                            android:background="#F1F5F9"
-                            android:padding="8dp"
-                            app:shapeAppearanceOverlay="@style/CircleImage"/>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:layout_marginStart="16dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Siti Aminah"
-                                android:textSize="16sp"
-                                android:textStyle="bold"
-                                android:textColor="#1E293B"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="KELUARGA"
-                                android:textSize="10sp"
-                                android:textStyle="bold"
-                                android:textColor="#64748B"
-                                android:background="@drawable/bg_tag_gray"
-                                android:paddingHorizontal="8dp"
-                                android:paddingVertical="2dp"
-                                android:layout_marginTop="4dp"/>
-                        </LinearLayout>
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/ic_edit"
-                            app:tint="#94A3B8"/>
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#F1F5F9"
-                        android:layout_marginBottom="12dp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Setting Akses:"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="#1E293B"
-                        android:layout_marginBottom="8dp"/>
-
-                    <RadioGroup
-                        android:id="@+id/rgAksesSiti"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <RadioButton
-                            android:id="@+id/rbAksesSitiFull"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Kontrol Penuh"
-                            android:textSize="12sp"
-                            android:checked="true"
-                            android:buttonTint="#2563EB"/>
-                        <RadioButton
-                            android:id="@+id/rbAksesSitiMonitor"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Monitoring Saja"
-                            android:textSize="12sp"
-                            android:buttonTint="#2563EB"/>
-                    </RadioGroup>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Item 3: Rizky Santoso -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#F1F5F9"
-                app:cardBackgroundColor="#FFFFFF">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:layout_marginBottom="12dp">
-                        
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
-                            android:src="@drawable/ic_person"
-                            android:background="#F1F5F9"
-                            android:padding="8dp"
-                            app:shapeAppearanceOverlay="@style/CircleImage"/>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:layout_marginStart="16dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Rizky Santoso"
-                                android:textSize="16sp"
-                                android:textStyle="bold"
-                                android:textColor="#1E293B"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="ANAK"
-                                android:textSize="10sp"
-                                android:textStyle="bold"
-                                android:textColor="#16A34A"
-                                android:background="@drawable/bg_tag_green"
-                                android:paddingHorizontal="8dp"
-                                android:paddingVertical="2dp"
-                                android:layout_marginTop="4dp"/>
-                        </LinearLayout>
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/ic_edit"
-                            app:tint="#94A3B8"/>
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#F1F5F9"
-                        android:layout_marginBottom="12dp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Setting Akses:"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="#1E293B"
-                        android:layout_marginBottom="8dp"/>
-
-                    <RadioGroup
-                        android:id="@+id/rgAksesRizky"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <RadioButton
-                            android:id="@+id/rbAksesRizkyFull"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Kontrol Penuh"
-                            android:textSize="12sp"
-                            android:checked="true"
-                            android:buttonTint="#2563EB"/>
-                        <RadioButton
-                            android:id="@+id/rbAksesRizkyMonitor"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Monitoring Saja"
-                            android:textSize="12sp"
-                            android:buttonTint="#2563EB"/>
-                    </RadioGroup>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                android:orientation="vertical"
+                android:layout_marginBottom="24dp">
+            </LinearLayout>
 
             <!-- Card Undang Anggota -->
             <com.google.android.material.card.MaterialCardView
@@ -377,8 +107,9 @@
                         android:layout_height="52dp"
                         android:orientation="horizontal"
                         android:gravity="center_vertical">
-
+                        
                         <EditText
+                            android:id="@+id/etInviteEmail"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -391,6 +122,7 @@
                             android:layout_marginEnd="12dp"/>
 
                         <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnKirimUndangan"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:text="Kirim"

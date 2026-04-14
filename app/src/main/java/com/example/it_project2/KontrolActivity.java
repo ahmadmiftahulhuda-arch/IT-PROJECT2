@@ -175,6 +175,9 @@ public class KontrolActivity extends AppCompatActivity {
     }
 
     private void selectTab(boolean isOtomatis) {
+        SessionManager sessionManager = new SessionManager(this);
+        boolean isMonitor = sessionManager.getUserAccess().equals(SessionManager.ACCESS_MONITOR);
+
         if (isOtomatis) {
             tabOtomatis.setBackgroundResource(R.drawable.bg_tab_selected);
             tabOtomatis.setTextColor(ContextCompat.getColor(this, R.color.blue_primary));
@@ -182,9 +185,9 @@ public class KontrolActivity extends AppCompatActivity {
             tabManual.setTextColor(ContextCompat.getColor(this, R.color.text_gray));
             tvTabDesc.setText("Mode Otomatis aktif. Sistem mengatur segalanya.");
 
-            // Disable kontrol manual
+            // Disable kontrol manual di mode otomatis
             switchPemanas.setEnabled(false);
-            seekBarSuhu.setEnabled(true);
+            seekBarSuhu.setEnabled(!isMonitor);
         } else {
             tabManual.setBackgroundResource(R.drawable.bg_tab_selected);
             tabManual.setTextColor(ContextCompat.getColor(this, R.color.blue_primary));
@@ -192,9 +195,15 @@ public class KontrolActivity extends AppCompatActivity {
             tabOtomatis.setTextColor(ContextCompat.getColor(this, R.color.text_gray));
             tvTabDesc.setText("Mode Manual aktif. Kendali penuh.");
 
-            // Enable kontrol manual
-            switchPemanas.setEnabled(true);
-            seekBarSuhu.setEnabled(true);
+            // Enable kontrol manual jika bukan monitor
+            switchPemanas.setEnabled(!isMonitor);
+            seekBarSuhu.setEnabled(!isMonitor);
+        }
+
+        if (isMonitor) {
+            tvTabDesc.setText(tvTabDesc.getText() + "\n(Terbatas: Monitoring Saja)");
+            tabOtomatis.setEnabled(false);
+            tabManual.setEnabled(false);
         }
     }
 }

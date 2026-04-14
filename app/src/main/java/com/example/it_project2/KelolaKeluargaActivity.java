@@ -24,31 +24,78 @@ public class KelolaKeluargaActivity extends AppCompatActivity {
 
         SessionManager sessionManager = new SessionManager(this);
 
-        // Inisialisasi RadioGroup Siti Aminah
-        RadioGroup rgAksesSiti = findViewById(R.id.rgAksesSiti);
-        SharedPreferences prefs = getSharedPreferences("FamilyPermissions", MODE_PRIVATE);
-        
-        // Load status Siti
-        boolean isSitiMonitor = prefs.getBoolean("Siti_Monitor", false);
-        rgAksesSiti.check(isSitiMonitor ? R.id.rbAksesSitiMonitor : R.id.rbAksesSitiFull);
+        // Setup Container List Dinamis
+        android.widget.LinearLayout llFamilyMembers = findViewById(R.id.llFamilyMembers);
+        com.google.firebase.database.DatabaseReference familyRef = com.google.firebase.database.FirebaseDatabase.getInstance("https://smartliving-425c0-default-rtdb.asia-southeast1.firebasedatabase.app").getReference("family_members");
 
-        rgAksesSiti.setOnCheckedChangeListener((group, checkedId) -> {
-            boolean isMonitor = (checkedId == R.id.rbAksesSitiMonitor);
-            prefs.edit().putBoolean("Siti_Monitor", isMonitor).apply();
-            Toast.makeText(this, "Akses Siti Aminah: " + (isMonitor ? "Monitoring" : "Kontrol Penuh"), Toast.LENGTH_SHORT).show();
+        // Listener untuk membaca daftar keluarga secara realtime dari Firebase
+        familyRef.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
+            @Override
+            public void onDataChange(@androidx.annotation.NonNull com.google.firebase.database.DataSnapshot snapshot) {
+                llFamilyMembers.removeAllViews();
+                for (com.google.firebase.database.DataSnapshot memberSnap : snapshot.getChildren()) {
+                    String email = memberSnap.child("email").getValue(String.class);
+                    String access = memberSnap.child("access").getValue(String.class);
+                    if (email == null) continue;
+
+                    // Buat view untuk setiap member
+                    View memberView = getLayoutInflater().inflate(R.layout.item_family_member, llFamilyMembers, false);
+                    android.widget.TextView tvEmail = memberView.findViewById(R.id.tvMemberEmail);
+                    RadioGroup rgAkses = memberView.findViewById(R.id.rgAksesMember);
+                    android.widget.ImageView btnRemove = memberView.findViewById(R.id.btnRemoveMember);
+
+                    tvEmail.setText(email);
+                    if ("FULL".equals(access)) {
+                        rgAkses.check(R.id.rbAksesFull);
+                    } else {
+                        rgAkses.check(R.id.rbAksesMonitor);
+                    }
+
+                    // Aksi ketika akses diubah
+                    rgAkses.setOnCheckedChangeListener((group, checkedId) -> {
+                        String newAccess = (checkedId == R.id.rbAksesFull) ? "FULL" : "MONITOR";
+                        memberSnap.getRef().child("access").setValue(newAccess);
+                        Toast.makeText(KelolaKeluargaActivity.this, "Akses " + email + " diubah jadi " + newAccess, Toast.LENGTH_SHORT).show();
+                    });
+
+                    // Aksi untuk hapus (Edit icon diganti fungsi hapus sementara)
+                    btnRemove.setOnClickListener(v -> {
+                        memberSnap.getRef().removeValue();
+                        Toast.makeText(KelolaKeluargaActivity.this, email + " dihapus", Toast.LENGTH_SHORT).show();
+                    });
+
+                    llFamilyMembers.addView(memberView);
+                }
+            }
+
+            @Override
+            public void onCancelled(@androidx.annotation.NonNull com.google.firebase.database.DatabaseError error) {
+                Toast.makeText(KelolaKeluargaActivity.this, "Gagal memuat daftar keluarga", Toast.LENGTH_SHORT).show();
+            }
         });
 
-        // Inisialisasi RadioGroup Rizky Santoso
-        RadioGroup rgAksesRizky = findViewById(R.id.rgAksesRizky);
+        // Logika Undang via Email (Simpan ke Firebase)
+        android.widget.EditText etInviteEmail = findViewById(R.id.etInviteEmail);
+        com.google.android.material.button.MaterialButton btnKirimUndangan = findViewById(R.id.btnKirimUndangan);
         
-        // Load status Rizky
-        boolean isRizkyMonitor = prefs.getBoolean("Rizky_Monitor", false);
-        rgAksesRizky.check(isRizkyMonitor ? R.id.rbAksesRizkyMonitor : R.id.rbAksesRizkyFull);
+        btnKirimUndangan.setOnClickListener(v -> {
+            String email = etInviteEmail.getText().toString().trim();
+            if (email.isEmpty()) {
+                Toast.makeText(this, "Silakan masukkan alamat email", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                Toast.makeText(this, "Format email tidak valid", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            
+            // Generate valid Firebase Key
+            String key = email.replace(".", ",");
+            familyRef.child(key).child("email").setValue(email);
+            familyRef.child(key).child("access").setValue("MONITOR");
 
-        rgAksesRizky.setOnCheckedChangeListener((group, checkedId) -> {
-            boolean isMonitor = (checkedId == R.id.rbAksesRizkyMonitor);
-            prefs.edit().putBoolean("Rizky_Monitor", isMonitor).apply();
-            Toast.makeText(this, "Akses Rizky Santoso: " + (isMonitor ? "Monitoring" : "Kontrol Penuh"), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Berhasil mengundang " + email + " !", Toast.LENGTH_SHORT).show();
+            etInviteEmail.setText("");
         });
 
         // Tombol Simulasi Mode

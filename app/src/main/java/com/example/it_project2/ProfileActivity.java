@@ -26,16 +26,34 @@ public class ProfileActivity extends AppCompatActivity {
         tvProfileName = findViewById(R.id.tvProfileName);
         tvProfileSub = findViewById(R.id.tvProfileSub);
         View btnLogout = findViewById(R.id.btnLogout);
-        View btnBack = findViewById(R.id.btnBack);
         View btnManageFamily = findViewById(R.id.btnManageFamily);
+        View btnThreshold = findViewById(R.id.btnThreshold);
+        View btnPairSensor = findViewById(R.id.btnPairSensor);
+        TextView tvAvatarInitials = findViewById(R.id.tvAvatarInitials);
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
 
         // Set Data User dari Session
-        tvProfileName.setText(sessionManager.getUserName());
-        tvProfileSub.setText("Utama"); // Bisa diganti sesuai kebutuhan
+        String userName = sessionManager.getUserName();
+        tvProfileName.setText(userName);
+        
+        // Atur Inisial Avatar
+        if (userName != null && !userName.isEmpty()) {
+            tvAvatarInitials.setText(String.valueOf(userName.charAt(0)).toUpperCase());
+        }
 
-        // Tombol Back
-        btnBack.setOnClickListener(v -> finish());
+        // Atur Role Akses Dinamis
+        String accessRole = sessionManager.getUserAccess();
+        if (SessionManager.ACCESS_MONITOR.equals(accessRole)) {
+            tvProfileSub.setText("Anggota (Monitoring Only)");
+            btnManageFamily.setVisibility(View.GONE); // Sembunyikan untuk anggota biasa
+        } else {
+            tvProfileSub.setText("Admin Utama (Full Control)");
+            btnManageFamily.setVisibility(View.VISIBLE); // Tampilkan untuk admin
+        }
+
+        // Tombol Threshold & Pair Sensor (Under Construction)
+        btnThreshold.setOnClickListener(v -> Toast.makeText(this, "Fitur Pengaturan Threshold Segera Hadir!", Toast.LENGTH_SHORT).show());
+        btnPairSensor.setOnClickListener(v -> Toast.makeText(this, "Fitur Pair Sensor Baru Segera Hadir!", Toast.LENGTH_SHORT).show());
 
         // Tombol Manage Family
         btnManageFamily.setOnClickListener(v -> {
@@ -43,16 +61,23 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Tombol Logout
+        // Tombol Logout dengan Konfirmasi Dialog
         btnLogout.setOnClickListener(v -> {
-            sessionManager.logout();
-            Toast.makeText(ProfileActivity.this, "Berhasil Logout", Toast.LENGTH_SHORT).show();
-            
-            // Kembali ke LoginActivity dan hapus tumpukan activity
-            Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
+            new androidx.appcompat.app.AlertDialog.Builder(ProfileActivity.this)
+                .setTitle("Konfirmasi Logout")
+                .setMessage("Apakah Anda yakin ingin keluar dari akun ini?")
+                .setPositiveButton("Ya, Keluar", (dialog, which) -> {
+                    sessionManager.logout();
+                    Toast.makeText(ProfileActivity.this, "Berhasil Logout", Toast.LENGTH_SHORT).show();
+                    
+                    // Kembali ke LoginActivity dan hapus tumpukan activity
+                    Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                })
+                .setNegativeButton("Batal", null)
+                .show();
         });
 
         // Konfigurasi Bottom Navigation

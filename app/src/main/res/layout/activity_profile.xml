@@ -13,14 +13,7 @@
         android:layout_height="64dp"
         android:paddingHorizontal="24dp">
 
-        <ImageView
-            android:id="@+id/btnBack"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_back"
-            app:tint="#1E293B"
-            android:contentDescription="Kembali" />
+        <!-- Tombol Back dihapus karena ini navigasi root -->
 
         <TextView
             android:layout_width="wrap_content"
@@ -59,16 +52,16 @@
                     android:layout_gravity="center"
                     app:cardCornerRadius="60dp"
                     app:cardElevation="0dp">
-                    <ImageView
-                        android:id="@+id/ivProfile"
+                    <TextView
+                        android:id="@+id/tvAvatarInitials"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/ic_person"
-                        android:scaleType="centerCrop"
-                        android:background="#F1F5F9"
-                        app:tint="#CBD5E1"
-                        android:padding="28dp"
-                        android:contentDescription="Foto Profil"/>
+                        android:background="#DBEAFE"
+                        android:textColor="#2563EB"
+                        android:textSize="48sp"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:text="U" />
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
@@ -402,12 +395,14 @@
     <!-- ===== BOTTOM NAVIGATION ===== -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
+        style="@style/Widget.MaterialComponents.BottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
         app:elevation="8dp"
         app:menu="@menu/bottom_nav_menu"
         app:labelVisibilityMode="labeled"
+        app:itemRippleColor="@null"
         app:itemIconTint="@color/nav_item_color"
         app:itemTextColor="@color/nav_item_color"/>
 
