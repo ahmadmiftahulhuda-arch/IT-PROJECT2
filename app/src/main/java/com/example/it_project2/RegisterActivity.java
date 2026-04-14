@@ -3,6 +3,8 @@ package com.example.it_project2;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
@@ -15,8 +17,8 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText etNama, etEmail, etPassword, etKonfirmasiPassword;
-    private TextView btnDaftar, tvMasuk;
-    private View btnBack;
+    private TextView btnDaftar, tvMasuk, tvPasswordStrength;
+    private View btnBack, strengthBar1, strengthBar2, strengthBar3, strengthBar4;
     private FirebaseAuth mAuth;
     private SessionManager sessionManager;
 
@@ -40,6 +42,21 @@ public class RegisterActivity extends AppCompatActivity {
         btnDaftar = findViewById(R.id.btnDaftar);
         tvMasuk = findViewById(R.id.tvMasuk);
         btnBack = findViewById(R.id.btnBack);
+        tvPasswordStrength = findViewById(R.id.tvPasswordStrength);
+        strengthBar1 = findViewById(R.id.strengthBar1);
+        strengthBar2 = findViewById(R.id.strengthBar2);
+        strengthBar3 = findViewById(R.id.strengthBar3);
+        strengthBar4 = findViewById(R.id.strengthBar4);
+
+        // ===== PASSWORD STRENGTH INDICATOR =====
+        etPassword.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                updatePasswordStrength(s.toString());
+            }
+        });
 
         btnBack.setOnClickListener(v -> finish());
 
@@ -74,8 +91,23 @@ public class RegisterActivity extends AppCompatActivity {
                 etPassword.requestFocus();
                 return;
             }
-            if (password.length() < 6) {
-                etPassword.setError("Password minimal 6 karakter");
+            if (password.length() < 8) {
+                etPassword.setError("Password minimal 8 karakter");
+                etPassword.requestFocus();
+                return;
+            }
+            if (!password.matches(".*[A-Z].*")) {
+                etPassword.setError("Password harus mengandung minimal 1 huruf kapital (A-Z)");
+                etPassword.requestFocus();
+                return;
+            }
+            if (!password.matches(".*[0-9].*")) {
+                etPassword.setError("Password harus mengandung minimal 1 angka (0-9)");
+                etPassword.requestFocus();
+                return;
+            }
+            if (!password.matches(".*[@#$%^&+=!*()_\\-].*")) {
+                etPassword.setError("Password harus mengandung minimal 1 simbol (@#$%^&+=!*()_-)");
                 etPassword.requestFocus();
                 return;
             }
@@ -151,5 +183,60 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
                     }
                 });
+    }
+
+    // ===== PASSWORD STRENGTH INDICATOR =====
+    private void updatePasswordStrength(String password) {
+        int score = 0;
+
+        boolean hasLength  = password.length() >= 8;
+        boolean hasUpper   = password.matches(".*[A-Z].*");
+        boolean hasNumber  = password.matches(".*[0-9].*");
+        boolean hasSymbol  = password.matches(".*[@#$%^&+=!*()_\\-].*");
+
+        if (hasLength)  score++;
+        if (hasUpper)   score++;
+        if (hasNumber)  score++;
+        if (hasSymbol)  score++;
+
+        // Reset semua bar ke abu-abu
+        int grey = 0xFFE2E8F0;
+        strengthBar1.setBackgroundColor(grey);
+        strengthBar2.setBackgroundColor(grey);
+        strengthBar3.setBackgroundColor(grey);
+        strengthBar4.setBackgroundColor(grey);
+
+        switch (score) {
+            case 0:
+                tvPasswordStrength.setText("Masukkan password");
+                tvPasswordStrength.setTextColor(0xFF94A3B8);
+                break;
+            case 1:
+                strengthBar1.setBackgroundColor(0xFFEF4444); // merah
+                tvPasswordStrength.setText("⚠ Sangat Lemah");
+                tvPasswordStrength.setTextColor(0xFFEF4444);
+                break;
+            case 2:
+                strengthBar1.setBackgroundColor(0xFFF97316); // oranye
+                strengthBar2.setBackgroundColor(0xFFF97316);
+                tvPasswordStrength.setText("● Lemah — tambahkan huruf kapital, angka, atau simbol");
+                tvPasswordStrength.setTextColor(0xFFF97316);
+                break;
+            case 3:
+                strengthBar1.setBackgroundColor(0xFFFACC15); // kuning
+                strengthBar2.setBackgroundColor(0xFFFACC15);
+                strengthBar3.setBackgroundColor(0xFFFACC15);
+                tvPasswordStrength.setText("◑ Cukup Kuat");
+                tvPasswordStrength.setTextColor(0xFFF59E0B);
+                break;
+            case 4:
+                strengthBar1.setBackgroundColor(0xFF16A34A); // hijau
+                strengthBar2.setBackgroundColor(0xFF16A34A);
+                strengthBar3.setBackgroundColor(0xFF16A34A);
+                strengthBar4.setBackgroundColor(0xFF16A34A);
+                tvPasswordStrength.setText("✓ Sangat Kuat");
+                tvPasswordStrength.setTextColor(0xFF16A34A);
+                break;
+        }
     }
 }

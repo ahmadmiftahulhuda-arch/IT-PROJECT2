@@ -204,6 +204,63 @@
                         android:contentDescription="Show Password"/>
                 </LinearLayout>
 
+                <!-- Password Strength Indicator -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="6dp">
+
+                        <!-- 4 bar kekuatan -->
+                        <View
+                            android:id="@+id/strengthBar1"
+                            android:layout_width="0dp"
+                            android:layout_height="4dp"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="4dp"
+                            android:background="#E2E8F0"
+                            android:radius="2dp"/>
+                        <View
+                            android:id="@+id/strengthBar2"
+                            android:layout_width="0dp"
+                            android:layout_height="4dp"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="4dp"
+                            android:background="#E2E8F0"
+                            android:radius="2dp"/>
+                        <View
+                            android:id="@+id/strengthBar3"
+                            android:layout_width="0dp"
+                            android:layout_height="4dp"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="4dp"
+                            android:background="#E2E8F0"
+                            android:radius="2dp"/>
+                        <View
+                            android:id="@+id/strengthBar4"
+                            android:layout_width="0dp"
+                            android:layout_height="4dp"
+                            android:layout_weight="1"
+                            android:background="#E2E8F0"
+                            android:radius="2dp"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvPasswordStrength"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Masukkan password"
+                        android:textSize="11sp"
+                        android:textColor="#94A3B8"/>
+                </LinearLayout>
+
                 <!-- Konfirmasi Kata Sandi -->
                 <TextView
                     android:layout_width="wrap_content"
