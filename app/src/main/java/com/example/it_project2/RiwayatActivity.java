@@ -17,6 +17,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.animation.Easing;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,6 +39,7 @@ public class RiwayatActivity extends AppCompatActivity {
     private TextView tabHariIni, tab7Hari, tab30Hari;
     private TextView tvAvgSuhu, tvMinSuhu, tvMaxSuhu;
     private TextView tvSelectedDate, tvAnalysisContent;
+    private TextView tvBannerTitle, tvBannerSub;
     private View btnFilterDate;
 
     // Firebase
@@ -55,38 +57,41 @@ public class RiwayatActivity extends AppCompatActivity {
         }
 
         // Bind view
-        lineChart       = findViewById(R.id.lineChart);
-        tabHariIni      = findViewById(R.id.tabHariIni);
-        tab7Hari        = findViewById(R.id.tab7Hari);
-        tab30Hari       = findViewById(R.id.tab30Hari);
-        tvAvgSuhu       = findViewById(R.id.tvAvgSuhu);
-        tvMinSuhu       = findViewById(R.id.tvMinSuhu);
-        tvMaxSuhu       = findViewById(R.id.tvMaxSuhu);
-        tvSelectedDate  = findViewById(R.id.tvSelectedDate);
+        lineChart         = findViewById(R.id.lineChart);
+        tabHariIni        = findViewById(R.id.tabHariIni);
+        tab7Hari          = findViewById(R.id.tab7Hari);
+        tab30Hari         = findViewById(R.id.tab30Hari);
+        tvAvgSuhu         = findViewById(R.id.tvAvgSuhu);
+        tvMinSuhu         = findViewById(R.id.tvMinSuhu);
+        tvMaxSuhu         = findViewById(R.id.tvMaxSuhu);
+        tvSelectedDate    = findViewById(R.id.tvSelectedDate);
         tvAnalysisContent = findViewById(R.id.tvAnalysisContent);
-        btnFilterDate   = findViewById(R.id.btnFilterDate);
-        View btnBack    = findViewById(R.id.btnBack);
-
-        btnBack.setOnClickListener(v -> finish());
+        tvBannerTitle     = findViewById(R.id.tvBannerTitle);
+        tvBannerSub       = findViewById(R.id.tvBannerSub);
+        btnFilterDate     = findViewById(R.id.btnFilterDate);
 
         // ===== FIREBASE =====
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://smartliving-425c0-default-rtdb.asia-southeast1.firebasedatabase.app");
         riwayatRef = database.getReference("riwayat_suhu");
 
         // Load data default (Hari ini)
+        updateBanner("Hari Ini", "Melihat data sensor hari ini");
         loadDataRange(0);
 
         // Tab listener
         tabHariIni.setOnClickListener(v -> {
             setActiveTab(0);
+            updateBanner("Hari Ini", "Melihat data sensor hari ini");
             loadDataRange(0);
         });
         tab7Hari.setOnClickListener(v -> {
             setActiveTab(1);
+            updateBanner("7 Hari", "Rekap 7 hari terakhir");
             loadDataRange(7);
         });
         tab30Hari.setOnClickListener(v -> {
             setActiveTab(2);
+            updateBanner("30 Hari", "Rekap 30 hari terakhir");
             loadDataRange(30);
         });
 
@@ -211,14 +216,22 @@ public class RiwayatActivity extends AppCompatActivity {
         });
     }
 
+    private void updateBanner(String title, String subtitle) {
+        if (tvBannerTitle != null) tvBannerTitle.setText(title);
+        if (tvBannerSub != null)   tvBannerSub.setText(subtitle);
+    }
+
     private void updateAnalysis(double avg, double max) {
         String analysis;
         if (max > 40) {
             analysis = "Terdeteksi suhu sangat tinggi (" + String.format("%.1f", max) + "°C). Pastikan blower pendingin bekerja maksimal untuk mencegah overheat.";
+            if (tvBannerSub != null) tvBannerSub.setText("⚠ Suhu kritis terdeteksi!");
         } else if (avg < 25) {
             analysis = "Rata-rata suhu cukup rendah. Pemanas mungkin perlu diaktifkan untuk menjaga stabilitas lingkungan.";
+            if (tvBannerSub != null) tvBannerSub.setText("Suhu cenderung rendah");
         } else {
             analysis = "Suhu lingkungan stabil di angka " + String.format("%.1f", avg) + "°C. Kondisi ini ideal untuk operasional normal.";
+            if (tvBannerSub != null) tvBannerSub.setText("✓ Kondisi suhu normal");
         }
         tvAnalysisContent.setText(analysis);
     }
@@ -289,7 +302,7 @@ public class RiwayatActivity extends AppCompatActivity {
         
         lineChart.getAxisRight().setEnabled(false);
 
-        lineChart.animateY(1500);
+        lineChart.animateX(1500, Easing.EaseInOutCubic);
         lineChart.invalidate();
     }
 
