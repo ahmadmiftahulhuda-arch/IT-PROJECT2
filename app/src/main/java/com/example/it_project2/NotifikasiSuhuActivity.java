@@ -18,13 +18,17 @@ public class NotifikasiSuhuActivity extends AppCompatActivity {
         }
 
         TextView btnTutup = findViewById(R.id.btnTutup);
-        MaterialButton btnAction = findViewById(R.id.btnAction);
+        TextView tvSuhuNotif = findViewById(R.id.tvSuhuNotif);
         MaterialButton btnHubungi = findViewById(R.id.btnHubungi);
+
+        // Ambil data suhu dari intent
+        double suhu = getIntent().getDoubleExtra("suhu", 0.0);
+        tvSuhuNotif.setText(String.valueOf((int) suhu));
 
         btnTutup.setOnClickListener(v -> finish());
         
-        btnAction.setOnClickListener(v -> {
-            // Logika aksi jika diperlukan
+        btnHubungi.setOnClickListener(v -> {
+            // Logika hubungi keluarga jika diperlukan
             finish();
         });
 

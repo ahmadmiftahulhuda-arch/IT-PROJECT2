@@ -127,36 +127,33 @@
                     android:orientation="vertical"
                     android:padding="4dp">
 
-                    <!-- Threshold Settings -->
+                    <!-- Detail Akun -->
                     <LinearLayout
-                        android:id="@+id/btnThreshold"
+                        android:id="@+id/btnDetailAkun"
                         android:layout_width="match_parent"
                         android:layout_height="64dp"
                         android:gravity="center_vertical"
-                        android:paddingHorizontal="16dp">
-
+                        android:paddingHorizontal="16dp"
+                        android:background="?attr/selectableItemBackground">
                         <View
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="@drawable/bg_icon_circle"/>
-
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_marginStart="-30dp"
-                            android:src="@drawable/ic_threshold"
+                            android:src="@drawable/ic_person"
                             app:tint="#3B82F6"/>
-
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Threshold Settings"
+                            android:text="Detail Akun"
                             android:layout_marginStart="26dp"
                             android:textColor="#1E293B"
                             android:textSize="16sp"
                             android:textStyle="bold"/>
-
                         <ImageView
                             android:layout_width="14dp"
                             android:layout_height="14dp"
@@ -166,36 +163,69 @@
 
                     <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" android:layout_marginHorizontal="16dp"/>
 
-                    <!-- Manage Family -->
+                    <!-- Kelola Keluarga (Hanya untuk Admin) -->
                     <LinearLayout
                         android:id="@+id/btnManageFamily"
                         android:layout_width="match_parent"
                         android:layout_height="64dp"
                         android:gravity="center_vertical"
-                        android:paddingHorizontal="16dp">
-
+                        android:paddingHorizontal="16dp"
+                        android:background="?attr/selectableItemBackground">
                         <View
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="@drawable/bg_icon_circle"/>
-
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_marginStart="-30dp"
                             android:src="@drawable/ic_family"
                             app:tint="#3B82F6"/>
-
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Manage Family"
+                            android:text="Kelola Keluarga"
                             android:layout_marginStart="26dp"
                             android:textColor="#1E293B"
                             android:textSize="16sp"
                             android:textStyle="bold"/>
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#CBD5E1"/>
+                    </LinearLayout>
 
+                    <View android:id="@+id/separatorFamily" android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" android:layout_marginHorizontal="16dp"/>
+
+                    <!-- Keamanan & Kata Sandi -->
+                    <LinearLayout
+                        android:id="@+id/btnKeamanan"
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="16dp"
+                        android:background="?attr/selectableItemBackground">
+                        <View
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/bg_icon_circle"/>
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginStart="-30dp"
+                            android:src="@drawable/ic_lock"
+                            app:tint="#3B82F6"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Keamanan &amp; Kata Sandi"
+                            android:layout_marginStart="26dp"
+                            android:textColor="#1E293B"
+                            android:textSize="16sp"
+                            android:textStyle="bold"/>
                         <ImageView
                             android:layout_width="14dp"
                             android:layout_height="14dp"
@@ -205,36 +235,33 @@
 
                     <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" android:layout_marginHorizontal="16dp"/>
 
-                    <!-- Pair Sensor -->
+                    <!-- Aktivitas Login -->
                     <LinearLayout
-                        android:id="@+id/btnPairSensor"
+                        android:id="@+id/btnAktivitasLogin"
                         android:layout_width="match_parent"
                         android:layout_height="64dp"
                         android:gravity="center_vertical"
-                        android:paddingHorizontal="16dp">
-
+                        android:paddingHorizontal="16dp"
+                        android:background="?attr/selectableItemBackground">
                         <View
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="@drawable/bg_icon_circle"/>
-
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_marginStart="-30dp"
-                            android:src="@drawable/ic_sensor_pair"
+                            android:src="@drawable/ic_history"
                             app:tint="#3B82F6"/>
-
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Pair Sensor"
+                            android:text="Aktivitas Login"
                             android:layout_marginStart="26dp"
                             android:textColor="#1E293B"
                             android:textSize="16sp"
                             android:textStyle="bold"/>
-
                         <ImageView
                             android:layout_width="14dp"
                             android:layout_height="14dp"
@@ -242,111 +269,44 @@
                             app:tint="#CBD5E1"/>
                     </LinearLayout>
 
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- ===== PREFERENCES SECTION ===== -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="PREFERENCES"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:textColor="#94A3B8"
-                android:letterSpacing="0.05"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="12dp"/>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp"
-                app:cardBackgroundColor="#F8FAFC">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="4dp">
-
-                    <!-- Push Notifications -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="64dp"
-                        android:gravity="center_vertical"
-                        android:paddingHorizontal="16dp">
-
-                        <View
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="@drawable/bg_icon_circle"/>
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginStart="-30dp"
-                            android:src="@drawable/ic_notifications"
-                            app:tint="#3B82F6"/>
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Push Notifications"
-                            android:layout_marginStart="26dp"
-                            android:textColor="#1E293B"
-                            android:textSize="16sp"
-                            android:textStyle="bold"/>
-
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="true"
-                            app:thumbTint="#FFFFFF"
-                            app:trackTint="#E2E8F0"/>
-                    </LinearLayout>
-
                     <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" android:layout_marginHorizontal="16dp"/>
 
-                    <!-- Dark Theme -->
+                    <!-- Pusat Bantuan -->
                     <LinearLayout
+                        android:id="@+id/btnPusatBantuan"
                         android:layout_width="match_parent"
                         android:layout_height="64dp"
                         android:gravity="center_vertical"
-                        android:paddingHorizontal="16dp">
-
+                        android:paddingHorizontal="16dp"
+                        android:background="?attr/selectableItemBackground">
                         <View
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="@drawable/bg_icon_circle"/>
-
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_marginStart="-30dp"
-                            android:src="@drawable/ic_moon"
+                            android:src="@drawable/ic_edukasi"
                             app:tint="#3B82F6"/>
-
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Dark Theme"
+                            android:text="Pusat Bantuan"
                             android:layout_marginStart="26dp"
                             android:textColor="#1E293B"
                             android:textSize="16sp"
                             android:textStyle="bold"/>
-
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:thumbTint="#FFFFFF"
-                            app:trackTint="#E2E8F0"/>
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#CBD5E1"/>
                     </LinearLayout>
-
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
 
             <!-- ===== LOGOUT SECTION (Added Missing ID) ===== -->
             <androidx.cardview.widget.CardView

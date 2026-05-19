@@ -32,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
     // Firebase Realtime Database
     private DatabaseReference sensorRef;
     private DatabaseReference heaterRef;
+    private double currentThreshold = 20.0;
+    private boolean isNotificationShown = false;
+    private long lastSensorUpdate = 0;
+    private android.os.Handler statusHandler = new android.os.Handler(android.os.Looper.getMainLooper());
+    private Runnable statusChecker;
 
     // OpenWeatherMap API untuk Kondisi Luar Ruangan
     private static final String API_KEY = "2cfb11165aef08cf723950125e1f9ae0";
@@ -105,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
         sensorRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
+                lastSensorUpdate = System.currentTimeMillis();
                 // Ambil data suhu
                 Double suhu = snapshot.child("suhu").getValue(Double.class);
                 Double kelembapan = snapshot.child("kelembapan").getValue(Double.class);
@@ -112,6 +118,20 @@ public class MainActivity extends AppCompatActivity {
                 if (suhu != null) {
                     tvSuhu.setText(String.format(Locale.getDefault(), "%.1f°C", suhu));
                     updateStatusCard(suhu);
+                    
+                    if (suhu <= currentThreshold) {
+                        if (!isNotificationShown) {
+                            isNotificationShown = true;
+                            Intent intent = new Intent(MainActivity.this, NotifikasiSuhuActivity.class);
+                            intent.putExtra("suhu", suhu);
+                            startActivity(intent);
+                            logAktivitas("Peringatan Suhu", 
+                                "Suhu " + suhu + "°C menyentuh ambang batas (" + currentThreshold + "°C)", true);
+                        }
+                    } else if (suhu > currentThreshold + 1.0) {
+                        // Reset status notifikasi jika suhu sudah kembali normal (dengan hysteresis 1°C)
+                        isNotificationShown = false;
+                    }
                 }
 
                 if (kelembapan != null) {
@@ -132,12 +152,39 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 Boolean isOn = snapshot.child("status").getValue(Boolean.class);
+                Double threshold = snapshot.child("threshold").getValue(Double.class);
+                String mode = snapshot.child("mode").getValue(String.class);
+                
+                if (threshold != null) {
+                    currentThreshold = threshold;
+                }
+
                 if (isOn != null) {
+                    // Update UI Heater
+                    TextView tvHeaterMode = findViewById(R.id.tvHeaterMode);
+                    TextView tvHeaterStatusText = findViewById(R.id.tvHeaterStatusText);
+                    
+                    if (tvHeaterMode != null) tvHeaterMode.setText("Mode " + (mode != null ? mode : "Manual"));
+                    if (tvHeaterStatusText != null) {
+                        tvHeaterStatusText.setText(isOn ? "ON" : "OFF");
+                        tvHeaterStatusText.setTextColor(isOn ? 0xFF16A34A : 0xFFEF4444);
+                    }
+
                     // Update switch tanpa trigger listener
                     switchHeater.setOnCheckedChangeListener(null);
                     switchHeater.setChecked(isOn);
+                    
+                    // Jika mode otomatis, matikan interaksi manual
+                    SessionManager sessionManager = new SessionManager(MainActivity.this);
+                    boolean isMonitor = sessionManager.getUserAccess().equals(SessionManager.ACCESS_MONITOR);
+                    boolean isOtomatis = "otomatis".equals(mode);
+                    
+                    switchHeater.setEnabled(!isMonitor && !isOtomatis);
+
                     switchHeater.setOnCheckedChangeListener((buttonView, isChecked) -> {
                         heaterRef.child("status").setValue(isChecked);
+                        logAktivitas(isChecked ? "Pemanas Aktif" : "Pemanas Standby", 
+                            "Status diperbarui oleh sistem/pengguna", isChecked);
                     });
                 }
             }
@@ -176,6 +223,48 @@ public class MainActivity extends AppCompatActivity {
             switchHeater.setEnabled(false);
             tvStatusDesc.setText(tvStatusDesc.getText() + " (Mode Monitoring)");
         }
+        
+        // ===== STATUS CHECKER (Heartbeat) =====
+        statusChecker = new Runnable() {
+            @Override
+            public void run() {
+                long now = System.currentTimeMillis();
+                TextView tvSensorDhtStatus = findViewById(R.id.tvSensorDhtStatus);
+                TextView tvSensorDhtConn = findViewById(R.id.tvSensorDhtConn);
+
+                if (lastSensorUpdate == 0 || now - lastSensorUpdate > 10000) {
+                    // Jika belum pernah update atau lebih dari 10 detik tidak ada update data
+                    tvStatus.setText("SENSOR OFFLINE");
+                    tvStatus.setTextColor(android.graphics.Color.WHITE);
+                    tvStatusDesc.setText("Perangkat tidak terdeteksi / Mati");
+                    androidx.cardview.widget.CardView cardStatusSystem = findViewById(R.id.cardStatusSystem);
+                    if (cardStatusSystem != null) cardStatusSystem.setCardBackgroundColor(android.graphics.Color.parseColor("#64748B"));
+                    
+                    // Sembunyikan Icon Shield jika offline
+                    android.widget.ImageView ivStatusIcon = findViewById(R.id.ivStatusIcon);
+                    if (ivStatusIcon != null) ivStatusIcon.setVisibility(android.view.View.GONE);
+                    
+                    // Update Label Kecil DHT22
+                    if (tvSensorDhtStatus != null) {
+                        tvSensorDhtStatus.setText("Mati");
+                        tvSensorDhtStatus.setTextColor(0xFFEF4444); // Merah
+                    }
+                    if (tvSensorDhtConn != null) tvSensorDhtConn.setText("Terputus");
+                } else {
+                    // Sensor Aktif
+                    android.widget.ImageView ivStatusIcon = findViewById(R.id.ivStatusIcon);
+                    if (ivStatusIcon != null) ivStatusIcon.setVisibility(android.view.View.VISIBLE);
+
+                    if (tvSensorDhtStatus != null) {
+                        tvSensorDhtStatus.setText("Aktif");
+                        tvSensorDhtStatus.setTextColor(0xFF10B981); // Hijau
+                    }
+                    if (tvSensorDhtConn != null) tvSensorDhtConn.setText("Terhubung");
+                }
+                statusHandler.postDelayed(this, 5000);
+            }
+        };
+        statusHandler.post(statusChecker);
 
         // ===== LOKASI & CUACA LUAR RUANGAN =====
         fusedLocationClient = com.google.android.gms.location.LocationServices.getFusedLocationProviderClient(this);
@@ -369,5 +458,12 @@ public class MainActivity extends AppCompatActivity {
             ivStatusIcon.setColorFilter(android.graphics.Color.parseColor("#F87171"));
             tvStatusDesc.setText("Risiko kesehatan meningkat");
         }
+    }
+    private void logAktivitas(String title, String desc, boolean isActive) {
+        DatabaseReference logRef = FirebaseDatabase.getInstance("https://smartliving-425c0-default-rtdb.asia-southeast1.firebasedatabase.app")
+            .getReference("aktivitas");
+        String id = logRef.push().getKey();
+        Aktivitas log = new Aktivitas(title, desc, System.currentTimeMillis(), isActive);
+        if (id != null) logRef.child(id).setValue(log);
     }
 }

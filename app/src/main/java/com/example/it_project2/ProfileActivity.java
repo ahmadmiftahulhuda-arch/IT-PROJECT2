@@ -27,8 +27,11 @@ public class ProfileActivity extends AppCompatActivity {
         tvProfileSub = findViewById(R.id.tvProfileSub);
         View btnLogout = findViewById(R.id.btnLogout);
         View btnManageFamily = findViewById(R.id.btnManageFamily);
-        View btnThreshold = findViewById(R.id.btnThreshold);
-        View btnPairSensor = findViewById(R.id.btnPairSensor);
+        View separatorFamily = findViewById(R.id.separatorFamily);
+        View btnDetailAkun = findViewById(R.id.btnDetailAkun);
+        View btnKeamanan = findViewById(R.id.btnKeamanan);
+        View btnAktivitasLogin = findViewById(R.id.btnAktivitasLogin);
+        View btnPusatBantuan = findViewById(R.id.btnPusatBantuan);
         TextView tvAvatarInitials = findViewById(R.id.tvAvatarInitials);
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
 
@@ -45,15 +48,19 @@ public class ProfileActivity extends AppCompatActivity {
         String accessRole = sessionManager.getUserAccess();
         if (SessionManager.ACCESS_MONITOR.equals(accessRole)) {
             tvProfileSub.setText("Anggota (Monitoring Only)");
-            btnManageFamily.setVisibility(View.GONE); // Sembunyikan untuk anggota biasa
+            btnManageFamily.setVisibility(View.GONE);
+            separatorFamily.setVisibility(View.GONE);
         } else {
             tvProfileSub.setText("Admin Utama (Full Control)");
-            btnManageFamily.setVisibility(View.VISIBLE); // Tampilkan untuk admin
+            btnManageFamily.setVisibility(View.VISIBLE);
+            separatorFamily.setVisibility(View.VISIBLE);
         }
 
-        // Tombol Threshold & Pair Sensor (Under Construction)
-        btnThreshold.setOnClickListener(v -> Toast.makeText(this, "Fitur Pengaturan Threshold Segera Hadir!", Toast.LENGTH_SHORT).show());
-        btnPairSensor.setOnClickListener(v -> Toast.makeText(this, "Fitur Pair Sensor Baru Segera Hadir!", Toast.LENGTH_SHORT).show());
+        // Click listeners untuk menu baru
+        btnDetailAkun.setOnClickListener(v -> startActivity(new Intent(this, DetailAkunActivity.class)));
+        btnKeamanan.setOnClickListener(v -> startActivity(new Intent(this, KeamananActivity.class)));
+        btnAktivitasLogin.setOnClickListener(v -> startActivity(new Intent(this, AktivitasLoginActivity.class)));
+        btnPusatBantuan.setOnClickListener(v -> startActivity(new Intent(this, PusatBantuanActivity.class)));
 
         // Tombol Manage Family
         btnManageFamily.setOnClickListener(v -> {

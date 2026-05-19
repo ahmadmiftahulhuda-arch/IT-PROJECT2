@@ -359,6 +359,7 @@
                                 android:textStyle="bold"
                                 android:textColor="#1E293B"/>
                             <TextView
+                                android:id="@+id/tvSensorDhtStatus"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Aktif"
@@ -368,6 +369,7 @@
                         </LinearLayout>
                         
                         <TextView
+                            android:id="@+id/tvSensorDhtConn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Terhubung"
@@ -410,6 +412,7 @@
                                 android:textStyle="bold"
                                 android:textColor="#1E293B"/>
                             <TextView
+                                android:id="@+id/tvHeaterMode"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Standby"
@@ -419,6 +422,7 @@
                         </LinearLayout>
                         
                         <TextView
+                            android:id="@+id/tvHeaterStatusText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="OFF"

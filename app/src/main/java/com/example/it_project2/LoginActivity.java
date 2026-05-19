@@ -343,9 +343,61 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void proceedToHome() {
+        recordLoginHistory();
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
+    }
+
+    private void recordLoginHistory() {
+        if (mAuth.getCurrentUser() == null) return;
+        
+        String uid = mAuth.getCurrentUser().getUid();
+        com.google.firebase.database.DatabaseReference historyRef = 
+            com.google.firebase.database.FirebaseDatabase.getInstance("https://smartliving-425c0-default-rtdb.asia-southeast1.firebasedatabase.app")
+            .getReference("login_history").child(uid);
+
+        String device = android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL;
+        String time = new java.text.SimpleDateFormat("dd MMM yyyy, HH:mm", java.util.Locale.getDefault()).format(new java.util.Date());
+        
+        // Cek Izin Lokasi & Ambil Lokasi Riil
+        com.google.android.gms.location.FusedLocationProviderClient fusedLocationClient = 
+            com.google.android.gms.location.LocationServices.getFusedLocationProviderClient(this);
+
+        if (androidx.core.app.ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            // Gunakan getCurrentLocation agar lebih akurat dibanding getLastLocation
+            fusedLocationClient.getCurrentLocation(com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY, null)
+                .addOnSuccessListener(this, location -> {
+                    String finalLoc = "Lokasi tidak terdeteksi";
+                    if (location != null) {
+                        try {
+                            android.location.Geocoder geocoder = new android.location.Geocoder(this, java.util.Locale.getDefault());
+                            java.util.List<android.location.Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                            if (addresses != null && !addresses.isEmpty()) {
+                                String city = addresses.get(0).getLocality();
+                                String country = addresses.get(0).getCountryName();
+                                finalLoc = (city != null ? city : "Kota tidak dikenal") + ", " + (country != null ? country : "");
+                            }
+                        } catch (Exception e) {
+                            finalLoc = "Error: " + e.getMessage();
+                        }
+                    }
+                    saveLoginToDB(historyRef, device, finalLoc, time);
+                })
+                .addOnFailureListener(e -> {
+                    saveLoginToDB(historyRef, device, "GPS mati / Error lokasi", time);
+                });
+        } else {
+            saveLoginToDB(historyRef, device, "Izin lokasi ditolak", time);
+        }
+    }
+
+    private void saveLoginToDB(com.google.firebase.database.DatabaseReference historyRef, String device, String loc, String time) {
+        java.util.Map<String, Object> history = new java.util.HashMap<>();
+        history.put("device", device);
+        history.put("location", loc);
+        history.put("time", time);
+        historyRef.push().setValue(history);
     }
 }

@@ -117,9 +117,10 @@
                     android:orientation="horizontal"
                     android:gravity="bottom">
                     <TextView
+                        android:id="@+id/tvSuhuNotif"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="12"
+                        android:text="--"
                         android:textSize="48sp"
                         android:textStyle="bold"
                         android:textColor="#1E293B"/>
@@ -166,23 +167,7 @@
         android:layout_height="0dp"
         android:layout_weight="1.2"/>
 
-    <!-- Action Buttons (Gradient & Style sesuai gambar) -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnAction"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:text="Aktifkan Pemanas"
-        android:textAllCaps="false"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:cornerRadius="32dp"
-        android:backgroundTint="@null"
-        android:background="@drawable/bg_button_blue_gradient"
-        app:icon="@drawable/ic_moon"
-        app:iconGravity="textStart"
-        app:iconPadding="14dp"
-        android:layout_marginBottom="16dp"
-        app:elevation="6dp"/>
+    <!-- Action Buttons (Style sesuai gambar) -->
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnHubungi"

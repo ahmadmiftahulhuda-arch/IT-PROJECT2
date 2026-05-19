@@ -138,8 +138,8 @@ public class InformasiActivity extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, d MMMM", new Locale("id", "ID"));
         tvDate.setText(dateFormat.format(now));
 
-        // Format jam: "10:45 AM"
-        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+        // Format jam: "10:45" (24 jam)
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
         tvTime.setText(timeFormat.format(now));
     }
 
@@ -255,7 +255,7 @@ public class InformasiActivity extends AppCompatActivity {
                 JSONObject sysObj = json.getJSONObject("sys");
                 long sunrise = sysObj.getLong("sunrise");
                 long sunset = sysObj.getLong("sunset");
-                java.text.SimpleDateFormat sdfTime = new java.text.SimpleDateFormat("hh:mm a", Locale.getDefault());
+                java.text.SimpleDateFormat sdfTime = new java.text.SimpleDateFormat("HH:mm", Locale.getDefault());
                 String sunriseStr = sdfTime.format(new java.util.Date(sunrise * 1000));
                 String sunsetStr = sdfTime.format(new java.util.Date(sunset * 1000));
 

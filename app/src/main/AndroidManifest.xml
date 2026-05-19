@@ -71,6 +71,15 @@
 
         <!-- Notifikasi Suhu -->
         <activity android:name=".NotifikasiSuhuActivity" android:exported="false"/>
+
+        <!-- Riwayat Aktivitas Lengkap -->
+        <activity android:name=".AktivitasActivity" android:exported="false"/>
+
+        <!-- Profile Sub-Pages -->
+        <activity android:name=".DetailAkunActivity" android:exported="false"/>
+        <activity android:name=".KeamananActivity" android:exported="false"/>
+        <activity android:name=".AktivitasLoginActivity" android:exported="false"/>
+        <activity android:name=".PusatBantuanActivity" android:exported="false"/>
     </application>
 
 </manifest>
