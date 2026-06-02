@@ -201,9 +201,9 @@ public class KontrolActivity extends AppCompatActivity {
             tabManual.setTextColor(ContextCompat.getColor(this, R.color.text_gray));
             tvTabDesc.setText("Mode Otomatis aktif. Sistem mengatur segalanya.");
 
-            // Disable kontrol manual di mode otomatis
+            // Jika otomatis: switch pemanas tidak aktif, seekbar suhu aktif
             switchPemanas.setEnabled(false);
-            seekBarSuhu.setEnabled(false);
+            seekBarSuhu.setEnabled(!isMonitor);
         } else {
             tabManual.setBackgroundResource(R.drawable.bg_tab_selected);
             tabManual.setTextColor(ContextCompat.getColor(this, R.color.blue_primary));
@@ -211,9 +211,9 @@ public class KontrolActivity extends AppCompatActivity {
             tabOtomatis.setTextColor(ContextCompat.getColor(this, R.color.text_gray));
             tvTabDesc.setText("Mode Manual aktif. Kendali penuh.");
 
-            // Enable kontrol manual jika bukan monitor
+            // Jika manual: switch pemanas aktif, seekbar suhu tidak aktif
             switchPemanas.setEnabled(!isMonitor);
-            seekBarSuhu.setEnabled(!isMonitor);
+            seekBarSuhu.setEnabled(false);
         }
 
         if (isMonitor) {
