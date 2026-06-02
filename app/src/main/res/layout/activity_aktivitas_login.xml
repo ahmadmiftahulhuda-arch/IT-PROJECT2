@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Perangkat yang Terhubung"
-                android:textColor="#000000"
+                android:textColor="#1E293B"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"/>
@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Anda sedang login di perangkat berikut"
-                android:textColor="#334155"
+                android:textColor="#475569"
                 android:textSize="13sp"
                 android:layout_marginBottom="24dp"/>
 

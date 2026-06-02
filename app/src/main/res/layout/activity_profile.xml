@@ -99,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:text="Utama"
                 android:textSize="14sp"
-                android:textColor="#94A3B8"
+                android:textColor="#64748B"
                 android:layout_marginTop="4dp"/>
 
             <!-- ===== SETTINGS SECTION ===== -->
@@ -109,7 +109,7 @@
                 android:text="SETTINGS"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                android:textColor="#94A3B8"
+                android:textColor="#64748B"
                 android:letterSpacing="0.05"
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="12dp"/>
@@ -348,7 +348,7 @@
         android:layout_height="wrap_content"
         android:text="Version 2.4.0 (Build 182)"
         android:textSize="12sp"
-        android:textColor="#94A3B8"
+        android:textColor="#64748B"
         android:gravity="center"
         android:layout_marginBottom="16dp"/>
 

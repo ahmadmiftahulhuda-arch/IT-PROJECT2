@@ -430,12 +430,10 @@
                             android:textStyle="bold"
                             android:textColor="#EF4444"
                             android:layout_marginEnd="8dp"/>
-                        <Switch
+                        <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/switchHeater"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:thumbTint="@color/blue_primary"
-                            android:trackTint="#E2E8F0"/>
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
 
                 </LinearLayout>

@@ -191,7 +191,7 @@
         android:id="@+id/btnTutup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Saya Aman, Tutup bakekok"
+        android:text="Saya Aman, Tutup"
         android:textSize="15sp"
         android:textColor="#94A3B8"
         android:layout_marginBottom="24dp"

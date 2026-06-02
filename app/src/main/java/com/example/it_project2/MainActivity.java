@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Color;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Switch;
+import androidx.appcompat.widget.SwitchCompat;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView tvHalo, tvStatus, tvStatusDesc, tvSuhu, tvKelembapan;
     private android.view.View btnNotifikasi; // Menambahkan FrameLayout notifikasi
-    private Switch switchHeater;
+    private SwitchCompat switchHeater;
     private BottomNavigationView bottomNav;
 
     // View Kondisi Luar Ruangan

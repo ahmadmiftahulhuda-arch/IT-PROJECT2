@@ -98,6 +98,7 @@ public class KelolaKeluargaActivity extends AppCompatActivity {
             etInviteEmail.setText("");
         });
 
+        /*
         // Tombol Simulasi Mode
         MaterialButton btnSimulasi = findViewById(R.id.btnSimulasiMonitoring);
         boolean isCurrentMonitor = sessionManager.getUserAccess().equals(SessionManager.ACCESS_MONITOR);
@@ -119,6 +120,7 @@ public class KelolaKeluargaActivity extends AppCompatActivity {
                 btnSimulasi.setTextColor(0xFF16A34A);
             }
         });
+        */
 
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
         

@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Pertanyaan Umum (FAQ)"
-                android:textColor="#000000"
+                android:textColor="#1E293B"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="16dp"/>
@@ -69,7 +69,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="Alat kami memantau suhu dan kelembapan secara real-time melalui sensor yang terhubung ke Firebase."
-                        android:textColor="#64748B"
+                        android:textColor="#475569"
                         android:textSize="13sp"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -96,7 +96,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="Pastikan perangkat terhubung ke Wi-Fi dan cek status koneksi pada halaman Kontrol."
-                        android:textColor="#64748B"
+                        android:textColor="#475569"
                         android:textSize="13sp"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

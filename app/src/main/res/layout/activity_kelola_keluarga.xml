@@ -115,6 +115,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/input_background"
                             android:hint="nama@email.com"
+                            android:textColorHint="#94A3B8"
                             android:paddingHorizontal="16dp"
                             android:textSize="14sp"
                             android:inputType="textEmailAddress"
@@ -126,6 +127,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:text="Kirim"
+                            android:textColor="#FFFFFF"
                             android:textAllCaps="false"
                             app:cornerRadius="12dp"
                             android:backgroundTint="#2563EB"/>
@@ -138,28 +140,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginBottom="12dp"
-                android:backgroundTint="#0F172A"
+                android:backgroundTint="@color/blue_primary"
                 android:text="Tambah Anggota Keluarga"
+                android:textColor="#FFFFFF"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:cornerRadius="16dp"
                 app:icon="@drawable/ic_person"
+                app:iconTint="#FFFFFF"
                 app:iconPadding="12dp" />
 
-            <!-- Tombol Simulasi (Hanya untuk pengujian) -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnSimulasiMonitoring"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginBottom="20dp"
-                android:text="Simulasi: Mode Monitoring Saja"
-                android:textAllCaps="false"
-                android:textSize="14sp"
-                android:textColor="#EF4444"
-                app:strokeColor="#FEE2E2"
-                app:cornerRadius="16dp" />
+
 
         </LinearLayout>
     </ScrollView>
@@ -170,7 +162,7 @@
         android:layout_height="wrap_content"
         android:text="Version 2.4.0 (Build 182)"
         android:textSize="12sp"
-        android:textColor="#94A3B8"
+        android:textColor="#64748B"
         android:gravity="center"
         android:layout_marginBottom="16dp"/>
 

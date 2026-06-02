@@ -64,7 +64,7 @@
                 android:id="@+id/btnRemoveMember"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/ic_edit"
+                android:src="@drawable/ic_delete"
                 app:tint="#EF4444"/>
         </LinearLayout>
 
@@ -95,7 +95,8 @@
                 android:layout_weight="1"
                 android:text="Kontrol Penuh"
                 android:textSize="12sp"
-                android:buttonTint="#2563EB"/>
+                android:textColor="#1E293B"
+                android:buttonTint="@color/purple_primary"/>
             <RadioButton
                 android:id="@+id/rbAksesMonitor"
                 android:layout_width="0dp"
@@ -103,7 +104,8 @@
                 android:layout_weight="1"
                 android:text="Monitoring Saja"
                 android:textSize="12sp"
-                android:buttonTint="#2563EB"/>
+                android:textColor="#1E293B"
+                android:buttonTint="@color/purple_primary"/>
         </RadioGroup>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
