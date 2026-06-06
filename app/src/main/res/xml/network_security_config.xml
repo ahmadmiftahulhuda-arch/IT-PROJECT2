@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Network Security Configuration — Smart Living
+    ───────────────────────────────────────────────
+    Lapisan 1 SSL Pinning: deklaratif, berlaku otomatis untuk SEMUA koneksi HTTP/HTTPS.
+
+    Domain yang di-pin:
+    • Firebase (firebasedatabase.app, firebaseapp.com, googleapis.com)
+      → Google Trust Services Root R1–R4
+
+    • OpenWeatherMap (api.openweathermap.org)
+      → Let's Encrypt ISRG Root X1 & X2
+
+    Expiration: 2027-01-01 (perbarui pin sebelum tanggal ini)
+-->
+<network-security-config>
+
+    <!-- ── BASE CONFIG: blokir semua cleartext HTTP ── -->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system"/>
+        </trust-anchors>
+    </base-config>
+
+    <!-- ── FIREBASE: Realtime Database ── -->
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">firebasedatabase.app</domain>
+        <trust-anchors>
+            <certificates src="system"/>
+        </trust-anchors>
+        <pin-set expiration="2027-01-01">
+            <!-- Google Trust Services Root R1 -->
+            <pin digest="SHA-256">hxqRlPTu1bMS/0DITB1SSu0vd4u/8l8TjPgfaAp63Gc=</pin>
+            <!-- Google Trust Services Root R2 -->
+            <pin digest="SHA-256">Vfd95BwDeSZs+0YRPcQKrHjl3VqL1jj/7eGDjmpRN6U=</pin>
+            <!-- Google Trust Services Root R3 (backup) -->
+            <pin digest="SHA-256">cGuxAXyFXFkWm61cF4HPWX8S0srS9j0aSqN0k4AP+4A=</pin>
+            <!-- Google Trust Services Root R4 (backup) -->
+            <pin digest="SHA-256">ZMRmQs0DcaFMEYrUb5kVK2rnNlX0DqxKp0+LRj09Jnw=</pin>
+        </pin-set>
+    </domain-config>
+
+    <!-- ── FIREBASE: Auth, Hosting, App ── -->
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">firebaseapp.com</domain>
+        <domain includeSubdomains="true">firebase.com</domain>
+        <trust-anchors>
+            <certificates src="system"/>
+        </trust-anchors>
+        <pin-set expiration="2027-01-01">
+            <pin digest="SHA-256">hxqRlPTu1bMS/0DITB1SSu0vd4u/8l8TjPgfaAp63Gc=</pin>
+            <pin digest="SHA-256">Vfd95BwDeSZs+0YRPcQKrHjl3VqL1jj/7eGDjmpRN6U=</pin>
+            <pin digest="SHA-256">cGuxAXyFXFkWm61cF4HPWX8S0srS9j0aSqN0k4AP+4A=</pin>
+            <pin digest="SHA-256">ZMRmQs0DcaFMEYrUb5kVK2rnNlX0DqxKp0+LRj09Jnw=</pin>
+        </pin-set>
+    </domain-config>
+
+    <!-- ── GOOGLE APIs (Firebase internal) ── -->
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">googleapis.com</domain>
+        <domain includeSubdomains="true">google.com</domain>
+        <trust-anchors>
+            <certificates src="system"/>
+        </trust-anchors>
+        <pin-set expiration="2027-01-01">
+            <pin digest="SHA-256">hxqRlPTu1bMS/0DITB1SSu0vd4u/8l8TjPgfaAp63Gc=</pin>
+            <pin digest="SHA-256">Vfd95BwDeSZs+0YRPcQKrHjl3VqL1jj/7eGDjmpRN6U=</pin>
+            <pin digest="SHA-256">cGuxAXyFXFkWm61cF4HPWX8S0srS9j0aSqN0k4AP+4A=</pin>
+            <pin digest="SHA-256">ZMRmQs0DcaFMEYrUb5kVK2rnNlX0DqxKp0+LRj09Jnw=</pin>
+        </pin-set>
+    </domain-config>
+
+    <!-- ── OPENWEATHERMAP: Cuaca & Kualitas Udara ── -->
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">openweathermap.org</domain>
+        <trust-anchors>
+            <certificates src="system"/>
+        </trust-anchors>
+        <pin-set expiration="2027-01-01">
+            <!-- Sectigo Public Server Authentication Root R46 (Aktif) -->
+            <pin digest="SHA-256">Douxi77vs4G+Ib/BogbTFymEYq0QSFXwSgVCaZcI09Q=</pin>
+            <!-- Sectigo Public Server Authentication CA OV R36 (Intermediate) -->
+            <pin digest="SHA-256">KqkYYX5LYAYP7XGemqzbtPPIA8x7BS/BbOIcAXf3j2k=</pin>
+            <!-- ISRG Root X1 (Let's Encrypt backup) -->
+            <pin digest="SHA-256">C5+lpZ7tcVwmwQIMcRtPbsQtWLABXhQzejna0wHFr8M=</pin>
+            <!-- ISRG Root X2 (Let's Encrypt backup) -->
+            <pin digest="SHA-256">diGVwiVYbubAI3RW4hB9xU8e/CH2GnkuvXFuIckypH4=</pin>
+        </pin-set>
+    </domain-config>
+
+</network-security-config>

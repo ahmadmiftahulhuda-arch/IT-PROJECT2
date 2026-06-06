@@ -32,8 +32,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import javax.net.ssl.HttpsURLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -270,6 +269,7 @@ public class InformasiActivity extends AppCompatActivity {
                 });
 
             } catch (Exception e) {
+                android.util.Log.e("InformasiActivity", "fetchCurrentWeather failed", e);
                 mainHandler.post(() -> tvCondition.setText("Gagal memuat cuaca"));
             }
         });
@@ -357,6 +357,7 @@ public class InformasiActivity extends AppCompatActivity {
                 });
 
             } catch (Exception e) {
+                android.util.Log.e("InformasiActivity", "fetchAirQuality failed", e);
                 mainHandler.post(() -> {
                     tvAQI.setText("--");
                     tvAQIDescription.setText("Gagal memuat data kualitas udara.");
@@ -395,6 +396,7 @@ public class InformasiActivity extends AppCompatActivity {
                 }
 
             } catch (Exception e) {
+                android.util.Log.e("InformasiActivity", "fetchHourlyForecast failed", e);
                 mainHandler.post(() -> {
                     // Tampilkan placeholder jika gagal
                 });
@@ -522,23 +524,11 @@ public class InformasiActivity extends AppCompatActivity {
         return R.drawable.ic_weather_sunny;
     }
 
-    // ===== HELPER: HTTP GET =====
+    // ===== HELPER: HTTPS GET dengan SSL Pinning =====
     private String httpGet(String urlStr) throws Exception {
-        URL url = new URL(urlStr);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setConnectTimeout(10000);
-        conn.setReadTimeout(10000);
-        conn.connect();
-
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(conn.getInputStream()));
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) sb.append(line);
-        reader.close();
-        conn.disconnect();
-        return sb.toString();
+        // Lapisan 2 SSL Pinning — validasi SPKI hash via SslPinningManager
+        // Lapisan 1 (Network Security Config) sudah aktif secara otomatis di level sistem.
+        return SslPinningManager.httpsGet(urlStr);
     }
 
     // ===== HELPER: dp → px =====

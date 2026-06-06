@@ -328,6 +328,7 @@ public class MainActivity extends AppCompatActivity {
                     mainHandler.post(() -> tvHomeLocation.setText(cityName));
                 }
             } catch (Exception e) {
+                android.util.Log.e("MainActivity", "getCityName failed", e);
                 mainHandler.post(() -> tvHomeLocation.setText("LOKASI ANDA"));
             }
         });
@@ -355,6 +356,7 @@ public class MainActivity extends AppCompatActivity {
                     updateHomeTime();
                 });
             } catch (Exception e) {
+                android.util.Log.e("MainActivity", "fetchCurrentWeather failed", e);
                 mainHandler.post(() -> tvHomeCondition.setText("Gagal"));
             }
         });
@@ -394,6 +396,7 @@ public class MainActivity extends AppCompatActivity {
                     tvHomeAqiBadge.setBackground(badgeBg);
                 });
             } catch (Exception e) {
+                android.util.Log.e("MainActivity", "fetchAirQuality failed", e);
                 mainHandler.post(() -> tvHomeAqiBadge.setText("AQI: --"));
             }
         });
@@ -408,21 +411,9 @@ public class MainActivity extends AppCompatActivity {
         return R.drawable.ic_weather_cloudy;
     }
 
+    // ── HTTPS GET dengan SSL Pinning (Lapisan 2) ──────────────────────────────
     private String httpGet(String urlStr) throws Exception {
-        java.net.URL url = new java.net.URL(urlStr);
-        java.net.HttpURLConnection conn = (java.net.HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setConnectTimeout(10000);
-        conn.setReadTimeout(10000);
-        conn.connect();
-
-        java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.InputStreamReader(conn.getInputStream()));
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) sb.append(line);
-        reader.close();
-        conn.disconnect();
-        return sb.toString();
+        return SslPinningManager.httpsGet(urlStr);
     }
 
     @Override
