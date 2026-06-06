@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.ProgressBar;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SplashActivity extends AppCompatActivity {
+
+    private static final String TAG = "SplashActivity";
 
     private ProgressBar progressBar;
     private int progressStatus = 0;
@@ -27,6 +30,22 @@ public class SplashActivity extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progressBar);
         progressBar.setProgress(0);
+
+        // ===== FIREBASE APP CHECK (PLAY INTEGRITY) =====
+        // Inisialisasi App Check PERTAMA sebelum Firebase calls lainnya.
+        // Memastikan SEMUA request ke Firebase Auth & Database dilindungi
+        // oleh App Check token secara otomatis.
+        //
+        // App Check memverifikasi:
+        //   1. Request berasal dari app asli (tidak dimodifikasi)
+        //   2. App berjalan di device yang sah
+        //   3. Hanya app terdaftar yang bisa mengakses Firebase resources
+        //
+        // Catatan development: Debug provider aktif otomatis pada build DEBUG.
+        // Lihat debug token di Logcat → filter "DebugAppCheckProvider"
+        // lalu daftarkan di Firebase Console → App Check.
+        AppCheckInitializer.initialize(getApplicationContext());
+        Log.i(TAG, "Firebase App Check diinisialisasi");
 
         // Jalankan animasi loading
         startLoading();

@@ -12,6 +12,7 @@ firebaseBom = "33.7.0"
 credentials = "1.3.0"
 googleid = "1.1.1"
 playServicesLocation = "21.3.0"
+firebaseAppcheck = "17.1.1"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -27,6 +28,8 @@ firebase-database = { group = "com.google.firebase", name = "firebase-database" 
 credentials = { group = "androidx.credentials", name = "credentials", version.ref = "credentials" }
 credentials-play = { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "credentials" }
 googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleid" }
+firebase-appcheck-playintegrity = { group = "com.google.firebase", name = "firebase-appcheck-playintegrity", version.ref = "firebaseAppcheck" }
+firebase-appcheck-debug         = { group = "com.google.firebase", name = "firebase-appcheck-debug",         version.ref = "firebaseAppcheck" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

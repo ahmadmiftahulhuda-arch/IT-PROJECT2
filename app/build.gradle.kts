@@ -53,6 +53,9 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.database)
 
+    implementation(libs.firebase.appcheck.playintegrity)
+debugImplementation(libs.firebase.appcheck.debug)
+
     // Google Sign-In (Credential Manager)
     implementation(libs.credentials)
     implementation(libs.credentials.play)

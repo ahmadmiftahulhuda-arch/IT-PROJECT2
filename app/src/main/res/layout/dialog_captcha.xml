@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="@drawable/captcha_dialog_bg">
+
+    <!-- ===== HEADER ===== -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="10dp">
+
+        <!-- Icon shield + Judul -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Shield icon background -->
+            <LinearLayout
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:background="@drawable/captcha_icon_bg"
+                android:layout_marginEnd="10dp">
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/ic_captcha_shield"
+                    android:contentDescription="Security"/>
+            </LinearLayout>
+
+            <!-- Judul dan subjudul -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Verifikasi Keamanan"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#1E293B"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Selesaikan puzzle untuk melanjutkan"
+                    android:textSize="11sp"
+                    android:textColor="#94A3B8"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Tombol Refresh puzzle -->
+        <LinearLayout
+            android:id="@+id/btnRefreshPuzzle"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:gravity="center"
+            android:background="@drawable/captcha_icon_bg"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginStart="8dp">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_captcha_refresh"
+                android:contentDescription="Refresh puzzle"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- ===== TIMER + COUNTER ROW ===== -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/captcha_timer_bg"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="8dp"
+        android:layout_marginBottom="10dp">
+
+        <!-- Timer icon (tintable dari kode) -->
+        <ImageView
+            android:id="@+id/ivCaptchaTimerIcon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_captcha_timer"
+            android:layout_marginEnd="5dp"
+            android:contentDescription="Timer"/>
+
+        <!-- Timer text -->
+        <TextView
+            android:id="@+id/tvCaptchaTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="60 detik"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="#16A34A"/>
+
+        <!-- Spacer -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+
+        <!-- Pemisah vertikal -->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="16dp"
+            android:background="#E2E8F0"
+            android:layout_marginHorizontal="10dp"/>
+
+        <!-- Attempts icon -->
+        <ImageView
+            android:id="@+id/ivAttemptsIcon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_captcha_attempts"
+            android:layout_marginEnd="5dp"
+            android:contentDescription="Percobaan"/>
+
+        <!-- Counter teks -->
+        <TextView
+            android:id="@+id/tvAttemptCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0 / 3 kesempatan"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="#64748B"/>
+    </LinearLayout>
+
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#F1F5F9"
+        android:layout_marginBottom="10dp"/>
+
+    <!-- Instruksi -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="8dp">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_captcha_puzzle"
+            android:layout_marginEnd="6dp"
+            android:contentDescription="Puzzle"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Geser kepingan ke lubang, tepat di posisinya, lalu lepaskan"
+            android:textSize="12sp"
+            android:textColor="#475569"/>
+    </LinearLayout>
+
+    <!-- ===== PUZZLE CAPTCHA VIEW ===== -->
+    <com.example.it_project2.PuzzleCaptchaView
+        android:id="@+id/sliderCaptcha"
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:layout_marginBottom="10dp"/>
+
+    <!-- Status box error (awalnya tersembunyi) -->
+    <LinearLayout
+        android:id="@+id/layoutCaptchaStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/captcha_status_bg"
+        android:padding="8dp"
+        android:layout_marginBottom="12dp"
+        android:visibility="gone">
+
+        <!-- Error icon -->
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_captcha_error"
+            android:layout_marginEnd="6dp"
+            android:contentDescription="Error"/>
+
+        <!-- Pesan error -->
+        <TextView
+            android:id="@+id/tvCaptchaStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:textSize="12sp"
+            android:textColor="#DC2626"/>
+
+        <!-- Teks hint kanan -->
+        <TextView
+            android:id="@+id/tvCaptchaHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Coba lagi"
+            android:textSize="11sp"
+            android:textColor="#2563EB"
+            android:textStyle="bold"/>
+
+        <!-- Arrow icon -->
+        <ImageView
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:src="@drawable/ic_captcha_arrow"
+            android:layout_marginStart="2dp"
+            android:contentDescription="Arrow"/>
+    </LinearLayout>
+
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#F1F5F9"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- Tombol Lanjutkan (disabled sampai puzzle selesai) -->
+    <TextView
+        android:id="@+id/btnCaptchaLanjut"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:gravity="center"
+        android:text="Selesaikan puzzle terlebih dahulu"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/captcha_btn_disabled"
+        android:enabled="false"/>
+
+    <!-- Tombol Batal -->
+    <TextView
+        android:id="@+id/btnCaptchaBatal"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:gravity="center"
+        android:text="Batal"
+        android:textSize="13sp"
+        android:textColor="#94A3B8"
+        android:layout_marginTop="6dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"/>
+
+    <!-- Footer keamanan dengan icon lock -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="8dp">
+
+        <ImageView
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:src="@drawable/ic_captcha_lock"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="Secure"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dilindungi Smart Living Security"
+            android:textSize="10sp"
+            android:textColor="#CBD5E1"/>
+    </LinearLayout>
+
+</LinearLayout>

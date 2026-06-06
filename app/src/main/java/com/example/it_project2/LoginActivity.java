@@ -8,15 +8,20 @@ import androidx.credentials.GetCredentialRequest;
 import androidx.credentials.GetCredentialResponse;
 import androidx.credentials.exceptions.GetCredentialException;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CancellationSignal;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -43,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     private CheckBox cbIngatSaya;
     private ImageView ivTogglePassword;
     private boolean isPasswordVisible = false;
+    private boolean isCaptchaVerified = false; // status verifikasi slider CAPTCHA
     private FirebaseAuth mAuth;
     private CredentialManager credentialManager;
 
@@ -138,8 +144,10 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            // Login dengan Firebase
-            loginWithFirebase(email, password);
+            // ===== TAMPILKAN CAPTCHA SEBELUM LOGIN =====
+            // Validasi form sudah lolos → tampilkan dialog CAPTCHA.
+            // Login Firebase hanya berjalan setelah CAPTCHA berhasil digeser.
+            showCaptchaDialog(email, password);
         });
 
         // ===== TOMBOL GOOGLE SSO =====
@@ -156,6 +164,171 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
             startActivity(intent);
         });
+    }
+
+    // ==================== DIALOG CAPTCHA ====================
+
+    /**
+     * Menampilkan dialog Slider CAPTCHA sebelum proses login.
+     * Login Firebase hanya dijalankan setelah slider berhasil digeser penuh.
+     *
+     * @param email    email yang dimasukkan user
+     * @param password password yang dimasukkan user
+     */
+    private void showCaptchaDialog(String email, String password) {
+        // ── Cek cooldown sebelum tampilkan dialog ──
+        if (CaptchaGuard.isBlocked()) {
+            long sisa = CaptchaGuard.remainingSeconds();
+            Toast.makeText(this,
+                    "Terlalu banyak percobaan. Coba lagi dalam " + sisa + " detik.",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_captcha);
+        dialog.setCancelable(false);
+
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+            params.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.90f);
+            params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            dialog.getWindow().setAttributes(params);
+        }
+
+        PuzzleCaptchaView puzzleView          = dialog.findViewById(R.id.sliderCaptcha);
+        android.widget.TextView btnLanjut     = dialog.findViewById(R.id.btnCaptchaLanjut);
+        android.widget.TextView btnBatal      = dialog.findViewById(R.id.btnCaptchaBatal);
+        android.widget.LinearLayout layoutStatus = dialog.findViewById(R.id.layoutCaptchaStatus);
+        android.widget.TextView tvStatus      = dialog.findViewById(R.id.tvCaptchaStatus);
+        android.widget.TextView tvAttempt     = dialog.findViewById(R.id.tvAttemptCount);
+        android.widget.LinearLayout btnRefresh= dialog.findViewById(R.id.btnRefreshPuzzle);
+        android.widget.TextView tvTimer       = dialog.findViewById(R.id.tvCaptchaTimer);
+        android.widget.ImageView ivTimerIcon  = dialog.findViewById(R.id.ivCaptchaTimerIcon);
+        android.widget.ImageView ivAttemptIcon= dialog.findViewById(R.id.ivAttemptsIcon);
+
+        final int[] attempts   = {0};
+        isCaptchaVerified = false;
+        puzzleView.refresh();
+
+        // ── CountDownTimer 60 detik ──
+        CountDownTimer[] timerHolder = {null};
+        timerHolder[0] = new CountDownTimer(CaptchaGuard.DIALOG_TIMEOUT_MS, 1000) {
+            @Override
+            public void onTick(long millisLeft) {
+                long sec = millisLeft / 1000;
+                tvTimer.setText(sec + " detik");
+                int color;
+                if (sec > 30)      color = 0xFF16A34A;
+                else if (sec > 10) color = 0xFFF59E0B;
+                else               color = 0xFFDC2626;
+                tvTimer.setTextColor(color);
+                ivTimerIcon.setColorFilter(color, android.graphics.PorterDuff.Mode.SRC_IN);
+            }
+            @Override
+            public void onFinish() {
+                if (dialog.isShowing()) {
+                    dialog.dismiss();
+                    Toast.makeText(LoginActivity.this,
+                            "Waktu verifikasi habis. Silakan coba lagi.",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+        timerHolder[0].start();
+
+        // Batalkan timer saat dialog ditutup
+        dialog.setOnDismissListener(d -> {
+            if (timerHolder[0] != null) timerHolder[0].cancel();
+        });
+
+        // ── Listener puzzle CAPTCHA ──
+        puzzleView.setCaptchaListener(new PuzzleCaptchaView.CaptchaListener() {
+            @Override
+            public void onVerified() {
+                isCaptchaVerified = true;
+                layoutStatus.setVisibility(View.GONE);
+                btnLanjut.setEnabled(true);
+                btnLanjut.setBackgroundResource(R.drawable.captcha_btn_active);
+                btnLanjut.setText("Lanjutkan Masuk");
+            }
+
+            @Override
+            public void onFailed(String message) {
+                attempts[0]++;
+                tvAttempt.setText(attempts[0] + " / " + CaptchaGuard.MAX_FAILURES + " kesempatan");
+
+                if (attempts[0] >= CaptchaGuard.MAX_FAILURES) {
+                    if (timerHolder[0] != null) timerHolder[0].cancel();
+                    CaptchaGuard.block();
+                    dialog.dismiss();
+                    Toast.makeText(LoginActivity.this,
+                            "Login dibatalkan. Terlalu banyak percobaan gagal.\nCoba lagi dalam 30 detik.",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (attempts[0] == CaptchaGuard.MAX_FAILURES - 1) {
+                    tvAttempt.setTextColor(0xFFDC2626);
+                    ivAttemptIcon.setColorFilter(0xFFDC2626, android.graphics.PorterDuff.Mode.SRC_IN);
+                }
+
+                layoutStatus.setVisibility(View.VISIBLE);
+                tvStatus.setText("❌ Posisi kurang tepat. Percobaan ke-" + attempts[0]
+                        + " dari " + CaptchaGuard.MAX_FAILURES);
+            }
+        });
+
+        // ── Tombol Refresh ──
+        btnRefresh.setOnClickListener(v -> {
+            isCaptchaVerified = false;
+            attempts[0] = 0;
+            tvAttempt.setText("0 / " + CaptchaGuard.MAX_FAILURES + " kesempatan");
+            tvAttempt.setTextColor(0xFF64748B);
+            layoutStatus.setVisibility(View.GONE);
+            btnLanjut.setEnabled(false);
+            btnLanjut.setBackgroundResource(R.drawable.captcha_btn_disabled);
+            btnLanjut.setText("Selesaikan puzzle terlebih dahulu");
+            puzzleView.refresh();
+            // Reset timer
+            if (timerHolder[0] != null) timerHolder[0].cancel();
+            timerHolder[0] = new CountDownTimer(CaptchaGuard.DIALOG_TIMEOUT_MS, 1000) {
+                @Override public void onTick(long ms) {
+                    long s = ms / 1000;
+                    tvTimer.setText(s + " detik");
+                    int c = s > 30 ? 0xFF16A34A : s > 10 ? 0xFFF59E0B : 0xFFDC2626;
+                    tvTimer.setTextColor(c);
+                    ivTimerIcon.setColorFilter(c, android.graphics.PorterDuff.Mode.SRC_IN);
+                }
+                @Override public void onFinish() {
+                    if (dialog.isShowing()) {
+                        dialog.dismiss();
+                        Toast.makeText(LoginActivity.this,
+                                "Waktu verifikasi habis. Silakan coba lagi.",
+                                Toast.LENGTH_LONG).show();
+                    }
+                }
+            };
+            timerHolder[0].start();
+        });
+
+        // ── Tombol Lanjutkan ──
+        btnLanjut.setOnClickListener(v -> {
+            if (isCaptchaVerified) {
+                dialog.dismiss();
+                loginWithFirebase(email, password);
+            }
+        });
+
+        // ── Tombol Batal ──
+        btnBatal.setOnClickListener(v -> {
+            isCaptchaVerified = false;
+            dialog.dismiss();
+        });
+
+        dialog.show();
     }
 
     // ==================== LOGIN EMAIL + PASSWORD ====================

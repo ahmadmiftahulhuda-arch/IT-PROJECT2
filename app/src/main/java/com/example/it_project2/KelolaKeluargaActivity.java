@@ -1,4 +1,4 @@
-package com.example.it_project2;
+    package com.example.it_project2;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
