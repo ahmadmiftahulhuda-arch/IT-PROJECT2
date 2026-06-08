@@ -114,18 +114,20 @@ public class RiwayatActivity extends AppCompatActivity {
                     calendar.set(Calendar.HOUR_OF_DAY, 0);
                     calendar.set(Calendar.MINUTE, 0);
                     calendar.set(Calendar.SECOND, 0);
+                    calendar.set(Calendar.MILLISECOND, 0);
                     long start = calendar.getTimeInMillis();
                     
                     // Set end of day
                     calendar.set(Calendar.HOUR_OF_DAY, 23);
                     calendar.set(Calendar.MINUTE, 59);
                     calendar.set(Calendar.SECOND, 59);
+                    calendar.set(Calendar.MILLISECOND, 999);
                     long end = calendar.getTimeInMillis();
 
                     String label = titleFormatter.format(calendar.getTime());
                     tvSelectedDate.setText(label);
                     
-                    loadRiwayatByRange(start, end);
+                    loadRiwayatByRange(start, end, 0);
                     resetTabs();
                 },
                 calendar.get(Calendar.YEAR),
@@ -139,21 +141,29 @@ public class RiwayatActivity extends AppCompatActivity {
         Calendar cal = Calendar.getInstance();
         long end = cal.getTimeInMillis();
         
+        int viewMode = 0;
         if (days == 0) {
             cal.set(Calendar.HOUR_OF_DAY, 0);
             cal.set(Calendar.MINUTE, 0);
             cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MILLISECOND, 0);
             tvSelectedDate.setText("Hari Ini (" + new SimpleDateFormat("d MMM", new Locale("id", "ID")).format(new Date()) + ")");
+            viewMode = 0;
+        } else if (days == 7) {
+            cal.add(Calendar.DAY_OF_YEAR, -days);
+            tvSelectedDate.setText(days + " Hari Terakhir");
+            viewMode = 1;
         } else {
             cal.add(Calendar.DAY_OF_YEAR, -days);
             tvSelectedDate.setText(days + " Hari Terakhir");
+            viewMode = 2;
         }
         long start = cal.getTimeInMillis();
         
-        loadRiwayatByRange(start, end);
+        loadRiwayatByRange(start, end, viewMode);
     }
 
-    private void loadRiwayatByRange(long start, long end) {
+    private void loadRiwayatByRange(final long start, final long end, final int viewMode) {
         Query query = riwayatRef.orderByChild("timestamp").startAt(start).endAt(end);
         
         // Update sub-label tanggal jika belum diset
@@ -164,8 +174,6 @@ public class RiwayatActivity extends AppCompatActivity {
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                List<Entry> suhuEntries = new ArrayList<>();
-                List<String> timeLabels = new ArrayList<>();
                 double totalSuhu = 0;
                 double minSuhu = Double.MAX_VALUE;
                 double maxSuhu = Double.MIN_VALUE;
@@ -173,21 +181,10 @@ public class RiwayatActivity extends AppCompatActivity {
 
                 for (DataSnapshot data : snapshot.getChildren()) {
                     Double suhu = data.child("suhu").getValue(Double.class);
-                    Long timestamp = data.child("timestamp").getValue(Long.class);
-
                     if (suhu != null) {
-                        suhuEntries.add(new Entry(count, suhu.floatValue()));
                         totalSuhu += suhu;
-                        
                         if (suhu < minSuhu) minSuhu = suhu;
                         if (suhu > maxSuhu) maxSuhu = suhu;
-
-                        if (timestamp != null) {
-                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
-                            timeLabels.add(sdf.format(new Date(timestamp)));
-                        } else {
-                            timeLabels.add(String.valueOf(count));
-                        }
                         count++;
                     }
                 }
@@ -199,7 +196,148 @@ public class RiwayatActivity extends AppCompatActivity {
                     tvMaxSuhu.setText(String.format(Locale.getDefault(), "%.1f°", maxSuhu));
                     
                     updateAnalysis(avg, maxSuhu);
-                    setupChart(suhuEntries, timeLabels);
+
+                    if (viewMode == 0) {
+                        // Hari Ini / Pilih Tanggal: Group per 30 menit
+                        double[] sumSuhu = new double[48];
+                        int[] countSuhu = new int[48];
+                        for (DataSnapshot data : snapshot.getChildren()) {
+                            Double suhu = data.child("suhu").getValue(Double.class);
+                            Long timestamp = data.child("timestamp").getValue(Long.class);
+                            if (suhu != null && timestamp != null) {
+                                long diff = timestamp - start;
+                                int slot = (int) (diff / (30 * 60 * 1000));
+                                if (slot >= 0 && slot < 48) {
+                                    sumSuhu[slot] += suhu;
+                                    countSuhu[slot]++;
+                                }
+                            }
+                        }
+
+                        List<Entry> suhuEntries = new ArrayList<>();
+                        List<String> timeLabels = new ArrayList<>();
+                        int chartIndex = 0;
+                        for (int i = 0; i < 48; i++) {
+                            if (countSuhu[i] > 0) {
+                                float avgTemp = (float) (sumSuhu[i] / countSuhu[i]);
+                                suhuEntries.add(new Entry(chartIndex, avgTemp));
+                                
+                                Calendar slotCal = Calendar.getInstance();
+                                slotCal.setTimeInMillis(start + i * 30 * 60 * 1000L);
+                                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                                timeLabels.add(sdf.format(slotCal.getTime()));
+                                
+                                chartIndex++;
+                            }
+                        }
+                        setupChart(suhuEntries, timeLabels, 0);
+                    } else if (viewMode == 1) {
+                        // 7 Hari: Tampilkan data harian tertinggi & terendah (2 warna)
+                        List<String> last7Days = new ArrayList<>();
+                        SimpleDateFormat keyFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                        Calendar tempCal = Calendar.getInstance();
+                        tempCal.setTimeInMillis(start);
+                        for (int i = 0; i < 7; i++) {
+                            last7Days.add(keyFormat.format(tempCal.getTime()));
+                            tempCal.add(Calendar.DAY_OF_YEAR, 1);
+                        }
+
+                        double[] dailyMax = new double[7];
+                        double[] dailyMin = new double[7];
+                        boolean[] hasData = new boolean[7];
+                        for (int i = 0; i < 7; i++) {
+                            dailyMax[i] = Double.MIN_VALUE;
+                            dailyMin[i] = Double.MAX_VALUE;
+                            hasData[i] = false;
+                        }
+
+                        for (DataSnapshot data : snapshot.getChildren()) {
+                            Double suhu = data.child("suhu").getValue(Double.class);
+                            Long timestamp = data.child("timestamp").getValue(Long.class);
+                            if (suhu != null && timestamp != null) {
+                                String recordDate = keyFormat.format(new Date(timestamp));
+                                int dayIndex = last7Days.indexOf(recordDate);
+                                if (dayIndex >= 0 && dayIndex < 7) {
+                                    hasData[dayIndex] = true;
+                                    if (suhu > dailyMax[dayIndex]) dailyMax[dayIndex] = suhu;
+                                    if (suhu < dailyMin[dayIndex]) dailyMin[dayIndex] = suhu;
+                                }
+                            }
+                        }
+
+                        List<Entry> maxEntries = new ArrayList<>();
+                        List<Entry> minEntries = new ArrayList<>();
+                        List<String> timeLabels = new ArrayList<>();
+                        int chartIndex = 0;
+                        for (int i = 0; i < 7; i++) {
+                            if (hasData[i]) {
+                                maxEntries.add(new Entry(chartIndex, (float) dailyMax[i]));
+                                minEntries.add(new Entry(chartIndex, (float) dailyMin[i]));
+                                
+                                Calendar labelCal = Calendar.getInstance();
+                                labelCal.setTimeInMillis(start);
+                                labelCal.add(Calendar.DAY_OF_YEAR, i);
+                                SimpleDateFormat labelFormat = new SimpleDateFormat("d MMM", new Locale("id", "ID"));
+                                timeLabels.add(labelFormat.format(labelCal.getTime()));
+                                
+                                chartIndex++;
+                            }
+                        }
+                        setupChartDouble(maxEntries, minEntries, timeLabels, 1);
+                    } else if (viewMode == 2) {
+                        // 30 Hari: Tampilkan data harian tertinggi & terendah (2 warna)
+                        List<String> last30Days = new ArrayList<>();
+                        SimpleDateFormat keyFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                        Calendar tempCal = Calendar.getInstance();
+                        tempCal.setTimeInMillis(start);
+                        for (int i = 0; i < 30; i++) {
+                            last30Days.add(keyFormat.format(tempCal.getTime()));
+                            tempCal.add(Calendar.DAY_OF_YEAR, 1);
+                        }
+
+                        double[] dailyMax = new double[30];
+                        double[] dailyMin = new double[30];
+                        boolean[] hasData = new boolean[30];
+                        for (int i = 0; i < 30; i++) {
+                            dailyMax[i] = Double.MIN_VALUE;
+                            dailyMin[i] = Double.MAX_VALUE;
+                            hasData[i] = false;
+                        }
+
+                        for (DataSnapshot data : snapshot.getChildren()) {
+                            Double suhu = data.child("suhu").getValue(Double.class);
+                            Long timestamp = data.child("timestamp").getValue(Long.class);
+                            if (suhu != null && timestamp != null) {
+                                String recordDate = keyFormat.format(new Date(timestamp));
+                                int dayIndex = last30Days.indexOf(recordDate);
+                                if (dayIndex >= 0 && dayIndex < 30) {
+                                    hasData[dayIndex] = true;
+                                    if (suhu > dailyMax[dayIndex]) dailyMax[dayIndex] = suhu;
+                                    if (suhu < dailyMin[dayIndex]) dailyMin[dayIndex] = suhu;
+                                }
+                            }
+                        }
+
+                        List<Entry> maxEntries = new ArrayList<>();
+                        List<Entry> minEntries = new ArrayList<>();
+                        List<String> timeLabels = new ArrayList<>();
+                        int chartIndex = 0;
+                        for (int i = 0; i < 30; i++) {
+                            if (hasData[i]) {
+                                maxEntries.add(new Entry(chartIndex, (float) dailyMax[i]));
+                                minEntries.add(new Entry(chartIndex, (float) dailyMin[i]));
+                                
+                                Calendar labelCal = Calendar.getInstance();
+                                labelCal.setTimeInMillis(start);
+                                labelCal.add(Calendar.DAY_OF_YEAR, i);
+                                SimpleDateFormat labelFormat = new SimpleDateFormat("d MMM", new Locale("id", "ID"));
+                                timeLabels.add(labelFormat.format(labelCal.getTime()));
+                                
+                                chartIndex++;
+                            }
+                        }
+                        setupChartDouble(maxEntries, minEntries, timeLabels, 2);
+                    }
                 } else {
                     tvAvgSuhu.setText("0°");
                     tvMinSuhu.setText("0°");
@@ -236,7 +374,7 @@ public class RiwayatActivity extends AppCompatActivity {
         tvAnalysisContent.setText(analysis);
     }
 
-    private void setupChart(List<Entry> entries, List<String> labels) {
+    private void setupChart(List<Entry> entries, List<String> labels, int viewMode) {
         LineDataSet dataSet = new LineDataSet(entries, "Suhu (°C)");
         
         // Style: Line
@@ -284,6 +422,7 @@ public class RiwayatActivity extends AppCompatActivity {
         xAxis.setAxisLineColor(Color.parseColor("#E2E8F0"));
         xAxis.setTextColor(Color.parseColor("#94A3B8"));
         xAxis.setGranularity(1f);
+        xAxis.setLabelCount(6, false);
         if (!labels.isEmpty()) {
             xAxis.setValueFormatter(new ValueFormatter() {
                 @Override
@@ -306,10 +445,104 @@ public class RiwayatActivity extends AppCompatActivity {
         lineChart.invalidate();
     }
 
+    private void setupChartDouble(List<Entry> maxEntries, List<Entry> minEntries, List<String> labels, int viewMode) {
+        LineDataSet maxDataSet = new LineDataSet(maxEntries, "Suhu Tertinggi (°C)");
+        maxDataSet.setColor(Color.parseColor("#EF4444")); // Red
+        maxDataSet.setLineWidth(3f);
+        maxDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        maxDataSet.setDrawValues(false);
+        maxDataSet.setDrawCircles(true);
+        maxDataSet.setCircleColor(Color.parseColor("#EF4444"));
+        maxDataSet.setCircleRadius(3.5f);
+        maxDataSet.setDrawCircleHole(true);
+        maxDataSet.setCircleHoleColor(Color.WHITE);
+        maxDataSet.setCircleHoleRadius(1.5f);
+        
+        // Gradient Fill for Max
+        maxDataSet.setDrawFilled(true);
+        GradientDrawable maxGradient = new GradientDrawable(
+                GradientDrawable.Orientation.TOP_BOTTOM,
+                new int[]{Color.parseColor("#30EF4444"), Color.TRANSPARENT}
+        );
+        maxDataSet.setFillDrawable(maxGradient);
+
+        LineDataSet minDataSet = new LineDataSet(minEntries, "Suhu Terendah (°C)");
+        minDataSet.setColor(Color.parseColor("#0EA5E9")); // Cyan/Blue
+        minDataSet.setLineWidth(3f);
+        minDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        minDataSet.setDrawValues(false);
+        minDataSet.setDrawCircles(true);
+        minDataSet.setCircleColor(Color.parseColor("#0EA5E9"));
+        minDataSet.setCircleRadius(3.5f);
+        minDataSet.setDrawCircleHole(true);
+        minDataSet.setCircleHoleColor(Color.WHITE);
+        minDataSet.setCircleHoleRadius(1.5f);
+        
+        // Gradient Fill for Min
+        minDataSet.setDrawFilled(true);
+        GradientDrawable minGradient = new GradientDrawable(
+                GradientDrawable.Orientation.TOP_BOTTOM,
+                new int[]{Color.parseColor("#300EA5E9"), Color.TRANSPARENT}
+        );
+        minDataSet.setFillDrawable(minGradient);
+
+        LineData lineData = new LineData(maxDataSet, minDataSet);
+        lineChart.setData(lineData);
+
+        // General Chart Styling
+        lineChart.getDescription().setEnabled(false);
+        lineChart.getLegend().setEnabled(true);
+        lineChart.getLegend().setTextColor(Color.parseColor("#64748B"));
+        lineChart.getLegend().setTextSize(10f);
+        lineChart.setTouchEnabled(true);
+        lineChart.setPinchZoom(false);
+        lineChart.setDrawGridBackground(false);
+        lineChart.setExtraOffsets(10, 10, 10, 10);
+
+        // X-Axis Styling
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setDrawAxisLine(true);
+        xAxis.setAxisLineColor(Color.parseColor("#E2E8F0"));
+        xAxis.setTextColor(Color.parseColor("#94A3B8"));
+        xAxis.setGranularity(1f);
+        
+        // Adjust labels count for 7 vs 30 days
+        if (viewMode == 2) {
+            xAxis.setLabelCount(6, false); // For 30 days, show only 6 labels to avoid clutter
+        } else {
+            xAxis.setLabelCount(7, true); // For 7 days, show exactly 7 labels
+        }
+
+        if (!labels.isEmpty()) {
+            xAxis.setValueFormatter(new ValueFormatter() {
+                @Override
+                public String getFormattedValue(float value) {
+                    int idx = (int) value;
+                    return (idx >= 0 && idx < labels.size()) ? labels.get(idx) : "";
+                }
+            });
+        }
+
+        // Y-Axis Styling
+        YAxis leftAxis = lineChart.getAxisLeft();
+        leftAxis.removeAllLimitLines();
+        leftAxis.setDrawGridLines(true);
+        leftAxis.setGridColor(Color.parseColor("#F1F5F9"));
+        leftAxis.setDrawAxisLine(false);
+        leftAxis.setTextColor(Color.parseColor("#94A3B8"));
+        
+        lineChart.getAxisRight().setEnabled(false);
+
+        lineChart.animateX(1500, Easing.EaseInOutCubic);
+        lineChart.invalidate();
+    }
+
     private void setupChartDummy() {
         List<Entry> entries = new ArrayList<>();
         List<String> labels = new ArrayList<>();
-        setupChart(entries, labels);
+        setupChart(entries, labels, 0);
     }
 
     private void setActiveTab(int index) {

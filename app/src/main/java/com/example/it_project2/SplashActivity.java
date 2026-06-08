@@ -31,6 +31,17 @@ public class SplashActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         progressBar.setProgress(0);
 
+        // Cek Root Device (OWASP MASVS Resilience)
+        if (RootDetector.isDeviceRooted()) {
+            new androidx.appcompat.app.AlertDialog.Builder(this)
+                    .setTitle("Peringatan Keamanan")
+                    .setMessage("Perangkat Anda terdeteksi telah di-root. Demi alasan keamanan (OWASP MASVS), aplikasi tidak dapat dijalankan di perangkat yang telah dimodifikasi.")
+                    .setCancelable(false)
+                    .setPositiveButton("Keluar", (dialog, which) -> finish())
+                    .show();
+            return;
+        }
+
         // ===== FIREBASE APP CHECK (PLAY INTEGRITY) =====
         // Inisialisasi App Check PERTAMA sebelum Firebase calls lainnya.
         // Memastikan SEMUA request ke Firebase Auth & Database dilindungi
