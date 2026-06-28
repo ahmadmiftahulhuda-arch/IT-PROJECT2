@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.appcheck.FirebaseAppCheck;
+import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory;
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory;
 
 /**
@@ -56,23 +57,21 @@ public class AppCheckInitializer {
 
             FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();
 
-            // Gunakan Play Integrity Provider untuk memvalidasi keaslian app.
-            // Play Integrity memeriksa:
-            //   1. App genuine (tidak dimodifikasi / repackaged)
-            //   2. Device genuine (bukan emulator yang di-root/modified)
-            //   3. Google Play account valid
-            //
-            // Pada build DEBUG, Android secara otomatis menggunakan DebugAppCheckProvider
-            // sehingga tidak perlu konfigurasi terpisah untuk development.
-            firebaseAppCheck.installAppCheckProviderFactory(
-                    PlayIntegrityAppCheckProviderFactory.getInstance()
-            );
+            if (BuildConfig.DEBUG) {
+                firebaseAppCheck.installAppCheckProviderFactory(
+                        DebugAppCheckProviderFactory.getInstance()
+                );
+            } else {
+                firebaseAppCheck.installAppCheckProviderFactory(
+                        PlayIntegrityAppCheckProviderFactory.getInstance()
+                );
+            }
 
             // Aktifkan auto-refresh token agar token App Check tidak expired.
             // Token berlaku 1 jam, di-refresh otomatis di background.
             firebaseAppCheck.setTokenAutoRefreshEnabled(true);
 
-            Log.i(TAG, "✅ Firebase App Check (Play Integrity) berhasil diinisialisasi");
+            Log.i(TAG, "✅ Firebase App Check berhasil diinisialisasi");
 
         } catch (Exception e) {
             Log.e(TAG, "❌ Gagal menginisialisasi Firebase App Check: " + e.getMessage(), e);

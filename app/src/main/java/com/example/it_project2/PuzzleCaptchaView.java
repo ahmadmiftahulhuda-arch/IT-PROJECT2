@@ -17,6 +17,7 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+import java.security.SecureRandom;
 
 /**
  * PuzzleCaptchaView v2
@@ -73,6 +74,7 @@ public class PuzzleCaptchaView extends View {
 
     // ── Background bitmap ─────────────────────────────────────────────────────
     private Bitmap bgBitmap;
+    private final SecureRandom secureRandom = new SecureRandom();
 
     // ── Paint ─────────────────────────────────────────────────────────────────
     private final Paint paintHoleFill    = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -150,7 +152,7 @@ public class PuzzleCaptchaView extends View {
         if (puzzleRect == null) return;
         float dragRange = pieceMaxX - pieceMinX;
         // Hole di antara 30% - 80% agar ada ruang drag sebelum dan sesudah
-        holeX = pieceMinX + dragRange * 0.30f + (float)(Math.random() * dragRange * 0.50f);
+        holeX = pieceMinX + dragRange * 0.30f + (float)(secureRandom.nextDouble() * dragRange * 0.50f);
         holeY = (puzzleRect.height() - pieceH) / 2f - dp(4);
     }
 
@@ -166,7 +168,7 @@ public class PuzzleCaptchaView extends View {
                 {Color.parseColor("#0F172A"), Color.parseColor("#1E3A5F"), Color.parseColor("#0369A1")},
                 {Color.parseColor("#14532D"), Color.parseColor("#15803D"), Color.parseColor("#0891B2")},
         };
-        int[] scheme = schemes[(int)(Math.random() * schemes.length)];
+        int[] scheme = schemes[(int)(secureRandom.nextDouble() * schemes.length)];
 
         // Gradient dasar
         LinearGradient baseGrad = new LinearGradient(0, 0, w, h, scheme, null, Shader.TileMode.CLAMP);

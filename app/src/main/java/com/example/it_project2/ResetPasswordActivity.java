@@ -45,9 +45,13 @@ public class ResetPasswordActivity extends AppCompatActivity {
         // Ambil data intent dari Deep Link email
         Intent intent = getIntent();
         if (intent != null && Intent.ACTION_VIEW.equals(intent.getAction())) {
-            Uri data = intent.getData();
-            if (data != null) {
-                oobCode = data.getQueryParameter("oobCode");
+            try {
+                Uri data = intent.getData();
+                if (data != null && "https".equalsIgnoreCase(data.getScheme()) && "smartliving-425c0.firebaseapp.com".equalsIgnoreCase(data.getHost())) {
+                    oobCode = data.getQueryParameter("oobCode");
+                }
+            } catch (Exception e) {
+                oobCode = null;
             }
         }
 
